@@ -35,7 +35,7 @@ class Lexico():
     def comprobar_palabras_reservadas(self,cadena):
         contador_palabras_reservadas=0
         for i in range(len(cadena)):
-            if(cadena[i]=="I" or cadena[i]=="F" or cadena[i]=="C" or cadena[i]=="S" or cadena[i]=="S" or cadena[i]=="B" or cadena[i]=="O"):
+            if(cadena[i]=="I" or cadena[i]=="F" or cadena[i]=="C" or cadena[i]=="S" or cadena[i]=="B" or cadena[i]=="O"):
                 contador_palabras_reservadas+=1
                 
         if (contador_palabras_reservadas>0):
@@ -51,8 +51,8 @@ class Lexico():
         if(contador_operadores>0):
             print("El operador es valido")
         else:
-            print("El operador es invalido")            
-
+            print("El operador es invalido")   
+                     
     def comprobar_decimales(self,cadena):
         contador_puntos=0
         for i in range(len(cadena)):
@@ -73,10 +73,17 @@ class Lexico():
         if(contador_comentario>0):
             print("El comentario es valido")
         else:
-            print("Error de cadena no valido")                                 
+            print("Error de cadena no valido")
+    def analizar(self,texto):
+        lineas = texto.split("\n")
+        
+        
+
 
 if __name__ == "__main__":
     objecto = Lexico()
+    texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
+    objecto.analizar(texto)
     cadena=str(input("Dame una cadena por favor : "))
     #objecto.comprobar_inicio_fin(cadena)
     #objecto.comprobar_nombre_variable(cadena)

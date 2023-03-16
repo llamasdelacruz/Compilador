@@ -1,8 +1,10 @@
 
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow,QTableWidgetItem
+import os
+from PyQt5.QtWidgets import QApplication, QMainWindow,QTableWidgetItem,QFileDialog
 from PyQt5 import uic
 import ctypes
+from clases.Lexico import Lexico
 
 
 class Control_interfaz_principal(QMainWindow):
@@ -22,6 +24,35 @@ class Control_interfaz_principal(QMainWindow):
         top = int((resolucion_alto/2) - (self.frameSize().height()/2))
 
         self.move(left,top)
+
+        self.btn_cargarArchivo.clicked.connect(self.chooseFile)
+        self.btn_lexico.clicked.connect(self.analizar_lexico)
+        self.btn_limpiar.clicked.connect(self.limpiar)
+
+    def chooseFile(self):
+        tipo = "archivo de datos (*.txt)"
+        respuesta = QFileDialog.getOpenFileName(
+            parent=self,
+            caption="Seleccione archivo",
+            directory=os.getcwd(),#la direccion de trabajo
+            filter=tipo,
+            initialFilter=tipo
+        )
+        
+        archivo = open(respuesta[0],'r')
+        self.areaTexto.appendPlainText(archivo.read())
+      
+    def analizar_lexico(self):
+        #le pasa el texto
+        texto = self.areaTexto.toPlainText()
+        lexico_obj = Lexico()
+        lexico_obj.analizar(texto)
+
+        
+    def limpiar(self):
+        self.areaTexto.setPlainText("")
+        self.consola.setPlainText("")
+
 
 if(__name__ == "__main__"):
 
