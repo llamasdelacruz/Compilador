@@ -6,8 +6,13 @@ class Lexico():
 
 
 
-
+    def analizar(self,texto):
+        lineas = texto.split("\n")
+        
+        
 
 
 if __name__ == "__main__":
     objecto = Lexico()
+    texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
+    objecto.analizar(texto)
