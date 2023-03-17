@@ -7,13 +7,15 @@ class Lexico():
     def comprobar_inicio_fin(self,cadena):
         contador_start=0
         contador_fin=0
-        for i in range(len(cadena)):
-            if(cadena[i]=="S" or cadena[i]=="T" or cadena[i]=="A" or cadena[i]=="R" or cadena[i]=="T"):
-                contador_start+=1
-            elif(cadena[i]=="E" or cadena[i]=="N" or cadena[i]=="D"):
-                contador_fin+=1
+        if(cadena=="START"):
+            contador_start+=1
+        elif(cadena=="END"):
+            contador_fin+=1
+        else:
+            contador_fin=0
+            contador_start=0        
         
-        if(contador_start==5 or contador_fin==3):
+        if(contador_start>0 or contador_fin>0):
             print("Es una palabra reservada valida")
         else:
             print("Error en palabra reservada")
@@ -34,9 +36,28 @@ class Lexico():
     
     def comprobar_palabras_reservadas(self,cadena):
         contador_palabras_reservadas=0
-        for i in range(len(cadena)):
-            if(cadena[i]=="I" or cadena[i]=="F" or cadena[i]=="C" or cadena[i]=="S" or cadena[i]=="B" or cadena[i]=="O"):
-                contador_palabras_reservadas+=1
+        if(cadena=="Int"):
+            contador_palabras_reservadas+=1
+        elif(cadena=="Float"):
+            contador_palabras_reservadas+=1
+        elif(cadena=="Char"):
+            contador_palabras_reservadas+=1
+            
+        elif(cadena=="String"):
+            contador_palabras_reservadas+=1
+        
+        elif(cadena=="Boolean"):
+            contador_palabras_reservadas+=1
+        
+        elif(cadena=="Output"):
+            contador_palabras_reservadas+=1
+        
+        elif(cadena=="Input"):
+            contador_palabras_reservadas+=1
+        
+        else:
+            contador_palabras_reservadas=0           
+                    
                 
         if (contador_palabras_reservadas>0):
             print("Es una palabra reservada valida")
@@ -44,11 +65,30 @@ class Lexico():
             print("No es una palabra reservada valida")                
 
     def comprobar_operadores(self,cadena):
-        contador_operadores=0
+        contador_suma=0
+        contador_resta=0
+        contador_multi=0
+        contador_division=0
+        contador_igual=0
         for i in range(len(cadena)):
-            if(cadena[i]=="+" or cadena[i]=="-" or cadena[i]=="*" or cadena[i]=="/" or cadena[i]=="="):
-                contador_operadores+=1
-        if(contador_operadores>0):
+            if(cadena[i]=="+"):
+                contador_suma+=1
+            elif(cadena[i]=="-"):
+                contador_resta+=1
+            elif(cadena[i]=="*"):
+                contador_multi+=1
+            elif(cadena[i]=="/"):
+                contador_division+=1
+            elif(cadena[i]=="="):
+                contador_igual+=1
+                
+        if(contador_suma>1 or contador_resta>1 or contador_multi>1 or contador_division>1 or contador_igual>1):
+            contador_suma=0
+            contador_resta=0
+            contador_division=0
+            contador_multi=0
+            contador_igual=0     
+        if(contador_suma==1 or contador_resta==1 or contador_multi==1 or contador_division==1 or contador_igual==1):
             print("El operador es valido")
         else:
             print("El operador es invalido")   
@@ -56,10 +96,26 @@ class Lexico():
     def comprobar_decimales(self,cadena):
         contador_puntos=0
         for i in range(len(cadena)):
-            if(cadena[i]=="."):
-                contador_puntos+=1
+            codigo_ascii_punto=ord(cadena[i])
+            print("Este es el codigo ascii cada vuelta",codigo_ascii_punto)
+        
+            if(codigo_ascii_punto==46):
+                    contador_puntos+=1
             elif(cadena[0]=="."):
                 contador_puntos=0
+            elif(codigo_ascii_punto==64):
+                contador_puntos=0  
+                break
+            elif(codigo_ascii_punto>=33 and codigo_ascii_punto<=45):
+                contador_puntos=0    
+                break
+            elif(codigo_ascii_punto==47):
+                contador_puntos=0 
+                break
+            elif(codigo_ascii_punto>=58 and codigo_ascii_punto<=63):
+                contador_puntos=0 
+                break         
+
         if(contador_puntos>0):
             print("EL numero es correcto")
         else:
@@ -89,13 +145,13 @@ class Lexico():
 if __name__ == "__main__":
     objecto = Lexico()
     texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
+    cadena=str(input("Dame una cadena por favor : "))
     #objecto.agregar_tokens("cj","operador",2)
     #objecto.agregar_tokens("mara","identificador",4) 
     #objecto.agregar_tokens("mara","identificador",9)
     #objecto.agregar_tokens("mara","identificador",11)
     #objecto.agregar_tokens("cj","operador",10)
     #print(objecto.tabla_tokens)
-    #cadena=str(input("Dame una cadena por favor : "))
     #objecto.comprobar_inicio_fin(cadena)
     #objecto.comprobar_nombre_variable(cadena)
     #objecto.comprobar_palabras_reservadas(cadena)
