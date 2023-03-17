@@ -2,7 +2,7 @@
 class Lexico():
 
     def __init__(self):
-        print("Aqui esta la clase para colocar los metodo que vas hacer aldo")
+        self.tabla_tokens = {}
 
     def comprobar_inicio_fin(self,cadena):
         contador_start=0
@@ -77,14 +77,25 @@ class Lexico():
     def analizar(self,texto):
         lineas = texto.split("\n")
         
-        
+    def agregar_tokens(self,token,tipo,linea):
+        #agrega un token al diccionario si no se encuentra y si lo hace agrega la linea en la que esta
+        if(token in self.tabla_tokens.keys()):
+            self.tabla_tokens[token]["referencia"].append(linea)
+        else:
+            self.tabla_tokens[token] = {"tipo": tipo, 'declara':linea, "referencia":[]}
+            
 
 
 if __name__ == "__main__":
     objecto = Lexico()
     texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
-    objecto.analizar(texto)
-    cadena=str(input("Dame una cadena por favor : "))
+    #objecto.agregar_tokens("cj","operador",2)
+    #objecto.agregar_tokens("mara","identificador",4) 
+    #objecto.agregar_tokens("mara","identificador",9)
+    #objecto.agregar_tokens("mara","identificador",11)
+    #objecto.agregar_tokens("cj","operador",10)
+    #print(objecto.tabla_tokens)
+    #cadena=str(input("Dame una cadena por favor : "))
     #objecto.comprobar_inicio_fin(cadena)
     #objecto.comprobar_nombre_variable(cadena)
     #objecto.comprobar_palabras_reservadas(cadena)
