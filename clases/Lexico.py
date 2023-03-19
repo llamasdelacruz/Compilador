@@ -97,25 +97,18 @@ class Lexico():
         contador_puntos=0
         for i in range(len(cadena)):
             codigo_ascii_punto=ord(cadena[i])
-            print("Este es el codigo ascii cada vuelta",codigo_ascii_punto)
+            #print("Este es el codigo ascii cada vuelta",codigo_ascii_punto)
         
-            if(codigo_ascii_punto==46):
-                    contador_puntos+=1
-            elif(cadena[0]=="."):
+            if(codigo_ascii_punto>=48 or codigo_ascii_punto<=57 or codigo_ascii_punto==46):
+                contador_puntos+=1
+                
+            if(codigo_ascii_punto>57 or codigo_ascii_punto<48):
+                #print("Entre a la condicion")
                 contador_puntos=0
-            elif(codigo_ascii_punto==64):
-                contador_puntos=0  
-                break
-            elif(codigo_ascii_punto>=33 and codigo_ascii_punto<=45):
-                contador_puntos=0    
-                break
-            elif(codigo_ascii_punto==47):
-                contador_puntos=0 
-                break
-            elif(codigo_ascii_punto>=58 and codigo_ascii_punto<=63):
-                contador_puntos=0 
-                break         
-
+                break   
+            if(contador_puntos>1):
+                contador_puntos=0         
+        print("Este es el contador al finalizar el ciclo : ", contador_puntos)
         if(contador_puntos>0):
             print("EL numero es correcto")
         else:
@@ -156,5 +149,5 @@ if __name__ == "__main__":
     #objecto.comprobar_nombre_variable(cadena)
     #objecto.comprobar_palabras_reservadas(cadena)
     #objecto.comprobar_operadores(cadena)
-    #objecto.comprobar_decimales(cadena)
+    objecto.comprobar_decimales(cadena)
     #objecto.comprobar_comentarios(cadena)
