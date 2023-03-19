@@ -94,25 +94,48 @@ class Lexico():
             print("El operador es invalido")   
                      
     def comprobar_decimales(self,cadena):
+        contador_numeros=0
         contador_puntos=0
+        contador_simbolos_especiales=0
         for i in range(len(cadena)):
             codigo_ascii_punto=ord(cadena[i])
-            #print("Este es el codigo ascii cada vuelta",codigo_ascii_punto)
-        
-            if(codigo_ascii_punto>=48 or codigo_ascii_punto<=57 or codigo_ascii_punto==46):
-                contador_puntos+=1
-                
-            if(codigo_ascii_punto>57 or codigo_ascii_punto<48):
-                #print("Entre a la condicion")
+            print("Este es el codigo ascii cada vuelta",codigo_ascii_punto)
+
+            if(codigo_ascii_punto>=48 and codigo_ascii_punto<=57):
+                contador_numeros+=1
+            elif(contador_numeros>=1 and codigo_ascii_punto==46):
+                contador_puntos+=1    
+                print("Esto vale en contador punto con dos puntos : ", contador_puntos)
+            elif(codigo_ascii_punto==46):
+                contador_puntos+=1    
+            #----- Seccion del numero 32 al 47 ------------------------------    
+            if(codigo_ascii_punto==32 or codigo_ascii_punto==33 or codigo_ascii_punto==34 or codigo_ascii_punto==35 or codigo_ascii_punto==36 or codigo_ascii_punto==38 or codigo_ascii_punto==39 or codigo_ascii_punto==40 or codigo_ascii_punto==41 or codigo_ascii_punto==42 or codigo_ascii_punto==43 or codigo_ascii_punto==44 or codigo_ascii_punto==45 or codigo_ascii_punto==47 or codigo_ascii_punto==58 or codigo_ascii_punto==59 or codigo_ascii_punto==60 or codigo_ascii_punto==61 or codigo_ascii_punto==62 or codigo_ascii_punto==63 or codigo_ascii_punto==64):
+                print("Entre a la condicion")
+                contador_simbolos_especiales+=1
                 contador_puntos=0
-                break   
-            if(contador_puntos>1):
-                contador_puntos=0         
-        print("Este es el contador al finalizar el ciclo : ", contador_puntos)
-        if(contador_puntos>0):
-            print("EL numero es correcto")
-        else:
-            print("El numero es incorrecto")   
+                contador_numeros=0
+                break
+                
+                         
+        print("Este es el contador numeros al salir del ciclo: " ,contador_numeros)
+        print("Este es el contador puntos al salir del ciclo : ", contador_puntos)   
+        
+        if(contador_numeros>1 and contador_puntos==0):
+             print("Es un numero correcto entero")
+             
+        elif(contador_numeros>1 and contador_puntos==1):
+             print("Es un numero correcto  decimal")  
+             
+        elif(contador_puntos>=2 or contador_puntos>2):
+            print("Es un numero incorrecto")      
+        
+        elif(contador_puntos==1):
+            print("Es un numero incorrecto")  
+            
+        if(contador_simbolos_especiales>=1):
+            print("Es un numero incorrecto")           
+            
+           
     
     def comprobar_comentarios(self,cadena):
         contador_comentario=0
