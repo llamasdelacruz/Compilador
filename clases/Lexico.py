@@ -5,6 +5,7 @@ class Lexico():
         self.tabla_tokens = {}
 
     def comprobar_inicio_fin(self,cadena):
+        # nos dice si las palabras de inicio y fin estan bien
         contador_start=0
         contador_fin=0
         if(cadena=="START"):
@@ -23,6 +24,7 @@ class Lexico():
             return False
     
     def comprobar_nombre_variable(self,cadena):
+        #nos dice si la variable tiene puras eltras minusculas
         contador_minusculas=0
         for i in range(len(cadena)):
             codigo_ascii_minusculas=ord(cadena[i])
@@ -39,6 +41,7 @@ class Lexico():
             return False
     
     def comprobar_palabras_reservadas(self,cadena):
+        # nos dice si la palabra reservada es valida
         contador_palabras_reservadas=0
         if(cadena=="Int"):
             contador_palabras_reservadas+=1
@@ -71,6 +74,7 @@ class Lexico():
             return False           
 
     def comprobar_operadores(self,cadena):
+        # nos dice si el operador es valido
         contador_suma=0
         contador_resta=0
         contador_multi=0
@@ -102,6 +106,7 @@ class Lexico():
             return False  
                      
     def comprobar_decimales(self,cadena):
+        # nos dice si el numero es correcto, si es entero o decimal
         contador_numeros=0
         contador_puntos=0
         contador_simbolos_especiales=0
@@ -151,6 +156,7 @@ class Lexico():
            
     
     def comprobar_comentarios(self,cadena):
+        # si el comentario tiene la #
         contador_comentario=0
         for i in range(len(cadena)):
             if(cadena[0]=="#"):
