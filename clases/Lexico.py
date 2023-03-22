@@ -16,9 +16,11 @@ class Lexico():
             contador_start=0        
         
         if(contador_start>0 or contador_fin>0):
-            print("Es una palabra reservada valida")
+            #print("Es una palabra reservada valida")
+            return True
         else:
-            print("Error en palabra reservada")
+            #print("Error en palabra reservada")
+            return False
     
     def comprobar_nombre_variable(self,cadena):
         contador_minusculas=0
@@ -30,9 +32,11 @@ class Lexico():
                 contador_minusculas=0   
                 break                        
         if(contador_minusculas>0):
-            print("Es una variable valida")
+            #print("Es una variable valida")
+            return True
         else:
-            print("No es una variable valida")   
+            #print("No es una variable valida")   
+            return False
     
     def comprobar_palabras_reservadas(self,cadena):
         contador_palabras_reservadas=0
@@ -60,9 +64,11 @@ class Lexico():
                     
                 
         if (contador_palabras_reservadas>0):
-            print("Es una palabra reservada valida")
+            #print("Es una palabra reservada valida")
+            return True
         else:
-            print("No es una palabra reservada valida")                
+            #print("No es una palabra reservada valida")     
+            return False           
 
     def comprobar_operadores(self,cadena):
         contador_suma=0
@@ -89,9 +95,11 @@ class Lexico():
             contador_multi=0
             contador_igual=0     
         if(contador_suma==1 or contador_resta==1 or contador_multi==1 or contador_division==1 or contador_igual==1):
-            print("El operador es valido")
+            #print("El operador es valido")
+            return True
         else:
-            print("El operador es invalido")   
+            #print("El operador es invalido") 
+            return False  
                      
     def comprobar_decimales(self,cadena):
         contador_numeros=0
@@ -99,41 +107,46 @@ class Lexico():
         contador_simbolos_especiales=0
         for i in range(len(cadena)):
             codigo_ascii_punto=ord(cadena[i])
-            print("Este es el codigo ascii cada vuelta",codigo_ascii_punto)
+            #print("Este es el codigo ascii cada vuelta",codigo_ascii_punto)
 
             if(codigo_ascii_punto>=48 and codigo_ascii_punto<=57):
                 contador_numeros+=1
             elif(contador_numeros>=1 and codigo_ascii_punto==46):
                 contador_puntos+=1    
-                print("Esto vale en contador punto con dos puntos : ", contador_puntos)
+                #print("Esto vale en contador punto con dos puntos : ", contador_puntos)
             elif(codigo_ascii_punto==46):
                 contador_puntos+=1    
             #----- Seccion del numero 32 al 47 ------------------------------    
             if(codigo_ascii_punto==32 or codigo_ascii_punto==33 or codigo_ascii_punto==34 or codigo_ascii_punto==35 or codigo_ascii_punto==36 or codigo_ascii_punto==38 or codigo_ascii_punto==39 or codigo_ascii_punto==40 or codigo_ascii_punto==41 or codigo_ascii_punto==42 or codigo_ascii_punto==43 or codigo_ascii_punto==44 or codigo_ascii_punto==45 or codigo_ascii_punto==47 or codigo_ascii_punto==58 or codigo_ascii_punto==59 or codigo_ascii_punto==60 or codigo_ascii_punto==61 or codigo_ascii_punto==62 or codigo_ascii_punto==63 or codigo_ascii_punto==64):
-                print("Entre a la condicion")
+                #print("Entre a la condicion")
                 contador_simbolos_especiales+=1
                 contador_puntos=0
                 contador_numeros=0
                 break
                 
                          
-        print("Este es el contador numeros al salir del ciclo: " ,contador_numeros)
-        print("Este es el contador puntos al salir del ciclo : ", contador_puntos)   
+        #print("Este es el contador numeros al salir del ciclo: " ,contador_numeros)
+        #print("Este es el contador puntos al salir del ciclo : ", contador_puntos)   
         
         if(contador_numeros>1 and contador_puntos==0):
-             print("Es un numero correcto entero")
+             #print("Es un numero correcto entero")
+             return True
              
         elif(contador_numeros>1 and contador_puntos==1):
-             print("Es un numero correcto  decimal")  
+             #print("Es un numero correcto  decimal")  
+             return True
              
         elif(contador_puntos>=2 or contador_puntos>2):
-            print("Es un numero incorrecto")      
+            #print("Es un numero incorrecto")  
+            return False    
         
         elif(contador_puntos==1):
-            print("Es un numero incorrecto")  
+            #print("Es un numero incorrecto")  
+            return False
             
         if(contador_simbolos_especiales>=1):
-            print("Es un numero incorrecto")           
+            #print("Es un numero incorrecto") 
+            return False          
             
            
     
@@ -143,9 +156,10 @@ class Lexico():
             if(cadena[0]=="#"):
                 contador_comentario+=1
         if(contador_comentario>0):
-            print("El comentario es valido")
+            return True
         else:
-            print("Error de cadena no valido")
+            return False
+
     def analizar(self,texto):
         lineas = texto.split("\n")
         
@@ -160,8 +174,8 @@ class Lexico():
 
 if __name__ == "__main__":
     objecto = Lexico()
-    texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
-    cadena=str(input("Dame una cadena por favor : "))
+    #texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
+    #cadena=str(input("Dame una cadena por favor : "))
     #objecto.agregar_tokens("cj","operador",2)
     #objecto.agregar_tokens("mara","identificador",4) 
     #objecto.agregar_tokens("mara","identificador",9)
@@ -172,5 +186,5 @@ if __name__ == "__main__":
     #objecto.comprobar_nombre_variable(cadena)
     #objecto.comprobar_palabras_reservadas(cadena)
     #objecto.comprobar_operadores(cadena)
-    objecto.comprobar_decimales(cadena)
+    #objecto.comprobar_decimales(cadena)
     #objecto.comprobar_comentarios(cadena)
