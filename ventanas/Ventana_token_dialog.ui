@@ -38,7 +38,7 @@
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgba(85, 170, 255);</string>
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -72,6 +72,7 @@
 }
 
 QHeaderView::section{
+
        background-color:#5555ff;
 	   padding:2px;
  	
@@ -85,7 +86,9 @@ QTableWitget{
     
      gridline-color:#ff00ff;
      font-size:14pt;
+
 }
+
 
 
       
