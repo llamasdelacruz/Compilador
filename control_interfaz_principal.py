@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow,QTableWidgetItem,QFileDial
 from PyQt5 import uic
 import ctypes
 from clases.Lexico import Lexico
-
+from ventanas.controlador_interfaz_tabla import Control_pantalla_tabla_token
 
 class Control_interfaz_principal(QMainWindow):
 
@@ -28,6 +28,7 @@ class Control_interfaz_principal(QMainWindow):
         self.btn_cargarArchivo.clicked.connect(self.chooseFile)
         self.btn_lexico.clicked.connect(self.analizar_lexico)
         self.btn_limpiar.clicked.connect(self.limpiar)
+        self.btn_lexico.clicked.connect(self.cargar_ventana_token)
 
     def chooseFile(self):
         tipo = "archivo de datos (*.txt)"
@@ -53,6 +54,10 @@ class Control_interfaz_principal(QMainWindow):
         self.areaTexto.setPlainText("")
         self.consola.setPlainText("")
 
+    def cargar_ventana_token(self):
+        self.hide()
+        self.ex = Control_pantalla_tabla_token(self)
+        self.ex.show()
 
 if(__name__ == "__main__"):
 
