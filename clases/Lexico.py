@@ -32,14 +32,16 @@ class Lexico():
                 if(codigo_ascii_minusculas>=97 and codigo_ascii_minusculas<=122):
                     #print("Entre al if anidado")
                     contador_minusculas+=1
+                else:
+                    contador_minusculas=0    
             else:    
                 contador_minusculas=0   
                 break                        
         if(contador_minusculas>0):
-            #print("Es una variable valida")
+            print("Es una variable valida")
             return True
         else:
-            #print("No es una variable valida")   
+            print("No es una variable valida")   
             return False
     
     def comprobar_palabras_reservadas(self,cadena):
@@ -247,7 +249,7 @@ if __name__ == "__main__":
     sentencia = "des++++++sgjd-2"
     r = sentencia.count("++")
     print(r)
-    #cadena=str(input("Dame una cadena por favor : "))
+    cadena=str(input("Dame una cadena por favor : "))
     #objecto.agregar_tokens("cj","operador",2)
     #objecto.agregar_tokens("mara","identificador",4) 
     #objecto.agregar_tokens("mara","identificador",9)
@@ -255,7 +257,7 @@ if __name__ == "__main__":
     #objecto.agregar_tokens("cj","operador",10)
     #print(objecto.tabla_tokens)
     #objecto.comprobar_inicio_fin(cadena)
-    #objecto.comprobar_nombre_variable(cadena)
+    objecto.comprobar_nombre_variable(cadena)
     #objecto.comprobar_palabras_reservadas(cadena)
     #objecto.comprobar_operadores(cadena)
     #objecto.comprobar_decimales(cadena)
