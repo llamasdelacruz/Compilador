@@ -191,27 +191,36 @@ class Lexico():
         for palabra in partir1:
 
             palabra_completa = ""
+            singno_anterior = ""
 
             for letra in palabra:
                 
                 # partimos las palabras en base a los operadores
                 if(letra == "=" or letra == "+" or letra == "*" or letra == "/" 
                    or letra == "-" or letra == ";" or letra == "'"):
-                    
-                    if(palabra_completa != "" ):
 
+
+                    if(singno_anterior != letra and palabra_completa != "" ):
                         linea_nueva.append(palabra_completa.strip())
                         palabra_completa = ""
-
-                    linea_nueva.append(letra)
-
+                        
+                    singno_anterior = letra
+                 
                 else:
-                    palabra_completa += letra
-                    if(len(palabra_completa) == len(palabra)):
+                    # aca llegan las letras normales
+                    if(singno_anterior != ""):
                         linea_nueva.append(palabra_completa.strip())
+                        singno_anterior = ""
+                        palabra_completa = ""
+                        
+                palabra_completa += letra
+
+                  
+            linea_nueva.append(palabra_completa.strip())
 
         print(linea_nueva)
         return linea_nueva
+        
         
             
         
