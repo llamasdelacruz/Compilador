@@ -175,17 +175,16 @@ class Lexico():
             return True
         else:
             return False
-
-    def analizar(self,texto):
-
-        lineas = texto.split("\n")
-
-        for linea in lineas:
-            pass
-                
+        
+    def comprobar_caracteres(self,cadena):
+        #ve si la cadena es un caracter valido
+        if(cadena == "'" or cadena == "," or cadena == ";" or cadena == "#"):
+            return True
+        else:
+            return False
             
     def partir_por_palabras(self,linea):
-        #partimos la linea en palabras y operadores
+        #En este metodo se parten por palabras o numeros la linea que nos pasaron
         linea_nueva = []
         #partir por espacios primero
         partir1 = linea.split()
@@ -201,7 +200,7 @@ class Lexico():
                 
                 # partimos las palabras en base a los operadores
                 if(letra == "=" or letra == "+" or letra == "*" or letra == "/" 
-                   or letra == "-" or letra == ";" or letra == "'"):
+                   or letra == "-" or letra == ";" or letra == "'" or letra == "," or letra == "#" ):
 
 
                     if(singno_anterior != letra and palabra_completa != "" ):
@@ -224,12 +223,7 @@ class Lexico():
 
         print(linea_nueva)
         return linea_nueva
-        
-        
-            
-        
-
-
+    
         
     def agregar_tokens(self,token,tipo,linea):
         #agrega un token al diccionario si no se encuentra y si lo hace agrega la linea en la que esta
@@ -237,18 +231,25 @@ class Lexico():
             self.tabla_tokens[token]["referencia"].append(linea)
         else:
             self.tabla_tokens[token] = {"tipo": tipo, 'declara':linea, "referencia":[]}
+
+    def analizar(self,texto):
+        #en este metodo se gestionan los erores y los tokens de el codigo dado
+        #este metodo junta todo los de arriba para analizar el lexico del codigo
+
+        lineas = texto.split("\n")
+
+        for linea in lineas:
+            pass
+                
             
 
 
 if __name__ == "__main__":
     objecto = Lexico()
-    objecto.partir_por_palabras("alo==2.67893 22++*+- 4.s#3")
+    #objecto.partir_por_palabras("'alo==2.67893',22++*+- 4.s#3")
     #texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
     texto = "  \n INICIO\nInt alo;\nalo=22+3;\n  output alo ;\nFIN"
     #objecto.partir_por_palabras("Input variable ++ START 45 67 90.0")
-    sentencia = "des++++++sgjd-2"
-    r = sentencia.count("++")
-    print(r)
     cadena=str(input("Dame una cadena por favor : "))
     #objecto.agregar_tokens("cj","operador",2)
     #objecto.agregar_tokens("mara","identificador",4) 
@@ -257,7 +258,7 @@ if __name__ == "__main__":
     #objecto.agregar_tokens("cj","operador",10)
     #print(objecto.tabla_tokens)
     #objecto.comprobar_inicio_fin(cadena)
-    objecto.comprobar_nombre_variable(cadena)
+    print(objecto.comprobar_nombre_variable(cadena))
     #objecto.comprobar_palabras_reservadas(cadena)
     #objecto.comprobar_operadores(cadena)
     #objecto.comprobar_decimales(cadena)
