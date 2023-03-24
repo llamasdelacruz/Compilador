@@ -61,7 +61,13 @@ class Lexico():
         
         elif(cadena=="Input"):
             contador_palabras_reservadas+=1
-        
+
+        elif(cadena=="START"):
+            contador_palabras_reservadas+=1
+
+        elif(cadena=="END"):
+            contador_palabras_reservadas+=1
+
         else:
             contador_palabras_reservadas=0           
                     
@@ -167,7 +173,50 @@ class Lexico():
             return False
 
     def analizar(self,texto):
+
         lineas = texto.split("\n")
+
+        for linea in lineas:
+            pass
+                
+            
+    def partir_por_palabras(self,linea):
+        #partimos la linea en palabras y operadores
+        linea_nueva = []
+        #partir por espacios primero
+        partir1 = linea.split()
+
+        #partimos por operadores
+        #vemos si tiene un operador 
+        for palabra in partir1:
+
+            palabra_completa = ""
+
+            for letra in palabra:
+                
+                # partimos las palabras en base a los operadores
+                if(letra == "=" or letra == "+" or letra == "*" or letra == "/" 
+                   or letra == "-" or letra == ";" or letra == "'"):
+                    
+                    if(palabra_completa != "" ):
+
+                        linea_nueva.append(palabra_completa.strip())
+                        palabra_completa = ""
+
+                    linea_nueva.append(letra)
+
+                else:
+                    palabra_completa += letra
+                    if(len(palabra_completa) == len(palabra)):
+                        linea_nueva.append(palabra_completa.strip())
+
+        print(linea_nueva)
+        return linea_nueva
+        
+            
+        
+
+
         
     def agregar_tokens(self,token,tipo,linea):
         #agrega un token al diccionario si no se encuentra y si lo hace agrega la linea en la que esta
@@ -180,7 +229,11 @@ class Lexico():
 
 if __name__ == "__main__":
     objecto = Lexico()
-    #texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
+    texto = "  \n INICIO\nInt alo;\nalo=22+3;\n  output alo ;\nFIN"
+    #objecto.partir_por_palabras("Input variable ++ START 45 67 90.0")
+    sentencia = "des++++++sgjd-2"
+    r = sentencia.count("++")
+    print(r)
     #cadena=str(input("Dame una cadena por favor : "))
     #objecto.agregar_tokens("cj","operador",2)
     #objecto.agregar_tokens("mara","identificador",4) 
