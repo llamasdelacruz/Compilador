@@ -28,8 +28,10 @@ class Lexico():
         contador_minusculas=0
         for i in range(len(cadena)):
             codigo_ascii_minusculas=ord(cadena[i])
-            if(codigo_ascii_minusculas>=97 and codigo_ascii_minusculas<=122):
-                contador_minusculas+=1
+            if(cadena[0]=="$"):
+                if(codigo_ascii_minusculas>=97 and codigo_ascii_minusculas<=122):
+                    #print("Entre al if anidado")
+                    contador_minusculas+=1
             else:    
                 contador_minusculas=0   
                 break                        
@@ -43,23 +45,23 @@ class Lexico():
     def comprobar_palabras_reservadas(self,cadena):
         # nos dice si la palabra reservada es valida
         contador_palabras_reservadas=0
-        if(cadena=="Int"):
+        if(cadena=="INT"):
             contador_palabras_reservadas+=1
-        elif(cadena=="Float"):
+        elif(cadena=="FLOAT"):
             contador_palabras_reservadas+=1
-        elif(cadena=="Char"):
+        elif(cadena=="CHAR"):
             contador_palabras_reservadas+=1
             
-        elif(cadena=="String"):
+        elif(cadena=="STRING"):
             contador_palabras_reservadas+=1
         
-        elif(cadena=="Boolean"):
+        elif(cadena=="BOOLEAN"):
             contador_palabras_reservadas+=1
         
-        elif(cadena=="Output"):
+        elif(cadena=="OUTPUT"):
             contador_palabras_reservadas+=1
         
-        elif(cadena=="Input"):
+        elif(cadena=="INPUT"):
             contador_palabras_reservadas+=1
         
         else:
@@ -181,7 +183,7 @@ class Lexico():
 if __name__ == "__main__":
     objecto = Lexico()
     #texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
-    #cadena=str(input("Dame una cadena por favor : "))
+    cadena=str(input("Dame una cadena por favor : "))
     #objecto.agregar_tokens("cj","operador",2)
     #objecto.agregar_tokens("mara","identificador",4) 
     #objecto.agregar_tokens("mara","identificador",9)
@@ -189,7 +191,7 @@ if __name__ == "__main__":
     #objecto.agregar_tokens("cj","operador",10)
     #print(objecto.tabla_tokens)
     #objecto.comprobar_inicio_fin(cadena)
-    #objecto.comprobar_nombre_variable(cadena)
+    objecto.comprobar_nombre_variable(cadena)
     #objecto.comprobar_palabras_reservadas(cadena)
     #objecto.comprobar_operadores(cadena)
     #objecto.comprobar_decimales(cadena)
