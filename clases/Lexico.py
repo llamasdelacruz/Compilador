@@ -24,7 +24,7 @@ class Lexico():
             return False
     
     def comprobar_nombre_variable(self,cadena):
-        #nos dice si la variable tiene puras eltras minusculas
+        #nos dice si la variable tiene $ seguido de puras letras minusculas
         contador_minusculas=0
         for i in range(len(cadena)):
             codigo_ascii_minusculas=ord(cadena[i])
@@ -38,10 +38,10 @@ class Lexico():
                 contador_minusculas=0   
                 break                        
         if(contador_minusculas>0):
-            print("Es una variable valida")
+            #print("Es una variable valida")
             return True
         else:
-            print("No es una variable valida")   
+            #print("No es una variable valida")   
             return False
     
     def comprobar_palabras_reservadas(self,cadena):
@@ -258,7 +258,7 @@ if __name__ == "__main__":
     #objecto.agregar_tokens("cj","operador",10)
     #print(objecto.tabla_tokens)
     #objecto.comprobar_inicio_fin(cadena)
-    print(objecto.comprobar_nombre_variable(cadena))
+    #print(objecto.comprobar_nombre_variable(cadena))
     #objecto.comprobar_palabras_reservadas(cadena)
     #objecto.comprobar_operadores(cadena)
     #objecto.comprobar_decimales(cadena)
