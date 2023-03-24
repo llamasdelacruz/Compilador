@@ -193,24 +193,32 @@ class Lexico():
         for palabra in partir1:
 
             palabra_completa = ""
+            singno_anterior = ""
 
             for letra in palabra:
                 
                 # partimos las palabras en base a los operadores
                 if(letra == "=" or letra == "+" or letra == "*" or letra == "/" 
                    or letra == "-" or letra == ";" or letra == "'"):
-                    
-                    if(palabra_completa != "" ):
 
+
+                    if(singno_anterior != letra and palabra_completa != "" ):
                         linea_nueva.append(palabra_completa.strip())
                         palabra_completa = ""
-
-                    linea_nueva.append(letra)
-
+                        
+                    singno_anterior = letra
+                 
                 else:
-                    palabra_completa += letra
-                    if(len(palabra_completa) == len(palabra)):
+                    # aca llegan las letras normales
+                    if(singno_anterior != ""):
                         linea_nueva.append(palabra_completa.strip())
+                        singno_anterior = ""
+                        palabra_completa = ""
+                        
+                palabra_completa += letra
+
+                  
+            linea_nueva.append(palabra_completa.strip())
 
         print(linea_nueva)
         return linea_nueva
@@ -231,13 +239,8 @@ class Lexico():
 
 if __name__ == "__main__":
     objecto = Lexico()
+    objecto.partir_por_palabras("alo==2.67893 22++*+- 4.s#3")
     #texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
-    cadena=str(input("Dame una cadena por favor : "))
-    texto = "  \n INICIO\nInt alo;\nalo=22+3;\n  output alo ;\nFIN"
-    #objecto.partir_por_palabras("Input variable ++ START 45 67 90.0")
-    sentencia = "des++++++sgjd-2"
-    r = sentencia.count("++")
-    print(r)
     #cadena=str(input("Dame una cadena por favor : "))
     #objecto.agregar_tokens("cj","operador",2)
     #objecto.agregar_tokens("mara","identificador",4) 
@@ -246,8 +249,10 @@ if __name__ == "__main__":
     #objecto.agregar_tokens("cj","operador",10)
     #print(objecto.tabla_tokens)
     #objecto.comprobar_inicio_fin(cadena)
-    objecto.comprobar_nombre_variable(cadena)
+    #objecto.comprobar_nombre_variable(cadena)
     #objecto.comprobar_palabras_reservadas(cadena)
     #objecto.comprobar_operadores(cadena)
     #objecto.comprobar_decimales(cadena)
     #objecto.comprobar_comentarios(cadena)
+
+
