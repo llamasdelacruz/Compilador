@@ -1,27 +1,11 @@
 
+from difflib import SequenceMatcher
 class Lexico():
 
     def __init__(self):
         self.tabla_tokens = {}
-
-    def comprobar_inicio_fin(self,cadena):
-        # nos dice si las palabras de inicio y fin estan bien
-        contador_start=0
-        contador_fin=0
-        if(cadena=="START"):
-            contador_start+=1
-        elif(cadena=="END"):
-            contador_fin+=1
-        else:
-            contador_fin=0
-            contador_start=0        
-        
-        if(contador_start>0 or contador_fin>0):
-            #print("Es una palabra reservada valida")
-            return True
-        else:
-            #print("Error en palabra reservada")
-            return False
+        self.reservadas_minusculas = ["int","float","char","string","boolean","output","input","start","end"]
+       
     
     def comprobar_nombre_variable(self,cadena):
         #nos dice si la variable tiene $ seguido de puras letras minusculas
@@ -163,25 +147,6 @@ class Lexico():
             #print("Es un numero incorrecto") 
             return False          
             
-           
-    
-    def comprobar_comentarios(self,cadena):
-        # si el comentario tiene la #
-        contador_comentario=0
-        for i in range(len(cadena)):
-            if(cadena[0]=="#"):
-                contador_comentario+=1
-        if(contador_comentario>0):
-            return True
-        else:
-            return False
-        
-    def comprobar_caracteres(self,cadena):
-        #ve si la cadena es un caracter valido
-        if(cadena == "'" or cadena == "," or cadena == ";" or cadena == "#"):
-            return True
-        else:
-            return False
             
     def partir_por_palabras(self,linea):
         #En este metodo se parten por palabras o numeros la linea que nos pasaron
@@ -239,29 +204,110 @@ class Lexico():
         lineas = texto.split("\n")
 
         for linea in lineas:
-            pass
-                
-            
+            palabras_linea = linea.split() #espacios
+            abertura = 0
+            cierre = 0
+            print(palabras_linea)
+            for palabra in palabras_linea:
+                #vemos si es un comentario
+                if("#" == palabra or palabra[0] == "#"):
+                    print("No se analiza es un comentario:"+ palabra)
+                    break
+                #vemos si es texto 
+                elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'"):
+                    
+                    
+                    if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
+                        print("inicio de string:",palabra)
+                        abertura = 1
+                    elif(("'" == palabra and cierre == 0) or (palabra[-1] == "'" and cierre == 0)):
+                        cierre = 1
+
+                    if(abertura == 1 and cierre == 1):
+                        abertura = 0
+                        cierre = 0
+                        print("fin de string:",palabra)
+
+                # para evaluar operadores
+                elif(palabra == "+" or palabra.count("+") == len(palabra) or 
+                     palabra == "-" or palabra.count("-") == len(palabra) or 
+                     palabra == "*" or palabra.count("*") == len(palabra) or
+                     palabra == "=" or palabra.count("=") == len(palabra) or
+                     palabra == "/" or palabra.count("/") == len(palabra)):
+                    
+                    print("Es un operador:",palabra)
+
+                # para evaluar los caracteres validos
+                elif(palabra == "," or palabra == ";"):
+                    print("Carcater valido:",palabra)
+
+                #checa si  una palabra reservada
+                elif(palabra.isupper() or self.es_palabra_reservada_minusculas(palabra)):
+                    print("Palabra reservada:",palabra)
+
+                #checa si es un numero 
+                elif( palabra.isnumeric() or (palabra[0].isdigit() and self.porcentaje_numeros(palabra))):
+                    print("Es un numero:",palabra)
+
+                #checa que sea una variable
+                elif( palabra[0] == "$" or  palabra.islower() or palabra.isalpha()):
+                    print("es una variable:", palabra)
+
+                else:
+                    print("Cadena incorrecta de caracteres:",palabra)
+
+
+    def es_palabra_reservada_minusculas(self,cadena):
+        # ve si es una palabra reservada en minisculas y si lo es manda true
+        cadena = cadena.lower()
+        is_true = False
+        for i in self.reservadas_minusculas:
+        
+            if(cadena == i):
+                is_true = True
+                break
+
+        return is_true
+    
+
+
+    def porcentaje_numeros(self,cadena):
+        # ve si el porcentaje de numeros en la cadena es del 80%
+        # si lo es regresa true, ignoramos el punto
+        #lo parte pir caracteres
+        caracteres = [ i for i in cadena] 
+        #print(caracteres)
+        esunnumero_lista = list(map(lambda c: True if c == "." else c.isdigit() ,caracteres))
+        #print(esunnumero_lista)
+
+        porcentaje_numeros = (esunnumero_lista.count(True)*100)/len(esunnumero_lista)     
+        #print(porcentaje_numeros) 
+
+        if(len(caracteres) <= 3):
+
+            numeros =  esunnumero_lista.count(True)
+            no_numeros = esunnumero_lista.count(False)
+
+            if(numeros >= no_numeros ):
+                return True
+            else:
+                return False
+        else:   
+
+            if(porcentaje_numeros >= 75):
+                return True
+            else:
+                return False
 
 
 if __name__ == "__main__":
     objecto = Lexico()
     #objecto.partir_por_palabras("'alo==2.67893',22++*+- 4.s#3")
-    #texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
-    texto = "  \n INICIO\nInt alo;\nalo=22+3;\n  output alo ;\nFIN"
-    #objecto.partir_por_palabras("Input variable ++ START 45 67 90.0")
-    cadena=str(input("Dame una cadena por favor : "))
-    #objecto.agregar_tokens("cj","operador",2)
-    #objecto.agregar_tokens("mara","identificador",4) 
-    #objecto.agregar_tokens("mara","identificador",9)
-    #objecto.agregar_tokens("mara","identificador",11)
-    #objecto.agregar_tokens("cj","operador",10)
-    #print(objecto.tabla_tokens)
-    #objecto.comprobar_inicio_fin(cadena)
-    #print(objecto.comprobar_nombre_variable(cadena))
-    #objecto.comprobar_palabras_reservadas(cadena)
-    #objecto.comprobar_operadores(cadena)
-    #objecto.comprobar_decimales(cadena)
-    #objecto.comprobar_comentarios(cadena)
-
+    texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
+    texto = " 7777  34,45 2,0 3.5 ;;;+- ss a898"
+    objecto.analizar(texto) 
+    #print(objecto.porcentaje_numeros("89.00"))
+    #objecto.partir_por_palabras("OUTPUT output $ESTO 'hola ,$mani 33a")
+    #m = SequenceMatcher(None, "boolean", "B@olean").ratio()
+    #print(m)
 
