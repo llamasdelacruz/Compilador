@@ -28,7 +28,7 @@ class Control_interfaz_principal(QMainWindow):
         self.btn_cargarArchivo.clicked.connect(self.chooseFile)
         self.btn_lexico.clicked.connect(self.analizar_lexico)
         self.btn_limpiar.clicked.connect(self.limpiar)
-        self.btn_lexico.clicked.connect(self.cargar_ventana_token)
+        
 
     def chooseFile(self):
         tipo = "archivo de datos (*.txt)"
@@ -47,16 +47,22 @@ class Control_interfaz_principal(QMainWindow):
         #le pasa el texto
         texto = self.areaTexto.toPlainText()
         lexico_obj = Lexico()
-        lexico_obj.analizar(texto)
+        errores = lexico_obj.analizar(texto)
+
+        if(errores == ""):
+            self.cargar_ventana_token(lexico_obj.tabla_tokens)
+        else:
+            self.consola.setPlainText("")
+            self.consola.setPlainText(errores)
 
         
     def limpiar(self):
         self.areaTexto.setPlainText("")
         self.consola.setPlainText("")
 
-    def cargar_ventana_token(self):
-        self.hide()
-        self.ex = Control_pantalla_tabla_token(self)
+    def cargar_ventana_token(self,tokens):
+        
+        self.ex = Control_pantalla_tabla_token(self,tokens)
         self.ex.show()
 
 if(__name__ == "__main__"):

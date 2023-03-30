@@ -7,27 +7,6 @@ class Lexico():
         self.reservadas_minusculas = ["int","float","char","string","boolean","output","input","start","end"]
        
     
-    def comprobar_nombre_variable(self,cadena):
-        #nos dice si la variable tiene $ seguido de puras letras minusculas
-        contador_minusculas=0
-        for i in range(len(cadena)):
-            codigo_ascii_minusculas=ord(cadena[i])
-            if(cadena[0]=="$"):
-                if(codigo_ascii_minusculas>=97 and codigo_ascii_minusculas<=122):
-                    #print("Entre al if anidado")
-                    contador_minusculas+=1
-                else:
-                    contador_minusculas=0    
-            else:    
-                contador_minusculas=0   
-                break                        
-        if(contador_minusculas>0):
-            #print("Es una variable valida")
-            return True
-        else:
-            #print("No es una variable valida")   
-            return False
-    
     def comprobar_palabras_reservadas(self,cadena):
         # nos dice si la palabra reservada es valida
         contador_palabras_reservadas=0
@@ -99,54 +78,7 @@ class Lexico():
             #print("El operador es invalido") 
             return False  
                      
-    def comprobar_decimales(self,cadena):
-        # nos dice si el numero es correcto, si es entero o decimal
-        contador_numeros=0
-        contador_puntos=0
-        contador_simbolos_especiales=0
-        for i in range(len(cadena)):
-            codigo_ascii_punto=ord(cadena[i])
-            #print("Este es el codigo ascii cada vuelta",codigo_ascii_punto)
-
-            if(codigo_ascii_punto>=48 and codigo_ascii_punto<=57):
-                contador_numeros+=1
-            elif(contador_numeros>=1 and codigo_ascii_punto==46):
-                contador_puntos+=1    
-                #print("Esto vale en contador punto con dos puntos : ", contador_puntos)
-            elif(codigo_ascii_punto==46):
-                contador_puntos+=1    
-            #----- Seccion del numero 32 al 47 ------------------------------    
-            if(codigo_ascii_punto==32 or codigo_ascii_punto==33 or codigo_ascii_punto==34 or codigo_ascii_punto==35 or codigo_ascii_punto==36 or codigo_ascii_punto==38 or codigo_ascii_punto==39 or codigo_ascii_punto==40 or codigo_ascii_punto==41 or codigo_ascii_punto==42 or codigo_ascii_punto==43 or codigo_ascii_punto==44 or codigo_ascii_punto==45 or codigo_ascii_punto==47 or codigo_ascii_punto==58 or codigo_ascii_punto==59 or codigo_ascii_punto==60 or codigo_ascii_punto==61 or codigo_ascii_punto==62 or codigo_ascii_punto==63 or codigo_ascii_punto==64):
-                #print("Entre a la condicion")
-                contador_simbolos_especiales+=1
-                contador_puntos=0
-                contador_numeros=0
-                break
-                
-                         
-        #print("Este es el contador numeros al salir del ciclo: " ,contador_numeros)
-        #print("Este es el contador puntos al salir del ciclo : ", contador_puntos)   
-        
-        if(contador_numeros>1 and contador_puntos==0):
-             #print("Es un numero correcto entero")
-             return True
-             
-        elif(contador_numeros>1 and contador_puntos==1):
-             #print("Es un numero correcto  decimal")  
-             return True
-             
-        elif(contador_puntos>=2 or contador_puntos>2):
-            #print("Es un numero incorrecto")  
-            return False    
-        
-        elif(contador_puntos==1):
-            #print("Es un numero incorrecto")  
-            return False
-            
-        if(contador_simbolos_especiales>=1):
-            #print("Es un numero incorrecto") 
-            return False          
-            
+  
             
     def partir_por_palabras(self,linea):
         #En este metodo se parten por palabras o numeros la linea que nos pasaron
@@ -186,7 +118,6 @@ class Lexico():
                   
             linea_nueva.append(palabra_completa.strip())
 
-        print(linea_nueva)
         return linea_nueva
     
         
@@ -195,30 +126,37 @@ class Lexico():
         if(token in self.tabla_tokens.keys()):
             self.tabla_tokens[token]["referencia"].append(linea)
         else:
-            self.tabla_tokens[token] = {"tipo": tipo, 'declara':linea, "referencia":[]}
+            self.tabla_tokens[token] = {"tipo": tipo, "declara":linea, "referencia":[]}
 
     def analizar(self,texto):
         #en este metodo se gestionan los erores y los tokens de el codigo dado
         #este metodo junta todo los de arriba para analizar el lexico del codigo
-
+        errores = ""
         lineas = texto.split("\n")
 
         for linea in lineas:
-            palabras_linea = linea.split() #espacios
+            palabras_linea = linea.split() # todas las palabras
             abertura = 0
             cierre = 0
-            print(palabras_linea)
-            for palabra in palabras_linea:
+            cantidad_elementos = len(palabras_linea)
+
+            for i in range(0,cantidad_elementos):
+                palabra = palabras_linea[i]
+
+                palabra = self.quitar_caracteres(palabra)
+
                 #vemos si es un comentario
                 if("#" == palabra or palabra[0] == "#"):
-                    print("No se analiza es un comentario:"+ palabra)
+                    #print("No se analiza es un comentario:"+ palabra)
+                    self.agregar_tokens("#","Caracter",lineas.index(linea)+1)
                     break
                 #vemos si es texto 
                 elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'"):
                     
+                    self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
                     
                     if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
-                        print("inicio de string:",palabra)
+                        #print("inicio de string:",palabra)
                         abertura = 1
                     elif(("'" == palabra and cierre == 0) or (palabra[-1] == "'" and cierre == 0)):
                         cierre = 1
@@ -226,8 +164,9 @@ class Lexico():
                     if(abertura == 1 and cierre == 1):
                         abertura = 0
                         cierre = 0
-                        print("fin de string:",palabra)
-
+                        #print("fin de string:",palabra)
+                elif(abertura == 1):
+                    continue
                 # para evaluar operadores
                 elif(palabra == "+" or palabra.count("+") == len(palabra) or 
                      palabra == "-" or palabra.count("-") == len(palabra) or 
@@ -235,31 +174,118 @@ class Lexico():
                      palabra == "=" or palabra.count("=") == len(palabra) or
                      palabra == "/" or palabra.count("/") == len(palabra)):
                     
-                    print("Es un operador:",palabra)
+                    #print("es un operador:",palabra)
+                    if(self.comprobar_operadores(palabra)):
+                        self.agregar_tokens(palabra,"Operador",lineas.index(linea)+1)
+                    else:
+                        errores += "\n Error de léxico !!!!! En operador"
 
                 # para evaluar los caracteres validos
-                elif(palabra == "," or palabra == ";"):
-                    print("Carcater valido:",palabra)
+                elif((palabra == "," and palabra.count(",") == len(palabra)) or 
+                     (palabra == ";" and palabra.count(";") == len(palabra))):
+                    
+                    self.agregar_tokens(palabra[0],"Caracter",lineas.index(linea)+1)
 
                 #checa si  una palabra reservada
-                elif(palabra.isupper() or self.es_palabra_reservada_minusculas(palabra)):
-                    print("Palabra reservada:",palabra)
+                elif( palabra.isupper() or palabra.isalpha() or self.es_palabra_reservada_minusculas(palabra)):
+                    
+                    # vemos si hay otro elemento adelante de el
+                    if(palabra[:3] == "$V@" or palabra[:3] == "$v@"):
+                        if((i+1) <= (cantidad_elementos-1)):
+                            # vemos si el siguiente elemento es un operador
+                            if( palabras_linea[i+1] == "+" or palabras_linea[i+1].count("+") == len(palabras_linea[i+1]) or 
+                                palabras_linea[i+1] == "-" or palabras_linea[i+1].count("-") == len(palabras_linea[i+1]) or 
+                                palabras_linea[i+1] == "*" or palabras_linea[i+1].count("*") == len(palabras_linea[i+1]) or
+                                palabras_linea[i+1] == "=" or palabras_linea[i+1].count("=") == len(palabras_linea[i+1]) or
+                                palabras_linea[i+1] == "/" or palabras_linea[i+1].count("/") == len(palabras_linea[i+1])):
+                                
+                              
+                                despues = palabra[3:]
+
+                                if(despues.isdigit()):
+                                    self.agregar_tokens(palabra,"Identificador",lineas.index(linea)+1)
+                                else:
+                                    errores += "\n Error de léxico !!!!! En variable"
+
+                                print("es una variable:", palabra)
+                            else:
+                                if(i == 0):
+                                    
+                                    if(self.comprobar_palabras_reservadas(palabra)):
+                                        self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
+                                    else:
+                                        errores += "\n Error de léxico !!!!! En palabra reservada"
+                                        
+                                    print("Es una palabra reservada:",palabra)
+
+                                else:
+                                    despues = palabra[3:]
+                                    if(despues.isdigit()):
+                                        self.agregar_tokens(palabra,"Identificador",lineas.index(linea)+1)
+                                    else:
+                                        errores += "\n Error de léxico !!!!! En variable"
+                                        print('Error de variable:',palabra)
+                                    print("es una variable:", palabra)
+                        else:
+
+                            if(self.comprobar_palabras_reservadas(palabra)):
+                                self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
+                            else:
+
+                                errores += "\n Error de léxico !!!!! En palabra reservada"
+                                print('Error de palabra reservada:',palabra)
+                            print("Es una palabra reservada:",palabra)
+                            
+                    else:
+                        if(self.comprobar_palabras_reservadas(palabra)):
+                            self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
+                        else:
+                            errores += "\n Error de léxico !!!!! En palabra reservada"
+                            print('Error de palabra reservada:',palabra)
+
+                        print("Es una palabra reservada:",palabra)    
 
                 #checa si es un numero 
-                elif( palabra.isnumeric() or (palabra[0].isdigit() and self.porcentaje_numeros(palabra))):
-                    print("Es un numero:",palabra)
-
+                elif( palabra.isnumeric()  or 
+                     (palabra[0].isdigit() and self.porcentaje_numeros(palabra))
+                     or (palabra[0] == "." and self.porcentaje_numeros(palabra))):
+                
+                    if(palabra.isdigit() or self.decimales(palabra)):
+                        print("Numero valido")
+                        self.agregar_tokens(palabra,"Caracter",lineas.index(linea)+1)
+                    else:
+                        errores += "\n Error de léxico !!!!! En número incorrecto"
+                        print('Error de numero:',palabra)
+                    
                 #checa que sea una variable
-                elif( palabra[0] == "$" or  palabra.islower() or palabra.isalpha()):
-                    print("es una variable:", palabra)
+                elif( palabra[:3] == "$v@" or palabra[:3] == "$V@"):
+                    despues = palabra[3:]
+                    if(despues.isdigit()):
+
+                        self.agregar_tokens(palabra,"Identificador",lineas.index(linea)+1)
+                    else:
+                        errores += "\n Error de léxico !!!!! En variable"
+                        print("Error de variable:", palabra) 
+                    
+                    print("es una variable:", palabra) 
 
                 else:
-                    print("Cadena incorrecta de caracteres:",palabra)
+                    if(len(palabra) == 1):
+                        print("Caracter incorrecto",palabra)
+                        errores += "\n Error de léxico !!!!! En caracter invalido"
+                    else:
+                        errores += "\n Error de léxico !!!!! Cadena incorrecta de caracteres"
+                        print("Cadena incorrecta de caracteres:",palabra)
+
+        return errores
 
 
     def es_palabra_reservada_minusculas(self,cadena):
         # ve si es una palabra reservada en minisculas y si lo es manda true
         cadena = cadena.lower()
+        if(cadena[:3] == "$v@" or cadena[:3] == "$V@"):
+            cadena = cadena[3:]
+
         is_true = False
         for i in self.reservadas_minusculas:
         
@@ -268,16 +294,16 @@ class Lexico():
                 break
 
         return is_true
-    
+
 
 
     def porcentaje_numeros(self,cadena):
         # ve si el porcentaje de numeros en la cadena es del 80%
-        # si lo es regresa true, ignoramos el punto
+        # si lo es regresa true, ignoramos el punto y la coma
         #lo parte pir caracteres
         caracteres = [ i for i in cadena] 
         #print(caracteres)
-        esunnumero_lista = list(map(lambda c: True if c == "." else c.isdigit() ,caracteres))
+        esunnumero_lista = list(map(lambda c: True if c == "." or c == "," else c.isdigit() ,caracteres))
         #print(esunnumero_lista)
 
         porcentaje_numeros = (esunnumero_lista.count(True)*100)/len(esunnumero_lista)     
@@ -298,16 +324,75 @@ class Lexico():
                 return True
             else:
                 return False
+            
+    def parecido_palabra_reservada(self,cadena):
+        # que tan parecida es la cadena a una palabra reservada
+        
+        cadena = cadena.lower()
+        if(cadena[:3] == "$v@" or cadena[:3] == "$V@"):
+            cadena = cadena[3:]
+
+        parecido_mas_grande = 0
+        for i in self.reservadas_minusculas:
+
+            concidencia = SequenceMatcher(None, i, cadena).ratio()
+            if(concidencia > parecido_mas_grande):
+                parecido_mas_grande  = concidencia
+                break
+        print(cadena,concidencia)
+        if(parecido_mas_grande >= 0.50):
+            return True
+        else:
+            return False
+        
+    def quitar_caracteres(self,cadena):
+
+        if(cadena[-1] == ","):
+            cadena = cadena[:-1]
+        elif(cadena[-1] == ";"):
+            cadena = cadena[:-1]
+
+        return cadena
+    
+    def decimales(self,cadena):
+
+        punto = 0
+        bandera = True
+        for i in range(len(cadena)):
+         
+
+            if(cadena[i].isdigit() == False and cadena[i] != "."):
+                bandera = False
+                break
+
+            if(cadena[i] == '.' and i == 0):
+                bandera = False
+                punto +=1
+                break
+            if(i > 0 and punto == 0 and cadena[i] == "."):
+                punto = 1
+            elif(i > 0 and punto == 1 and cadena[i] == "."):
+                bandera = False
+                punto +=1
+                break
+            
+        return bandera
+            
+
+
+
 
 
 if __name__ == "__main__":
     objecto = Lexico()
-    #objecto.partir_por_palabras("'alo==2.67893',22++*+- 4.s#3")
-    texto = "INICIO\nInt alo;\nalo = 22 + 3;\noutput alo;\nFIN"
-    texto = " 7777  34,45 2,0 3.5 ;;;+- ss a898"
-    objecto.analizar(texto) 
-    #print(objecto.porcentaje_numeros("89.00"))
-    #objecto.partir_por_palabras("OUTPUT output $ESTO 'hola ,$mani 33a")
-    #m = SequenceMatcher(None, "boolean", "B@olean").ratio()
-    #print(m)
+    
+    
+    texto = "StarT12"
+    
+    objecto.analizar(texto)
+  
+    #print(m.isalnum())
+    #print(objecto.tabla_tokens)
+    
 
+    
