@@ -181,13 +181,13 @@ class Lexico():
                         errores += "\n Error de léxico !!!!! En operador"
 
                 # para evaluar los caracteres validos
-                elif((palabra == "," and palabra.count(",") == len(palabra)) or 
-                     (palabra == ";" and palabra.count(";") == len(palabra))):
+                elif((palabra == "," or palabra.count(",") == len(palabra)) or 
+                     (palabra == ";" or palabra.count(";") == len(palabra))):
                     
                     self.agregar_tokens(palabra[0],"Caracter",lineas.index(linea)+1)
 
                 #checa si  una palabra reservada
-                elif( palabra.isupper() or palabra.isalpha() or self.es_palabra_reservada_minusculas(palabra)):
+                elif(  self.mayusculas_todas(palabra) or self.es_palabra_reservada_minusculas(palabra)):
                     
                     # vemos si hay otro elemento adelante de el
                     if(palabra[:3] == "$V@" or palabra[:3] == "$v@"):
@@ -248,7 +248,8 @@ class Lexico():
                 #checa si es un numero 
                 elif( palabra.isnumeric()  or 
                      (palabra[0].isdigit() and self.porcentaje_numeros(palabra))
-                     or (palabra[0] == "." and self.porcentaje_numeros(palabra))):
+                     or (palabra[0] == "." and self.porcentaje_numeros(palabra)) 
+                     or self.porcentaje_numeros(palabra)):
                 
                     if(palabra.isdigit() or self.decimales(palabra)):
                         print("Numero valido")
@@ -285,11 +286,11 @@ class Lexico():
         cadena = cadena.lower()
         if(cadena[:3] == "$v@" or cadena[:3] == "$V@"):
             cadena = cadena[3:]
-
+        
         is_true = False
         for i in self.reservadas_minusculas:
         
-            if(cadena == i):
+            if(cadena.find(i) != -1):
                 is_true = True
                 break
 
@@ -377,17 +378,24 @@ class Lexico():
                 break
             
         return bandera
-            
 
 
-
-
+    def mayusculas_todas(self,cadena):
+        caracteres = [ i for i in cadena] 
+        #print(caracteres)
+        letras = list(map(lambda c: c.isupper() ,caracteres))
+        if(len(letras) == letras.count(True)):
+            return True
+        else:
+            return False
+    
+   
 
 if __name__ == "__main__":
     objecto = Lexico()
     
     
-    texto = "StarT12"
+    texto = " + 788"
     
     objecto.analizar(texto)
   
