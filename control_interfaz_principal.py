@@ -39,9 +39,9 @@ class Control_interfaz_principal(QMainWindow):
             filter=tipo,
             initialFilter=tipo
         )
-        
-        archivo = open(respuesta[0],'r')
-        self.areaTexto.appendPlainText(archivo.read())
+        if(respuesta[0] != ""):
+            archivo = open(respuesta[0],'r')
+            self.areaTexto.appendPlainText(archivo.read())
       
     def analizar_lexico(self):
         #le pasa el texto
