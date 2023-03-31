@@ -81,23 +81,30 @@ class Lexico():
     def comprobar_nombre_variable(self,cadena):
         #nos dice si la variable tiene $ seguido de puras letras minusculas
         contador_minusculas=0
-        for i in range(len(cadena)):
-            codigo_ascii_minusculas=ord(cadena[i])
-            if(cadena[0]=="$"):
-                if(codigo_ascii_minusculas>=97 and codigo_ascii_minusculas<=122):
-                    #print("Entre al if anidado")
-                    contador_minusculas+=1
-                else:
-                    contador_minusculas=0    
-            else:    
-                contador_minusculas=0   
-                break                        
+        if(cadena[0] == "$"):
+            if(len(cadena) > 1):
+                for i in range(len(cadena)):
+                    if(i == 0 and cadena[i] == "$"):
+                        contador_minusculas+=1
+                    elif(cadena[i] == "$" and i > 0):
+                        contador_minusculas=0
+                        break  
+                    else:
+                        codigo_ascii_minusculas=ord(cadena[i])
+                        
+                        if(codigo_ascii_minusculas>=97 and codigo_ascii_minusculas<=122):
+                            #print("Entre al if anidado")
+                            contador_minusculas+=1
+                        else:
+                            contador_minusculas=0    
+                                    
         if(contador_minusculas>0):
             #print("Es una variable valida")
             return True
         else:
             #print("No es una variable valida")   
             return False
+
                     
         
     def agregar_tokens(self,token,tipo,linea):
@@ -165,9 +172,9 @@ class Lexico():
                     self.agregar_tokens(palabra[0],"Caracter",lineas.index(linea)+1)
 
                 #checa si  una palabra reservada
-                elif( (self.mayusculas_todas(palabra) and self.parecido_palabra_reservada(palabra) != "") 
-                     or self.es_palabra_reservada_minusculas(palabra) or (self.mayusculas_todas(palabra) or palabra[0]=="START")):
-                    print("Entre a la funcion",palabra)
+                elif( self.mayusculas_todas(palabra)
+                     or self.es_palabra_reservada_minusculas(palabra)):
+                    #print("Entre a la funcion",palabra)
                     
                     # vemos si hay otro elemento adelante de el
                     if(palabra[0] == "$"):
@@ -192,10 +199,8 @@ class Lexico():
                                     if(self.comprobar_palabras_reservadas(palabra)):
                                         self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
                                     else:
-                                        palabra_parecida = self.parecido_palabra_reservada(palabra)
-                                        errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra_parecida 
-                                        
-                                    print("Es una palabra reservada:",palabra)
+                                       errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
+                                    #print("Es una palabra reservada:",palabra)
 
                                 else:
                                     if(self.comprobar_nombre_variable(palabra)):
@@ -203,30 +208,29 @@ class Lexico():
                                     else:
                                         errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) + " En variable "+ palabra
 
-                                    print("es una variable:", palabra)
+                                    #print("es una variable:", palabra)
                         else:
 
                             if(self.comprobar_palabras_reservadas(palabra)):
                                 self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
                             else:
-                                palabra_parecida = self.parecido_palabra_reservada(palabra)
-                                errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra_parecida
-                                print('Error de palabra reservada:',palabra)
+                                errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
+                                #print('Error de palabra reservada:',palabra)
                             #print("Es una palabra reservada:",palabra)
                             
                     else:
                         if(self.comprobar_palabras_reservadas(palabra)):
                             self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
                         else:
-                            palabra_parecida = self.parecido_palabra_reservada(palabra)
-                            errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra_parecida
-                            print('Error de palabra reservada:',palabra)
+
+                            errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
+                            #print('Error de palabra reservada:',palabra)
 
                         #print("Es una palabra reservada:",palabra)    
             
                 #checa si es un numero 
                 elif( palabra.isdigit() or 
-                     palabra[0].isdigit() and self.porcentaje_numeros()):
+                     palabra[0].isdigit() and self.porcentaje_numeros(palabra)):
                 
                     if(palabra.isdigit() or self.decimales(palabra)):
                         #print("Numero valido")
@@ -356,6 +360,16 @@ class Lexico():
             return True
         else:
             return False
+        
+    def minusculas_todas(self,cadena):
+        caracteres = [ i for i in cadena] 
+        #print(caracteres)
+        letras = list(map(lambda c: True if c.islower() and c.isalpha() else False ,caracteres))
+        if(len(letras) == letras.count(True)):
+            return True
+        else:
+            return False
+
     
    
 
@@ -364,11 +378,12 @@ if __name__ == "__main__":
     
     
     texto = "\n MMMM START \n MARIANA maRINA marina asd1234 $hola $ews123 \n 'hola = 23 ; \n END"
-    #text = "MMMM"
+    text = "$"
+    print(objecto.comprobar_nombre_variable(text))
     #print(objecto.porcentaje_numeros(text))
     #print(objecto.parecido_palabra_reservada(text) )
-    objecto.analizar(texto)
-    #print(objecto.mayusculas_todas(text))
+    #objecto.analizar(texto)
+    #print(objecto.minusculas_todas(text))
     #print(m.isalnum())
     #print(objecto.tabla_tokens)
     

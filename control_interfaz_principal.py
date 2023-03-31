@@ -41,6 +41,7 @@ class Control_interfaz_principal(QMainWindow):
         )
         if(respuesta[0] != ""):
             archivo = open(respuesta[0],'r')
+            self.limpiar()
             self.areaTexto.appendPlainText(archivo.read())
       
     def analizar_lexico(self):
