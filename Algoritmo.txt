@@ -1,0 +1,7 @@
+START
+INT $hola , # como estas , ;
+$hola = 22 + 3 ;
+OUTPUT 'Hola' ;
+INPUT $martina ;
+
+END

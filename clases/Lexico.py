@@ -96,7 +96,8 @@ class Lexico():
                             #print("Entre al if anidado")
                             contador_minusculas+=1
                         else:
-                            contador_minusculas=0    
+                            contador_minusculas=0  
+                            break  
                                     
         if(contador_minusculas>0):
             #print("Es una variable valida")
@@ -140,17 +141,20 @@ class Lexico():
                 elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'"):
                     
                     self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
-                    
-                    if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
-                        #print("inicio de string:",palabra)
-                        abertura = 1
-                    elif(("'" == palabra and cierre == 0) or (palabra[-1] == "'" and cierre == 0)):
-                        cierre = 1
 
-                    if(abertura == 1 and cierre == 1):
-                        abertura = 0
-                        cierre = 0
-                        #print("fin de string:",palabra)
+                    if(palabra[0] == "'" and palabra[-1] == "'"):
+                        self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
+                    else:
+                        if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
+                            #print("inicio de string:",palabra)
+                            abertura = 1
+                        elif(("'" == palabra and cierre == 0) or (palabra[-1] == "'" and cierre == 0)):
+                            cierre = 1
+
+                        if(abertura == 1 and cierre == 1):
+                            abertura = 0
+                            cierre = 0
+                            #print("fin de string:",palabra)
                 elif(abertura == 1):
                     continue
                 # para evaluar operadores
@@ -164,7 +168,7 @@ class Lexico():
                     if(self.comprobar_operadores(palabra)):
                         self.agregar_tokens(palabra,"Operador",lineas.index(linea)+1)
                     else:
-                        errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +"En operador " + palabra
+                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En operador " + palabra
 
                 # para evaluar los caracteres validos
                 elif(palabra == ","  or palabra == ";" ):
@@ -190,7 +194,7 @@ class Lexico():
                                 if(self.comprobar_nombre_variable(palabra)):
                                     self.agregar_tokens(palabra,"Identificador",lineas.index(linea)+1)
                                 else:
-                                    errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En variable "+ palabra
+                                    errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En variable "+ palabra
 
                                 #print("es una variable:", palabra)
                             else:
@@ -199,14 +203,14 @@ class Lexico():
                                     if(self.comprobar_palabras_reservadas(palabra)):
                                         self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
                                     else:
-                                       errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
+                                       errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
                                     #print("Es una palabra reservada:",palabra)
 
                                 else:
                                     if(self.comprobar_nombre_variable(palabra)):
                                         self.agregar_tokens(palabra,"Identificador",lineas.index(linea)+1)
                                     else:
-                                        errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) + " En variable "+ palabra
+                                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) + " En variable "+ palabra
 
                                     #print("es una variable:", palabra)
                         else:
@@ -214,7 +218,7 @@ class Lexico():
                             if(self.comprobar_palabras_reservadas(palabra)):
                                 self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
                             else:
-                                errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
+                                errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
                                 #print('Error de palabra reservada:',palabra)
                             #print("Es una palabra reservada:",palabra)
                             
@@ -223,7 +227,7 @@ class Lexico():
                             self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
                         else:
 
-                            errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
+                            errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
                             #print('Error de palabra reservada:',palabra)
 
                         #print("Es una palabra reservada:",palabra)    
@@ -236,7 +240,7 @@ class Lexico():
                         #print("Numero valido")
                         self.agregar_tokens(palabra,"Caracter",lineas.index(linea)+1)
                     else:
-                        errores += "\n Error de léxico !!!!! " + str(lineas.index(linea)+1) +" En número incorrecto " + palabra
+                        errores += "\n Error de léxico !!!!! En línea " + str(lineas.index(linea)+1) +" En número incorrecto " + palabra
                         #print('Error de numero:',palabra)
                     
                 #checa que sea una variable
@@ -246,7 +250,7 @@ class Lexico():
 
                         self.agregar_tokens(palabra,"Identificador",lineas.index(linea)+1)
                     else:
-                        errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En variable " + palabra
+                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En variable " + palabra
                         #print("Error de variable:", palabra) 
                     
                     #print("es una variable:", palabra) 
@@ -254,9 +258,9 @@ class Lexico():
                 else:
                     if(len(palabra) == 1):
                         #print("Caracter incorrecto",palabra)
-                        errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En caracter invalido " + palabra
+                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En caracter invalido " + palabra
                     else:
-                        errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" Cadena incorrecta de caracteres " + palabra
+                        errores += "\n Error de léxico !!!!! En línea"+ str(lineas.index(linea)+1) +" Cadena incorrecta de caracteres " + palabra
                         #print("Cadena incorrecta de caracteres:",palabra)
 
         return errores
@@ -377,9 +381,8 @@ if __name__ == "__main__":
     objecto = Lexico()
     
     
-    texto = "\n MMMM START \n MARIANA maRINA marina asd1234 $hola $ews123 \n 'hola = 23 ; \n END"
-    text = "$"
-    print(objecto.comprobar_nombre_variable(text))
+    texto = "'hola' = 23 ; \n END"
+    objecto.analizar(texto)
     #print(objecto.porcentaje_numeros(text))
     #print(objecto.parecido_palabra_reservada(text) )
     #objecto.analizar(texto)
