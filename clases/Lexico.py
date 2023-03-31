@@ -165,7 +165,9 @@ class Lexico():
                     self.agregar_tokens(palabra[0],"Caracter",lineas.index(linea)+1)
 
                 #checa si  una palabra reservada
-                elif( (self.mayusculas_todas(palabra) and self.parecido_palabra_reservada(palabra) != "") or self.es_palabra_reservada_minusculas(palabra)):
+                elif( (self.mayusculas_todas(palabra) and self.parecido_palabra_reservada(palabra) != "") 
+                     or self.es_palabra_reservada_minusculas(palabra) or (self.mayusculas_todas(palabra) or palabra[0]=="START")):
+                    print("Entre a la funcion",palabra)
                     
                     # vemos si hay otro elemento adelante de el
                     if(palabra[0] == "$"):
@@ -193,7 +195,7 @@ class Lexico():
                                         palabra_parecida = self.parecido_palabra_reservada(palabra)
                                         errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra_parecida 
                                         
-                                    #print("Es una palabra reservada:",palabra)
+                                    print("Es una palabra reservada:",palabra)
 
                                 else:
                                     if(self.comprobar_nombre_variable(palabra)):
@@ -201,7 +203,7 @@ class Lexico():
                                     else:
                                         errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) + " En variable "+ palabra
 
-                                    #print("es una variable:", palabra)
+                                    print("es una variable:", palabra)
                         else:
 
                             if(self.comprobar_palabras_reservadas(palabra)):
@@ -209,7 +211,7 @@ class Lexico():
                             else:
                                 palabra_parecida = self.parecido_palabra_reservada(palabra)
                                 errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra_parecida
-                                #print('Error de palabra reservada:',palabra)
+                                print('Error de palabra reservada:',palabra)
                             #print("Es una palabra reservada:",palabra)
                             
                     else:
@@ -218,10 +220,10 @@ class Lexico():
                         else:
                             palabra_parecida = self.parecido_palabra_reservada(palabra)
                             errores += "\n Error de léxico !!!!! "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra_parecida
-                            #print('Error de palabra reservada:',palabra)
+                            print('Error de palabra reservada:',palabra)
 
                         #print("Es una palabra reservada:",palabra)    
-
+            
                 #checa si es un numero 
                 elif( palabra.isdigit() or 
                      palabra[0].isdigit() and self.porcentaje_numeros()):
@@ -361,12 +363,12 @@ if __name__ == "__main__":
     objecto = Lexico()
     
     
-    #texto = "\n START start  \n MARIANA maRINA marina asd1234 $hola $ews123 \n 'hola = 23 ; \n END"
-    text = "3,23"
-    print(objecto.porcentaje_numeros(text))
+    texto = "\n MMMM START \n MARIANA maRINA marina asd1234 $hola $ews123 \n 'hola = 23 ; \n END"
+    #text = "MMMM"
+    #print(objecto.porcentaje_numeros(text))
     #print(objecto.parecido_palabra_reservada(text) )
-    #objecto.analizar(texto)
-  
+    objecto.analizar(texto)
+    #print(objecto.mayusculas_todas(text))
     #print(m.isalnum())
     #print(objecto.tabla_tokens)
     
