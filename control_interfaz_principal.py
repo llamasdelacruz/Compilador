@@ -50,7 +50,7 @@ class Control_interfaz_principal(QMainWindow):
         lexico_obj = Lexico()
         errores = lexico_obj.analizar(texto)
 
-        if(errores == ""):
+        if(errores == "" and len(lexico_obj.tabla_tokens) > 0):
             self.consola.setPlainText("")
             self.cargar_ventana_token(lexico_obj.tabla_tokens)
         else:
