@@ -148,8 +148,16 @@ class Lexico():
                         if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
                             #print("inicio de string:",palabra)
                             abertura = 1
-                        elif(("'" == palabra and cierre == 0) or (palabra[-1] == "'" and cierre == 0)):
+                        elif(("'" == palabra and cierre == 0 and abertura == 1) or (palabra[-1] == "'" and cierre == 0 and abertura == 1)):
                             cierre = 1
+                        else:
+                            if(len(palabra) == 1):
+                                #print("Caracter incorrecto",palabra)
+                                errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En caracter invalido " + palabra
+                            else:
+                                errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" Cadena incorrecta de caracteres " + palabra
+                                #print("Cadena incorrecta de caracteres:",palabra)
+
 
                         if(abertura == 1 and cierre == 1):
                             abertura = 0
@@ -260,7 +268,7 @@ class Lexico():
                         #print("Caracter incorrecto",palabra)
                         errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En caracter invalido " + palabra
                     else:
-                        errores += "\n Error de léxico !!!!! En línea"+ str(lineas.index(linea)+1) +" Cadena incorrecta de caracteres " + palabra
+                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" Cadena incorrecta de caracteres " + palabra
                         #print("Cadena incorrecta de caracteres:",palabra)
 
         return errores
