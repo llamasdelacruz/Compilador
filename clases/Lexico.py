@@ -121,12 +121,16 @@ class Lexico():
         errores = ""
         lineas = texto.split("\n")
 
+        numero_linea = 0
+
+
         for linea in lineas:
             palabras_linea = linea.split() # todas las palabras
             abertura = 0
             cierre = 0
             cantidad_elementos = len(palabras_linea)
 
+            numero_linea += 1
             for i in range(0,cantidad_elementos):
                 palabra = palabras_linea[i]
 
@@ -135,18 +139,18 @@ class Lexico():
                 #vemos si es un comentario
                 if("#" == palabra or palabra[0] == "#"):
                     #print("No se analiza es un comentario:"+ palabra)
-                    self.agregar_tokens("#","Caracter",lineas.index(linea)+1)
+                    self.agregar_tokens("#","Caracter",numero_linea)
                     break
                 #vemos si es texto 
                 elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'" or palabra == "'"):
-                    linea22 = lineas.index(linea)+1
+                    
                     
 
                     if(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1):
-                        self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
-                        self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
+                        self.agregar_tokens("'","Caracter",numero_linea)
+                        self.agregar_tokens("'","Caracter",numero_linea)
                     else:
-                        self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
+                        self.agregar_tokens("'","Caracter",numero_linea)
                         if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
                             #print("inicio de string:",palabra)
                             abertura = 1
@@ -156,9 +160,9 @@ class Lexico():
                         else:
                             if(len(palabra) == 1):
                                 #print("Caracter incorrecto",palabra)
-                                errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En caracter invalido " + palabra
+                                errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En caracter invalido " + palabra
                             else:
-                                errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" Cadena incorrecta de caracteres " + palabra
+                                errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" Cadena incorrecta de caracteres " + palabra
                                 #print("Cadena incorrecta de caracteres:",palabra)
 
 
@@ -177,14 +181,14 @@ class Lexico():
                     
                     #print("es un operador:",palabra)
                     if(self.comprobar_operadores(palabra)):
-                        self.agregar_tokens(palabra,"Operador",lineas.index(linea)+1)
+                        self.agregar_tokens(palabra,"Operador",numero_linea)
                     else:
-                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En operador " + palabra
+                        errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En operador " + palabra
 
                 # para evaluar los caracteres validos
                 elif(palabra == ","  or palabra == ";" ):
                     
-                    self.agregar_tokens(palabra[0],"Caracter",lineas.index(linea)+1)
+                    self.agregar_tokens(palabra[0],"Caracter",numero_linea)
 
                 #checa si  una palabra reservada
                 elif( self.mayusculas_todas(palabra)
@@ -203,42 +207,42 @@ class Lexico():
                                 
 
                                 if(self.comprobar_nombre_variable(palabra)):
-                                    self.agregar_tokens(palabra,"Identificador",lineas.index(linea)+1)
+                                    self.agregar_tokens(palabra,"Identificador",numero_linea)
                                 else:
-                                    errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En variable "+ palabra
+                                    errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En variable "+ palabra
 
                                 #print("es una variable:", palabra)
                             else:
                                 if(i == 0):
                                     
                                     if(self.comprobar_palabras_reservadas(palabra)):
-                                        self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
+                                        self.agregar_tokens(palabra,"Palabra reservada",numero_linea)
                                     else:
-                                       errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
+                                       errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En palabra reservada " + palabra
                                     #print("Es una palabra reservada:",palabra)
 
                                 else:
                                     if(self.comprobar_nombre_variable(palabra)):
-                                        self.agregar_tokens(palabra,"Identificador",lineas.index(linea)+1)
+                                        self.agregar_tokens(palabra,"Identificador",numero_linea)
                                     else:
-                                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) + " En variable "+ palabra
+                                        errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) + " En variable "+ palabra
 
                                     #print("es una variable:", palabra)
                         else:
 
                             if(self.comprobar_palabras_reservadas(palabra)):
-                                self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
+                                self.agregar_tokens(palabra,"Palabra reservada",numero_linea)
                             else:
-                                errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
+                                errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En palabra reservada " + palabra
                                 #print('Error de palabra reservada:',palabra)
                             #print("Es una palabra reservada:",palabra)
                             
                     else:
                         if(self.comprobar_palabras_reservadas(palabra)):
-                            self.agregar_tokens(palabra,"Palabra reservada",lineas.index(linea)+1)
+                            self.agregar_tokens(palabra,"Palabra reservada",numero_linea)
                         else:
 
-                            errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En palabra reservada " + palabra
+                            errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En palabra reservada " + palabra
                             #print('Error de palabra reservada:',palabra)
 
                         #print("Es una palabra reservada:",palabra)    
@@ -249,9 +253,9 @@ class Lexico():
                 
                     if(palabra.isdigit() or self.decimales(palabra)):
                         #print("Numero valido")
-                        self.agregar_tokens(palabra,"Caracter",lineas.index(linea)+1)
+                        self.agregar_tokens(palabra,"Caracter",numero_linea)
                     else:
-                        errores += "\n Error de léxico !!!!! En línea " + str(lineas.index(linea)+1) +" En número incorrecto " + palabra
+                        errores += "\n Error de léxico !!!!! En línea " + str(numero_linea) +" En número incorrecto " + palabra
                         #print('Error de numero:',palabra)
                     
                 #checa que sea una variable
@@ -259,9 +263,9 @@ class Lexico():
                     
                     if(self.comprobar_nombre_variable(palabra)):
 
-                        self.agregar_tokens(palabra,"Identificador",lineas.index(linea)+1)
+                        self.agregar_tokens(palabra,"Identificador",numero_linea)
                     else:
-                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En variable " + palabra
+                        errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En variable " + palabra
                         #print("Error de variable:", palabra) 
                     
                     #print("es una variable:", palabra) 
@@ -269,9 +273,9 @@ class Lexico():
                 else:
                     if(len(palabra) == 1):
                         #print("Caracter incorrecto",palabra)
-                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" En caracter invalido " + palabra
+                        errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En caracter invalido " + palabra
                     else:
-                        errores += "\n Error de léxico !!!!! En línea "+ str(lineas.index(linea)+1) +" Cadena incorrecta de caracteres " + palabra
+                        errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" Cadena incorrecta de caracteres " + palabra
                         #print("Cadena incorrecta de caracteres:",palabra)
 
         return errores
@@ -392,7 +396,7 @@ if __name__ == "__main__":
     objecto = Lexico()
     
     
-    texto = " 'Dame un dato entero: ' ;"
+    texto = " START \n 'Dame un dato entero: ' ; \n END \n START"
     objecto.analizar(texto)
     #print(objecto.porcentaje_numeros(text))
     #print(objecto.parecido_palabra_reservada(text) )
