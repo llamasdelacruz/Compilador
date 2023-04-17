@@ -1,7 +1,10 @@
 START
 INT $hola , # como estas , ;
 $hola = 22 + 3 ;
-OUTPUT 'Hola' ;
-INPUT $martina ;
-
+OUTPUT 'Dame un dato entero: ' ;
+INPUT $a ;
+OUTPUT 'Dame otro dato entero: ' ;
+INPUT $b ;
+$suma = $a * $b + 25.3 - 103 ;
+OUTPUT 'suma=' , $suma ;
 END

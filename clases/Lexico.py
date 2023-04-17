@@ -138,17 +138,19 @@ class Lexico():
                     self.agregar_tokens("#","Caracter",lineas.index(linea)+1)
                     break
                 #vemos si es texto 
-                elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'"):
+                elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'" or palabra == "'"):
+                    linea22 = lineas.index(linea)+1
                     
-                    self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
 
-                    if(palabra[0] == "'" and palabra[-1] == "'"):
+                    if(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1):
                         self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
                     else:
+                        self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
                         if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
                             #print("inicio de string:",palabra)
                             abertura = 1
-                        elif(("'" == palabra and cierre == 0 and abertura == 1) or (palabra[-1] == "'" and cierre == 0 and abertura == 1)):
+                        elif(("'" == palabra and cierre == 0 and abertura == 1) or (palabra[-1] == "'" and cierre == 0 and abertura == 1) 
+                             or (palabra == "'" and cierre == 0 and abertura == 1)):
                             cierre = 1
                         else:
                             if(len(palabra) == 1):
@@ -389,14 +391,14 @@ if __name__ == "__main__":
     objecto = Lexico()
     
     
-    texto = "'hola' = 23 ; \n END"
+    texto = " 'Dame un dato entero: ' ;"
     objecto.analizar(texto)
     #print(objecto.porcentaje_numeros(text))
     #print(objecto.parecido_palabra_reservada(text) )
     #objecto.analizar(texto)
     #print(objecto.minusculas_todas(text))
     #print(m.isalnum())
-    #print(objecto.tabla_tokens)
+    print(objecto.tabla_tokens)
     
 
     
