@@ -144,6 +144,7 @@ class Lexico():
 
                     if(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1):
                         self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
+                        self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
                     else:
                         self.agregar_tokens("'","Caracter",lineas.index(linea)+1)
                         if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
