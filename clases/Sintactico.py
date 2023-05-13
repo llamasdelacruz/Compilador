@@ -13,7 +13,7 @@ class Sintactico():
         self.gramatica = {
 
             "programa":["START","sentencias","END"],
-            "sentencias":["","declaraVar","comentario","mensajePantalla","asignacion","operacion","obtenerDatosPantalla",
+            "sentencias":["declaraVar","comentario","mensajePantalla","asignacion","operacion","obtenerDatosPantalla",
                           ["declaraVar","sentencias"],["comentario","sentencias"],["mensajePantalla","sentencias"],
                            ["asignacion","sentencias"],["operacion","sentencias"],["obtenerDatosPantalla","sentencias"]
                            ],
