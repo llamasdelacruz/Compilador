@@ -1,19 +1,72 @@
-from difflib import SequenceMatcher
+import string
 class Sintactico():
     
     def __init__(self):
-        self.regla_1 ={}
+
+        self.parseo = {
+            "estado":[],
+            "apuntador":[],
+            "pila":[],
+            "sentencia_actual":[]
+        }
         
-    def crear_reglas(self,palabra):
-        cantidad_elementos = len(palabra)
-        for i in range(0,cantidad_elementos):
-            if(palabra[i]=="Programa"):
-                self.regla_1= {"n": i, "Programa":palabra[i], "complemento":["#"]}
-                print("Entre a la condicion")
-                
-        print("Esto es lo que llega a crear reglas",palabra)
-        print("Esto es lo que llega a crear reglas",self.regla_1)
+        self.gramatica = {
+
+            "programa":["START","sentencias","END"],
+            "sentencias":["","declaraVar","comentario","mensajePantalla","asignacion","operacion","obtenerDatosPantalla",
+                          ["declaraVar","sentencias"],["comentario","sentencias"],["mensajePantalla","sentencias"],
+                           ["asignacion","sentencias"],["operacion","sentencias"],["obtenerDatosPantalla","sentencias"]
+                           ],
+
+            "declaraVar":[["tipoDato","$","nomVar",";"],
+                          ["tipoDato","$","nomVar",",","$","nomVar",";"]
+                          ],
+            
+            "tipoDato":["INT","FLOAT","BOOLEAN","STRING","CHAR"],
+
+            "asignacion":[["$","nomVar","=","$","nomVar",";"],
+                          ["$","nomVar","=","numeros",";"],
+                          ["$","nomVar","=","operacion",";"],
+                          ["$","nomVar","=","TRUE",";"],
+                          ["$","nomVar","=","FALSE",";"]
+                         ],
+
+            "operacion":[["$","nomVar","operadores","$","nomVar",";"],
+                         ["$","nomVar","operadores","numeros",";"],
+                         ["numeros","operadores","numeros",";"],
+                         ["numeros","operadores","$","nomVar",";"]
+                         ],
+
+            "operdores":["+","-","*","/"],
+
+            "numeros":["numero",
+                        ["numero","numeros"],
+                        ["numero",".","numeros"]
+                       ],
+
+            "numero":["0","1","2","3","4","5","6","7","8","9"],
+
+            "numVar":["letraMinus",
+                      ["letraMinus","nomVar"]
+                      ],
+
+            "letraMinus":list(string.ascii_lowercase),
+
+            "comentario":["#","mensaje"],
+
+            "mensajePantalla":[["OUTPUT","'","mensaje","'",";"],
+                               ["OUTPUT","'","mensaje","'",",","$","nomVar",";"]
+                               ],
+
+            "obtenerDatosPantalla":["INPUT","$","nomVar",";"],
+
+            "mensaje":[]
+            
+        }
+        
+   
 
 if __name__ == "__main__":
     objecto = Sintactico()
-    objecto.crear_reglas()
+  
+   
