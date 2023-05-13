@@ -6,7 +6,7 @@ class Lexico():
         self.tabla_tokens = {}
         self.reservadas_minusculas = ["int","float","char","string","boolean","output","input","start","end"]
         self.regla_1 ={}
-    
+        
     def comprobar_palabras_reservadas(self,cadena):
         # nos dice si la palabra reservada es valida
         contador_palabras_reservadas=0
@@ -389,15 +389,7 @@ class Lexico():
         else:
             return False
     
-    def crear_reglas(self,palabra):
-        cantidad_elementos = len(palabra)
-        for i in range(0,cantidad_elementos):
-            if(palabra[i]=="Programa"):
-                self.regla_1= {"n": i, "Programa":palabra[i], "complemento":["#"]}
-                print("Entre a la condicion")
-                
-        print("Esto es lo que llega a crear reglas",palabra)
-        print("Esto es lo que llega a crear reglas",self.regla_1)
+   
     
    
 
