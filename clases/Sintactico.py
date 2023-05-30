@@ -70,7 +70,7 @@ class Sintactico():
         self.cadena = ["a","d","d","c","#"]
 
     def establecer_cadena(self,texto):
-        
+        pass
     def analizar(self):
         # realiza el analisis
 

@@ -29,6 +29,7 @@ class Control_interfaz_principal(QMainWindow):
         self.btn_lexico.clicked.connect(self.analizar_lexico)
         self.btn_limpiar.clicked.connect(self.limpiar)
         
+        self.areaTexto.textChanged.connect(self.cambio)
 
     def chooseFile(self):
         tipo = "archivo de datos (*.txt)"
@@ -49,17 +50,19 @@ class Control_interfaz_principal(QMainWindow):
         texto = self.areaTexto.toPlainText()
         lexico_obj = Lexico()
         errores = lexico_obj.analizar(texto)
-      
-        
 
         if(errores == "" and len(lexico_obj.tabla_tokens) > 0):
             self.consola.setPlainText("")
             self.cargar_ventana_token(lexico_obj.tabla_tokens)
+            self.btn_sintactico.setEnabled(True)
         else:
             self.consola.setPlainText("")
             self.consola.setPlainText(errores)
+            self.btn_sintactico.setEnabled(False)
 
-        
+    def cambio(self):
+        self.btn_sintactico.setEnabled(False)
+
     def limpiar(self):
         self.areaTexto.setPlainText("")
         self.consola.setPlainText("")
