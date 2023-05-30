@@ -4,7 +4,7 @@ class Lexico():
 
     def __init__(self):
         self.tabla_tokens = {}
-        self.reservadas_minusculas = ["int","float","char","string","boolean","output","input","start","end"]
+        self.reservadas_minusculas = ["int","float","char","string","boolean","output","input","start","end","true","false"]
         self.regla_1 ={}
         
     def comprobar_palabras_reservadas(self,cadena):
@@ -33,6 +33,12 @@ class Lexico():
             contador_palabras_reservadas+=1
 
         elif(cadena=="END"):
+            contador_palabras_reservadas+=1
+
+        elif(cadena=="TRUE"):
+            contador_palabras_reservadas+=1
+
+        elif(cadena=="FALSE"):
             contador_palabras_reservadas+=1
 
         else:
@@ -404,7 +410,7 @@ if __name__ == "__main__":
     #objecto.analizar(texto)
     #print(objecto.minusculas_todas(text))
     #print(m.isalnum())
-    print(objecto.tabla_tokens)
+   
     
 
     

@@ -6,10 +6,9 @@ class Sintactico():
 
         self.parseo = {
             "estado": "n",
-            "apuntador": 1,
-            "pila":Lista_p([],"pila"),
-            "sentencia_actual": Lista_p([Lista_p(["#"],"numeral")],"sentencia_actual"),
-            "lista_own":{}
+            "apuntador": 0,
+            "pila":[],
+            "sentencia": Lista_p([Lista_p(["#"],"numeral","sentencia")],"sentencia_actual")
         }
          
         """self.gramatica = {
@@ -70,7 +69,8 @@ class Sintactico():
         }
         self.cadena = ["a","d","d","c","#"]
 
-
+    def establecer_cadena(self,texto):
+        
     def analizar(self):
         # realiza el analisis
 

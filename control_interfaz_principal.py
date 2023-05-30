@@ -49,7 +49,7 @@ class Control_interfaz_principal(QMainWindow):
         texto = self.areaTexto.toPlainText()
         lexico_obj = Lexico()
         errores = lexico_obj.analizar(texto)
-        print(texto)
+      
         
 
         if(errores == "" and len(lexico_obj.tabla_tokens) > 0):
