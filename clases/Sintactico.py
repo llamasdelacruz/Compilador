@@ -240,7 +240,7 @@ class Sintactico():
 
             print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
 
-            apuntador +=1
+            apuntador = self.parseo["apuntador"]
         
 
    
