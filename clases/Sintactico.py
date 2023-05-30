@@ -82,7 +82,7 @@ class Sintactico():
         }
         self.parseo["sentencia"].append_start(Lista_p(["S"],"S" + str(self.parseo["apuntador"]),"pila"))
         print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
-        cadena_len = 22
+        cadena_len = len(self.cadena)
         apuntador = 0
         while(apuntador < cadena_len):
             print( str(apuntador+2),"##################################################################")
