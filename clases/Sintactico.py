@@ -69,8 +69,6 @@ class Sintactico():
         }
         self.cadena = ["a","d","d","c","#"]
 
-    def establecer_cadena(self,texto):
-        pass
     def analizar(self):
         # realiza el analisis
 
@@ -242,11 +240,61 @@ class Sintactico():
 
             apuntador = self.parseo["apuntador"]
         
+    def establecer_cadena(self,texto):
+
+        self.cadena = []
+        lineas = texto.split("\n")
+        for linea in lineas:
+            
+            palabras_linea = linea.split() # todas las palabras
+            abertura = 0
+            guardar_cadena = False
+            cadena = ""
+            cantidad_elementos = len(palabras_linea)
+
+            for i in range(0,cantidad_elementos):
+                palabra = palabras_linea[i]
+
+                # ver sin es un comentario
+                if(("#" == palabra or palabra[0] == "#") and guardar_cadena == False and abertura == 0):
+
+                    guardar_cadena = True
+                #ver si es texto
+                elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'" or palabra == "'"):
+
+                    if(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1):
+                        self.cadena.append(palabra)
+                        continue
+                    elif(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
+                       
+                        abertura = 1
+                        guardar_cadena = True
+
+                    elif(("'" == palabra and abertura == 1) or (palabra[-1] == "'" and abertura == 1)):
+                            
+                        abertura = 0
+                        guardar_cadena = False
+                        cadena += palabra 
+                        self.cadena.append(cadena)
+                        cadena = ""
+                        continue
+
+                if(guardar_cadena):
+
+                    cadena += palabra + " " 
+
+                if(cadena == ""):
+                    self.cadena.append(palabra)
+               
+            if(cadena != ""):
+                self.cadena.append(cadena)
+
 
    
 
 if __name__ == "__main__":
+    texto = " START #hola que hace \n 'Dame un dato entero: ' 'hola  $mmssasa' 23.34 $m ; \n END #eee que pedo ' d ' \n START"
     objecto = Sintactico()
-    objecto.analizar()
+    objecto.establecer_cadena(texto)
   
    
