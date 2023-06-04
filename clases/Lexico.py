@@ -184,17 +184,30 @@ class Lexico():
                             
                             if(palabra[-1] == "'" and len(palabra)>1):
 
-                                if(palabra[len(palabra)-2] != "'"):
+                                if(palabra[0] == "'" and palabra[1] != "'"):
+                                    # que no sea igual a esto ''
+                                    errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En caracter invalido " + palabra
+
+                                elif(palabra[len(palabra)-2] != "'"):
                                     # significa que no  escribio esto mmm'' 
                                     self.agregar_tokens("'","Caracter",numero_linea)
                                     cierre = 1
+                                
                             else:
                                 
                                 self.agregar_tokens("'","Caracter",numero_linea)
                                 cierre = 1
                         else:
+                           
                             if(abertura == 1):
-                                continue
+                                
+                                if(len(palabra) > 1):
+                                    #significa que es una palabra 'm
+
+                                    if(palabra[0] == "'" and palabra[1] != "'"):
+
+                                        errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En caracter invalido " + palabra
+                                
                             elif(len(palabra) == 1):
                                 #print("Caracter incorrecto",palabra)
                                 errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En caracter invalido " + palabra
@@ -435,8 +448,9 @@ if __name__ == "__main__":
     objecto = Lexico()
     
     
-    texto = " START \n 'Dame un dato entero: ' ; \n END \n START"
-    objecto.analizar(texto)
+    texto = " START \n ' m '' m'' ''m ' ; \n END \n START"
+    m = objecto.analizar(texto)
+    print(m)
     #print(objecto.porcentaje_numeros(text))
     #print(objecto.parecido_palabra_reservada(text) )
     #objecto.analizar(texto)
