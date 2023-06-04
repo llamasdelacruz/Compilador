@@ -11,54 +11,60 @@ class Sintactico():
             "sentencia": Lista_p([Lista_p(["#"],"numeral","sentencia")],"sentencia_actual")
         }
          
-        """self.gramatica = {
-
-            "programa":[["START","sentencias","END"]],
-            "sentencias":["declaraVar","comentario","mensajePantalla","asignacion","operacion","obtenerDatosPantalla",
-                          ["declaraVar","sentencias"],["comentario","sentencias"],["mensajePantalla","sentencias"],
-                           ["asignacion","sentencias"],["operacion","sentencias"],["obtenerDatosPantalla","sentencias"]
-                           ],
-
-            "declaraVar":[["tipoDato","nomVar",";"],
-                          ["tipoDato","nomVar",",","nomVar",";"]
-                          ],
-            
-            "tipoDato":["INT","FLOAT","BOOLEAN","STRING","CHAR"],
-
-            "asignacion":[["nomVar","=","nomVar",";"],
-                          ["nomVar","=","numeros",";"],
-                          ["nomVar","=","operacion",";"],
-                          ["nomVar","=","TRUE",";"],
-                          ["nomVar","=","FALSE",";"]
-                         ],
-
-            "operacion":[["nomVar","operadores","nomVar",";"],
-                         ["nomVar","operadores","numeros",";"],
-                         ["numeros","operadores","numeros",";"],
-                         ["numeros","operadores","nomVar",";"]
-                         ],
-
-            "operdores":["+","-","*","/"],
-
-            "numeros":[1],
-
-            "nomVar":[1],
-
-            "comentario":["#","mensaje"],
-
-            "mensajePantalla":[["OUTPUT","'","mensaje","'",";"],
-                               ["OUTPUT","'","mensaje","'",",","nomVar",";"]
-                               ],
-
-            "obtenerDatosPantalla":["INPUT","nomVar",";"],
-
-            "mensaje":[1]
-            
-        }"""
-
-
-        #self.cadena = ["START", "INT","$n",",","$I", ";", "END","#"]
         self.gramatica = {
+
+            "programa": [["START","sentencias","END"]],
+            "sentencias":[["declaraVar"],
+                          ["declaraVar","sentencias"],
+                          ["comentario"],
+                          ["comentario","sentencias"],
+                          ["asignacion"],
+                          ["asignacion","sentencias"],
+                          ["operacion"],
+                          ["operacion","sentencias"],
+                          ["mensajePantalla"],
+                          ["mensajePantalla","sentencias"],
+                          ["obtenerDato"],
+                          ["obtenerDato","sentenias"]
+                          ],
+            "declaraVar":[
+                            ["tipoDato","nomVar",";"],
+                            ["tipoDato","nomVar",",","nomVar",";"]
+                        ],
+            "tipoDato":[["INT"],["FLOAT"],["BOOLEAN"],["STRING"],["CHAR"]],
+            "asignacion":[
+                            ["nomVar","=","nomVar",";"],
+                            ["nomVar","=","numero",";"],
+                            ["nomVar","=","operacion",";"],
+                            ["nomVar","=","TRUE",";"],
+                            ["nomVar","=","FALSE",";"]
+                          ],
+
+            "operacion":[
+                        ["nomVar","operadores","nomVar",";"],
+                        ["nomVar","operadores","numeros",";"],
+                        ["numeros","operadores","numeros",";"],
+                        ["numeros","operadores","nomVar",";"]
+                         ],
+
+            "operadores":[["+"],["-"],["*"],["/"]],
+
+            "mensajePantalla":[
+                            ["OUTPUT","'","msj","'",";"],
+                            ["OUTPUT","'","msj","'",",","nomVar",";"]
+                        ],
+            
+            "comentario": [
+                           ["#","msj"],
+                           ["#"]
+                           ],
+            "obtenerDato":[["INPUT","nomVar",";"]],
+
+            "nomVar":[["$l"]]        
+        }
+
+        self.cadena = []
+        """self.gramatica = {
             "S":[["a","A","d"], 
                  ["a","B"]
                  ],
@@ -67,7 +73,7 @@ class Sintactico():
                  ["d","d","c"]
                  ]          
         }
-        self.cadena = ["a","d","d","c","#"]
+        self.cadena = ["a","d","d","c","#"]"""
 
     def analizar(self):
         # realiza el analisis
@@ -78,10 +84,11 @@ class Sintactico():
             "pila":[],
             "sentencia": Lista_p([Lista_p(["#"],"numeral","sentencia")],"sentencia_actual")
         }
-        self.parseo["sentencia"].append_start(Lista_p(["S"],"S" + str(self.parseo["apuntador"]),"pila"))
+        self.parseo["sentencia"].append_start(Lista_p(["programa"],"programa" + str(self.parseo["apuntador"]),"pila"))
         print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
         cadena_len = len(self.cadena)
         apuntador = 0
+    
         while(apuntador < cadena_len):
             print( str(apuntador+2),"##################################################################")
             if(self.parseo["estado"] == "n"):
@@ -89,7 +96,6 @@ class Sintactico():
                 
                 elemento = self.parseo["sentencia"][0][0]
                 nombre_padre = self.parseo["sentencia"][0].get_name_padre()
-        
             
                 
                 if(elemento in self.gramatica):
@@ -110,7 +116,7 @@ class Sintactico():
                             )
                         )
 
-                elif(elemento == self.cadena[self.parseo["apuntador"]] and elemento != "#"):
+                elif(elemento == self.cadena[self.parseo["apuntador"]] and nombre_padre != "sentencia" ):
 
                     # concordancioa de un simbolo 2
                     print("concordancia de un simbolo 2")
@@ -127,7 +133,7 @@ class Sintactico():
                     self.parseo["apuntador"] = self.parseo["apuntador"]+1
                 
 
-                elif(elemento == self.cadena[self.parseo["apuntador"]] and elemento == "#"):
+                elif(elemento == self.cadena[self.parseo["apuntador"]] and elemento == "#" and nombre_padre == "sentencia" ):
 
                     # terminacion con exito 3
                     print("terminacion con exito 3")
@@ -207,7 +213,7 @@ class Sintactico():
                         
                         self.parseo["estado"] = "n"
 
-                    elif(alternativa_elemento >= cantidad_alternativas_elemento and key_elemento == "S"):
+                    elif(alternativa_elemento >= cantidad_alternativas_elemento and key_elemento == "programa"):
                         # cuando no hay otra alternativa 6b
                         print("cuando no hay otra alternativa 6b")
                         print("la cadena no se acepta")
@@ -230,7 +236,7 @@ class Sintactico():
                         else:
                             self.parseo["sentencia"].append_start(
                             Lista_p(
-                                    key_elemento,"caja",nombre_padre_elemento
+                                    [key_elemento],"caja",nombre_padre_elemento
                                 )
                             )
 
@@ -241,60 +247,76 @@ class Sintactico():
             apuntador = self.parseo["apuntador"]
         
     def establecer_cadena(self,texto):
-
+        # crea la cadena que se va a utilizar en el retroceso
         self.cadena = []
         lineas = texto.split("\n")
         for linea in lineas:
             
             palabras_linea = linea.split() # todas las palabras
-            abertura = 0
-            guardar_cadena = False
-            cadena = ""
+            abertura = False
+            
             cantidad_elementos = len(palabras_linea)
 
             for i in range(0,cantidad_elementos):
                 palabra = palabras_linea[i]
 
-                # ver sin es un comentario
-                if(("#" == palabra or palabra[0] == "#") and guardar_cadena == False and abertura == 0):
+                if(abertura):
+                    
+                    if(palabra == "'"):
+                        abertura = False
+                        self.cadena.append("'")
 
-                    guardar_cadena = True
-                #ver si es texto
-                elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'" or palabra == "'"):
+                    elif(palabra[len(palabra)-2] != "'" and palabra[-1] == "'"):
+                        # significa que la cadena no es esta m'' si no esta m' y esa si puede cerrar 
+                        abertura = False
+                        self.cadena.append("'")
+                else:
+                    # ver sin es un comentario con msj
+                    if("#" == palabra or palabra[0] == "#"):
 
-                    if(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1):
+                        if(palabra == "#" and cantidad_elementos > i+1):
+                            self.cadena.append("#")
+                            self.cadena.append("msj")
+                        elif(palabra[0] == "#" and palabra != "#"):
+                            self.cadena.append("#")
+                            self.cadena.append("msj")
+                        else:
+                            self.cadena.append("#")
+                        break
+                        
+                    elif(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1 ):
+                        # significa que es una sola palabra como 'hola'
+                        self.cadena.append("'")
+                        self.cadena.append("msj")
+                        self.cadena.append("'")
+
+                    elif((palabra[0] == "'" and len(palabra)>1)):
+                        self.cadena.append("'")
+                        self.cadena.append("msj")
+                        abertura = True
+
+                    elif(palabra == "'"):
                         self.cadena.append(palabra)
-                        continue
-                    elif(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
-                       
-                        abertura = 1
-                        guardar_cadena = True
+                        self.cadena.append("msj")
+                        abertura = True
 
-                    elif(("'" == palabra and abertura == 1) or (palabra[-1] == "'" and abertura == 1)):
-                            
-                        abertura = 0
-                        guardar_cadena = False
-                        cadena += palabra 
-                        self.cadena.append(cadena)
-                        cadena = ""
-                        continue
+                    else:
+                        
+                        self.cadena.append(palabra)
+                
 
-                if(guardar_cadena):
-
-                    cadena += palabra + " " 
-
-                if(cadena == ""):
-                    self.cadena.append(palabra)
                
-            if(cadena != ""):
-                self.cadena.append(cadena)
 
+        self.cadena.append("#")
+        print(self.cadena)
+       
 
    
 
 if __name__ == "__main__":
-    texto = " START #hola que hace \n 'Dame un dato entero: ' 'hola  $mmssasa' 23.34 $m ; \n END #eee que pedo ' d ' \n START"
+    texto = " START #n \n  INT $l ; \n END" 
     objecto = Sintactico()
     objecto.establecer_cadena(texto)
+    objecto.analizar()
   
    
