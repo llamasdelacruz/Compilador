@@ -27,7 +27,7 @@ class Sintactico():
                           ["mensajePantalla"],
                           ["mensajePantalla","sentencias"],
                           ["obtenerDato"],
-                          ["obtenerDato","sentenias"]
+                          ["obtenerDato","sentencias"]
                           ],
             "declaraVar":[
                             ["tipoDato","nomVar",";"],
