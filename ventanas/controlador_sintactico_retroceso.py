@@ -32,6 +32,7 @@ class Control_ventana_sintactico(QDialog):
     def llenar_consola(self):
         
         self.consola_retroceso.setPlainText(self.resultado)
+    
 
 
     def closeEvent(self, event):

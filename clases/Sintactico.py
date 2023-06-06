@@ -1,5 +1,7 @@
-from Lista_Personalizada import Lista_p
-from String_Personalizado import String_p
+from clases.Lista_Personalizada import Lista_p
+from clases.String_Personalizado import String_p
+import random
+
 class Sintactico():
     
     def __init__(self):
@@ -34,17 +36,18 @@ class Sintactico():
             "tipoDato":[["INT"],["FLOAT"],["BOOLEAN"],["STRING"],["CHAR"]],
             "asignacion":[
                             ["nomVar","=","nomVar",";"],
-                            ["nomVar","=","numero",";"],
+                            ["nomVar","=","numeros",";"],
                             ["nomVar","=","operacion",";"],
                             ["nomVar","=","TRUE",";"],
                             ["nomVar","=","FALSE",";"]
                           ],
 
             "operacion":[
-                        ["nomVar","operadores","nomVar",";"],
-                        ["nomVar","operadores","numeros",";"],
-                        ["numeros","operadores","numeros",";"],
-                        ["numeros","operadores","nomVar",";"]
+                        ["nomVar","operadores","nomVar"],
+                        ["nomVar","operadores","numeros"],
+                        ["numeros","operadores","nomVar"],
+                        ["numeros","operadores","numeros"]
+                        
                          ],
 
             "operadores":[["+"],["-"],["*"],["/"]],
@@ -60,20 +63,14 @@ class Sintactico():
                            ],
             "obtenerDato":[["INPUT","nomVar",";"]],
 
-            "nomVar":[["$l"]]        
+            "nomVar":[[]],
+
+            "numeros":[[]]     
         }
 
         self.cadena = []
-        """self.gramatica = {
-            "S":[["a","A","d"], 
-                 ["a","B"]
-                 ],
-            "A":["c","d"],
-            "B":[["c","c","d"],
-                 ["d","d","c"]
-                 ]          
-        }
-        self.cadena = ["a","d","d","c","#"]"""
+        self.resultados = ""
+       
 
     def analizar(self):
         # realiza el analisis
@@ -85,14 +82,18 @@ class Sintactico():
             "sentencia": Lista_p([Lista_p(["#"],"numeral","sentencia")],"sentencia_actual")
         }
         self.parseo["sentencia"].append_start(Lista_p(["programa"],"programa" + str(self.parseo["apuntador"]),"pila"))
-        print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
+        self.resultados = ""
+        self.resultados += "\n" + self.parseo["estado"]+ "    " + str((self.parseo["apuntador"]+1)) + "    " + str(self.parseo["pila"]) + "    " + str(self.parseo["sentencia"])
+        #print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
         cadena_len = len(self.cadena)
         apuntador = 0
-    
+        event = ""
+
         while(apuntador < cadena_len):
-            print( str(apuntador+2),"##################################################################")
+            #print( str(apuntador+2),"##################################################################")
             if(self.parseo["estado"] == "n"):
 
+                # indica el evento
                 
                 elemento = self.parseo["sentencia"][0][0]
                 nombre_padre = self.parseo["sentencia"][0].get_name_padre()
@@ -100,26 +101,36 @@ class Sintactico():
                 
                 if(elemento in self.gramatica):
                     # expansion del arbol 1
-                    print("expansion del arbol 1")
-                    if(self.parseo["sentencia"][0][-1] == elemento):
-
+                    event = "expansion del arbol 1"
+                    #print("expansion del arbol 1")
+                    if(self.parseo["sentencia"][0][-1] == elemento and len(self.parseo["sentencia"][0]) == 1):
+                      
                         self.parseo["sentencia"].remove_start()
                     else:
                         self.parseo["sentencia"][0].remove_start()
 
-                    nombre_elemento = elemento + str(0)
+                    nombre_elemento = elemento + str(random.uniform(100, 200))
                     self.parseo["pila"].append(Lista_p([elemento,0],nombre_elemento,nombre_padre))
 
+                    producto = self.gramatica[elemento][0]
+
+                    if(elemento == "nomVar" or elemento == "numeros"):
+                        producto = [self.gramatica[elemento][0][0]]
+
+                        if(producto[0] != "undefined"):
+                            self.gramatica[elemento][0].remove_start()
+                  
                     self.parseo["sentencia"].append_start(
                         Lista_p(
-                                self.gramatica[elemento][0],"caja",nombre_elemento
+                                producto,"caja",nombre_elemento
                             )
                         )
 
                 elif(elemento == self.cadena[self.parseo["apuntador"]] and nombre_padre != "sentencia" ):
 
                     # concordancioa de un simbolo 2
-                    print("concordancia de un simbolo 2")
+                    event = "concordancia de un simbolo 2"
+                    #print("concordancia de un simbolo 2")
                     if(self.parseo["sentencia"][0][-1] == elemento):
 
                         self.parseo["sentencia"].remove_start()
@@ -136,7 +147,8 @@ class Sintactico():
                 elif(elemento == self.cadena[self.parseo["apuntador"]] and elemento == "#" and nombre_padre == "sentencia" ):
 
                     # terminacion con exito 3
-                    print("terminacion con exito 3")
+                    event = "terminacion con exito 3"
+                    #print("terminacion con exito 3")
                     if(self.parseo["sentencia"][0][-1] == elemento):
 
                         self.parseo["sentencia"].remove_start()
@@ -147,11 +159,13 @@ class Sintactico():
                     self.parseo["apuntador"] = self.parseo["apuntador"]+1
                     self.parseo["sentencia"].append_start([""])
 
-                    print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
+                    self.resultados += "\n" + event + "\n"+ self.parseo["estado"] + "    " + str((self.parseo["apuntador"]+1)) + "    " + str(self.parseo["pila"]) + "    " + str(self.parseo["sentencia"])
+                    #print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
                     break
                 elif(elemento != self.cadena[self.parseo["apuntador"]]):
                     # no concordancia de un simbolo 4
-                    print("NO!!!! concordancia de un simbolo 4")
+                    event  = "NO!!!! concordancia de un simbolo 4"
+                    #print("NO!!!! concordancia de un simbolo 4")
                     self.parseo["estado"] = "r"
                     
             else:
@@ -162,7 +176,8 @@ class Sintactico():
                 if(type(elemento) is String_p):
 
                     # retroceso a la entrada 5
-                    print("retroceso a la entrada 5")
+                    event = "retroceso a la entrada 5"
+                    #print("retroceso a la entrada 5")
                     nombre_padre_elemento = self.parseo["pila"][-1].get_name_padre()
                     
                     self.parseo["pila"].pop()
@@ -183,18 +198,20 @@ class Sintactico():
 
                 else:
                     # siguiente alternativa 6
-                    print("siguiente alternativa 6")
+                    
+                    #print("siguiente alternativa 6")
                     key_elemento = elemento[0]
                     nombre_elemento_caja_old = elemento.get_name()
                     nombre_padre_elemento = elemento.get_name_padre()
                     alternativa_elemento = elemento[1]+1
-                    nombre_elemento_caja_new = key_elemento + str(alternativa_elemento)
+                    nombre_elemento_caja_new = key_elemento + str(random.uniform(100, 200))
                     
                     cantidad_alternativas_elemento = len(self.gramatica[key_elemento])
 
                     if(alternativa_elemento < cantidad_alternativas_elemento):
                         # si es que hay otra alternativa 6a
-                        print("si es que hay otra alternativa 6a")
+                        event = "si es que hay otra alternativa 6a"
+                        #print("si es que hay otra alternativa 6a")
                         # cambia el el nombre de la caja del elemeto
                         self.parseo["pila"][-1].set_name(nombre_elemento_caja_new)
                         # le suma uno a la alternativa
@@ -215,17 +232,28 @@ class Sintactico():
 
                     elif(alternativa_elemento >= cantidad_alternativas_elemento and key_elemento == "programa"):
                         # cuando no hay otra alternativa 6b
-                        print("cuando no hay otra alternativa 6b")
-                        print("la cadena no se acepta")
+                        event = "cuando no hay otra alternativa 6b, la cadena no se acepta"
+                        #print("cuando no hay otra alternativa 6b")
+                        #print("la cadena no se acepta")
                         self.parseo["estado"] = "e"
-                        print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
+                        self.resultados += "\n" + event +"\n" + self.parseo["estado"] + "   " +str((self.parseo["apuntador"]+1)) + "    " +str(self.parseo["pila"]) + "    " + str(self.parseo["sentencia"])
+                        #print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
                         break
                     else:
+                        
                         # retroceso a la entrada 6c
-                        print("retroceso a la entrada 6c")
+                        event = "retroceso a la entrada 6c"
+                        #print("retroceso a la entrada 6c")
                         self.parseo["pila"].pop()
 
                         if(nombre_padre_caja == nombre_elemento_caja_old):
+
+                            if(key_elemento == "nomVar" or key_elemento == "numeros"):
+
+                                if(self.parseo["sentencia"][0][0] != "undefined"):
+                                    # si en el cuadrito que produjo nomVar no esta undefined entonces regresa la variable a la lista
+                                    self.gramatica[key_elemento][0].append_start(str(self.parseo["sentencia"][0][0]))
+
 
                             self.parseo["sentencia"].remove_start()
 
@@ -241,8 +269,8 @@ class Sintactico():
                             )
 
     
-
-            print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
+            self.resultados += "\n" + event + "\n"  + self.parseo["estado"] + "   " + str((self.parseo["apuntador"]+1)) + "   " + str(self.parseo["pila"]) + "   " +str(self.parseo["sentencia"])
+            #print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
 
             apuntador = self.parseo["apuntador"]
         
@@ -250,6 +278,9 @@ class Sintactico():
         # crea la cadena que se va a utilizar en el retroceso
         self.cadena = []
         lineas = texto.split("\n")
+        self.gramatica["nomVar"][0] = Lista_p("","nombre variables","gramatica")
+        self.gramatica["numeros"][0] = Lista_p("","numeros","gramatica")
+        
         for linea in lineas:
             
             palabras_linea = linea.split() # todas las palabras
@@ -303,18 +334,45 @@ class Sintactico():
                     else:
                         
                         self.cadena.append(palabra)
-                
+                        if(palabra[0]  == "$"):
+                            self.gramatica["nomVar"][0].append(palabra)
+                        elif(palabra.isdigit() or self.decimales(palabra)):
+                            self.gramatica["numeros"][0].append(palabra)
 
-               
-
+        self.gramatica["nomVar"][0].append("undefined")
+        self.gramatica["numeros"][0].append("undefined")
         self.cadena.append("#")
-        print(self.cadena)
-       
+        #print(self.gramatica["nomVar"][0])
+        #print(self.gramatica["numeros"][0])
+        #print(self.cadena)
+
+    def decimales(self,cadena):
+
+        punto = 0
+        bandera = True
+        for i in range(len(cadena)):
+            
+            if(cadena[i].isdigit() == False and cadena[i] != "."):
+                bandera = False
+                break
+
+            if(cadena[i] == '.' and i == 0 or cadena[i] == '.' and i == len(cadena)-1):
+                bandera = False
+                punto +=1
+                break
+            if(i > 0 and punto == 0 and cadena[i] == "."):
+                punto = 1
+            elif(i > 0 and punto == 1 and cadena[i] == "."):
+                bandera = False
+                punto +=1
+                break
+                
+        return bandera        
 
    
 
 if __name__ == "__main__":
-    texto = " START #n \n  INT $l ; \n END" 
+    texto = " START \n INT $suma , $l ; FLOAT $j ; \n $suma = 33.2 + 33.2 ; # hola\n END" 
     objecto = Sintactico()
     objecto.establecer_cadena(texto)
     objecto.analizar()
