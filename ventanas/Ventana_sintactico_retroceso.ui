@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1178</width>
-    <height>813</height>
+    <width>1008</width>
+    <height>690</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QScrollArea" name="scrollArea">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>1161</width>
-     <height>801</height>
+     <x>0</x>
+     <y>0</y>
+     <width>1001</width>
+     <height>681</height>
     </rect>
    </property>
    <property name="widgetResizable">
@@ -30,8 +30,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1159</width>
-      <height>799</height>
+      <width>999</width>
+      <height>679</height>
      </rect>
     </property>
     <widget class="QPlainTextEdit" name="consola_retroceso">
@@ -39,8 +39,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>1161</width>
-       <height>811</height>
+       <width>1001</width>
+       <height>681</height>
       </rect>
      </property>
      <property name="palette">
