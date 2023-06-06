@@ -46,7 +46,24 @@ class Sintactico():
                         ["nomVar","operadores","nomVar"],
                         ["nomVar","operadores","numeros"],
                         ["numeros","operadores","nomVar"],
-                        ["numeros","operadores","numeros"]
+                        ["numeros","operadores","numeros"],
+
+                        ["nomVar","operadores","nomVar", "operadores","nomVar"],
+                        ["nomVar","operadores","nomVar", "operadores","numeros"],
+                        ["nomVar","operadores","numeros","operadores","nomVar"],
+                        ["nomVar","operadores","numeros","operadores","numeros"],
+                        ["numeros","operadores","nomVar", "operadores","nomVar"],
+                        ["numeros","operadores","nomVar", "operadores","numeros"],
+                        ["numeros","operadores","numeros", "operadores","nomVar"],
+                        ["numeros","operadores","numeros", "operadores","numeros"],
+
+                        ["nomVar","operadores","nomVar","operadores","operacion"],
+                        ["nomVar","operadores","numeros","operadores","operacion"],
+                        ["numeros","operadores","nomVar","operadores","operacion"],
+                        ["numeros","operadores","numeros","operadores","operacion"],
+
+                        
+                        
                         
                          ],
 
