@@ -422,7 +422,7 @@ class Lexico():
         for index in range(0,largo):
         
             palabra = lista[index]
-            if(palabra == "'" or (palabra[0] == "'" and palabra[-1] != "'")):
+            if(palabra == "'" or (palabra[0] == "'" and palabra[-1] != "'") or palabra == "''"):
 
                 if(index == 1):
                     posicion_inicio = 0
@@ -435,7 +435,7 @@ class Lexico():
         
             palabra = lista[index]
 
-            if(palabra == "'" or (palabra[-1] == "'" and palabra[0] != "'")):
+            if(palabra == "'" or (palabra[-1] == "'" and palabra[0] != "'") or palabra == "''"):
                 posicion_fin = index
                 break
 

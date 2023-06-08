@@ -338,10 +338,6 @@ class Sintactico():
                         self.cadena.append("'")
                         self.cadena.append("msj")
                         self.cadena.append("'")
-                    elif(palabra == "''" ):
-                        # significa que es una sola palabra como ''
-                        self.cadena.append("'")
-                        self.cadena.append("'")
 
                     elif((palabra[0] == "'" and len(palabra)>1)):
                         self.cadena.append("'")
@@ -411,7 +407,7 @@ class Sintactico():
         
             palabra = lista[index]
 
-            if(palabra == "'" or (palabra[0] == "'" and palabra[-1] != "'")):
+            if(palabra == "'" or (palabra[0] == "'" and palabra[-1] != "'") or palabra == "''"):
 
                 if(index == 1):
                     posicion_inicio = 0
@@ -425,7 +421,7 @@ class Sintactico():
         
             palabra = lista[index]
 
-            if(palabra == "'" or (palabra[-1] == "'" and palabra[0] != "'")):
+            if(palabra == "'" or (palabra[-1] == "'" and palabra[0] != "'") or palabra == "''"):
                 posicion_fin = index
                 break
 
@@ -435,7 +431,7 @@ class Sintactico():
    
 
 if __name__ == "__main__":
-    texto = " START \n INT $suma , $l ; FLOAT $j ; \n OUTPUT  '$suma = 33.2 + 33.2 ' ; # hola\n END" 
+    texto = " START \n INT $suma , $l ; FLOAT $j ; \n OUTPUT  ' $suma = 33.2 + 33.2' ; # hola\n END" 
     objecto = Sintactico()
     objecto.establecer_cadena(texto)
     objecto.analizar()
