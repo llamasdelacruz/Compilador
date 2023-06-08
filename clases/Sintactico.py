@@ -1,5 +1,5 @@
-from clases.Lista_Personalizada import Lista_p
-from clases.String_Personalizado import String_p
+from Lista_Personalizada import Lista_p
+from String_Personalizado import String_p
 import random
 
 class Sintactico():
@@ -305,7 +305,8 @@ class Sintactico():
             
             cantidad_elementos = len(palabras_linea)
 
-            for i in range(0,cantidad_elementos):
+            i = 0
+            while(i < cantidad_elementos):
                 palabra = palabras_linea[i]
 
                 if(abertura):
@@ -314,8 +315,8 @@ class Sintactico():
                         abertura = False
                         self.cadena.append("'")
 
-                    elif(palabra[len(palabra)-2] != "'" and palabra[-1] == "'"):
-                        # significa que la cadena no es esta m'' si no esta m' y esa si puede cerrar 
+                    elif(palabra[-1] == "'"):
+                        # m'
                         abertura = False
                         self.cadena.append("'")
                 else:
@@ -332,10 +333,14 @@ class Sintactico():
                             self.cadena.append("#")
                         break
                         
-                    elif(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1 ):
+                    elif(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1 and palabra[1] != "'" ):
                         # significa que es una sola palabra como 'hola'
                         self.cadena.append("'")
                         self.cadena.append("msj")
+                        self.cadena.append("'")
+                    elif(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1 and palabra[1] == "'" ):
+                        # significa que es una sola palabra como ''
+                        self.cadena.append("'")
                         self.cadena.append("'")
 
                     elif((palabra[0] == "'" and len(palabra)>1)):
@@ -351,17 +356,29 @@ class Sintactico():
                     else:
                         
                         self.cadena.append(palabra)
+
+                        if(palabra == "OUTPUT"):
+                            inicio_string, fin_string = self.es_estring(cantidad_elementos,palabras_linea)
+                            if((inicio_string == fin_string and fin_string != -1) or 
+                                (inicio_string == -1 and fin_string != -1)):
+                                i = fin_string
+                                self.cadena.append("msj")
+                                self.cadena.append("'")
+                                
                         if(palabra[0]  == "$"):
                             self.gramatica["nomVar"][0].append(palabra)
                         elif(palabra.isdigit() or self.decimales(palabra)):
                             self.gramatica["numeros"][0].append(palabra)
+                i += 1
+
+                    
 
         self.gramatica["nomVar"][0].append("undefined")
         self.gramatica["numeros"][0].append("undefined")
         self.cadena.append("#")
         #print(self.gramatica["nomVar"][0])
         #print(self.gramatica["numeros"][0])
-        #print(self.cadena)
+        print(self.cadena)
 
     def decimales(self,cadena):
 
@@ -384,12 +401,36 @@ class Sintactico():
                 punto +=1
                 break
                 
-        return bandera        
+        return bandera   
+
+    def es_estring(self,largo,lista):
+          
+        posicion_inicio = -1
+        posicion_fin = -1
+        for index in range(0,largo):
+        
+            palabra = lista[index]
+
+            if(palabra == "'" or (palabra[0] == "'" and palabra[-1] != "'")):
+                posicion_inicio = index
+                break
+
+        inicio = largo-1         
+        for index in range(inicio,-1,-1):
+        
+            palabra = lista[index]
+
+            if(palabra == "'" or (palabra[-1] == "'" and palabra[0] != "'")):
+                posicion_fin = index
+                break
+
+        return posicion_inicio,posicion_fin
+         
 
    
 
 if __name__ == "__main__":
-    texto = " START \n INT $suma , $l ; FLOAT $j ; \n $suma = 33.2 + 33.2 ; # hola\n END" 
+    texto = " START \n INT $suma , $l ; FLOAT $j ; \n OUTPUT  '$suma = 33.2 + 33.2 ' ; # hola\n END" 
     objecto = Sintactico()
     objecto.establecer_cadena(texto)
     objecto.analizar()
