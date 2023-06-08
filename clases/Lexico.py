@@ -147,24 +147,25 @@ class Lexico():
                     #print("No se analiza es un comentario:"+ palabra)
                     self.agregar_tokens("#","Caracter",numero_linea)
                     break
-                #vemos si es texto 
+
                 elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'" or palabra == "'"):
-
-                    if(palabra[0] == "'" and palabra[-1] == "'" and palabra != "'"):
+                    
+                    if(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1 and palabra != "''"):
                         self.agregar_tokens("'","Caracter",numero_linea)
                         self.agregar_tokens("'","Caracter",numero_linea)
-                    elif((palabra == "'" and abertura == 0) or (palabra[0] == "'" and abertura == 0)):
+                    else:
                         self.agregar_tokens("'","Caracter",numero_linea)
-                        abertura = 1
+                        if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
+                            #print("inicio de string:",palabra)
+                            abertura = 1
+                        elif(("'" == palabra and cierre == 0 and abertura == 1) or (palabra[-1] == "'" and cierre == 0 and abertura == 1) 
+                             or (palabra == "'" and cierre == 0 and abertura == 1)):
+                            cierre = 1
 
-                    elif((palabra == "'" and abertura == 1 and cierre == 0) or (palabra[-1] == "'" and abertura == 1 and cierre == 0)):
-                        self.agregar_tokens("'","Caracter",numero_linea)
-                        cierre = 1
-
-                    if(cierre == 1 and abertura == 1):
-                        abertura = 0
-                        cierre = 0
-
+                        if(abertura == 1 and cierre == 1):
+                            abertura = 0
+                            cierre = 0
+                            #print("fin de string:",palabra)
                 elif(abertura == 1):
 
                     i += 1
@@ -421,11 +422,14 @@ class Lexico():
         for index in range(0,largo):
         
             palabra = lista[index]
-
             if(palabra == "'" or (palabra[0] == "'" and palabra[-1] != "'")):
-                posicion_inicio = index
-                break
 
+                if(index == 1):
+                    posicion_inicio = 0
+                else:
+                    posicion_inicio = index
+                break
+            
         inicio = largo-1         
         for index in range(inicio,-1,-1):
         
@@ -448,10 +452,11 @@ if __name__ == "__main__":
     objecto = Lexico()
     
     
-    texto = " START \n OUTPUT juan hola' ; \n END"
+    texto = " START \n OUTPUT ' juan hola  ; \n END"
 
     m = objecto.analizar(texto)
     print(m)
+    print(objecto.tabla_tokens)
 
     #print(objecto.porcentaje_numeros(text))
     #print(objecto.parecido_palabra_reservada(text) )

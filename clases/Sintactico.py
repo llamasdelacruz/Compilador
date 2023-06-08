@@ -333,12 +333,12 @@ class Sintactico():
                             self.cadena.append("#")
                         break
                         
-                    elif(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1 and palabra[1] != "'" ):
+                    elif(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1 and palabra != "''" ):
                         # significa que es una sola palabra como 'hola'
                         self.cadena.append("'")
                         self.cadena.append("msj")
                         self.cadena.append("'")
-                    elif(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1 and palabra[1] == "'" ):
+                    elif(palabra == "''" ):
                         # significa que es una sola palabra como ''
                         self.cadena.append("'")
                         self.cadena.append("'")
@@ -412,7 +412,12 @@ class Sintactico():
             palabra = lista[index]
 
             if(palabra == "'" or (palabra[0] == "'" and palabra[-1] != "'")):
-                posicion_inicio = index
+
+                if(index == 1):
+                    posicion_inicio = 0
+                else:
+                    posicion_inicio = index
+
                 break
 
         inicio = largo-1         
