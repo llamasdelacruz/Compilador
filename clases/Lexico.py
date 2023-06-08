@@ -135,9 +135,11 @@ class Lexico():
             abertura = 0
             cierre = 0
             cantidad_elementos = len(palabras_linea)
-            hay_output = False
+       
             numero_linea += 1
-            for i in range(0,cantidad_elementos):
+            i = 0
+            while(i < cantidad_elementos):
+            
                 palabra = palabras_linea[i]
                
                 #vemos si es un comentario
@@ -146,66 +148,28 @@ class Lexico():
                     self.agregar_tokens("#","Caracter",numero_linea)
                     break
                 #vemos si es texto 
-                elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'" or palabra == "'" or hay_output):
-                    
-                    
-                    if(palabra[0] == "'" and palabra[-1] == "'" and len(palabra) > 1 and abertura == 0):
+                elif("'" == palabra or palabra[0] == "'" or palabra[-1] == "'" or palabra == "'"):
 
-                        if(len(palabra) == 2):
-                            # significa que es este simbolo ''
-                            pass
-                        elif(palabra[1] == "'" or palabra[len(palabra)-2] == "'"):
-                           # si es igual a esto ''m' no esta bien
-                           pass
-                        else:
-                            self.agregar_tokens("'","Caracter",numero_linea)
-                            self.agregar_tokens("'","Caracter",numero_linea)
-                            
-                    else:
-                       
-                        if(("'" == palabra and abertura == 0) or (palabra[0] == "'" and abertura == 0) ):
-                            #print("inicio de string:",palabra)
-                            if(palabra[0] == "'" and len(palabra)>1):
+                    if(palabra[0] == "'" and palabra[-1] == "'" and palabra != "'"):
+                        self.agregar_tokens("'","Caracter",numero_linea)
+                        self.agregar_tokens("'","Caracter",numero_linea)
+                    elif((palabra == "'" and abertura == 0) or (palabra[0] == "'" and abertura == 0)):
+                        self.agregar_tokens("'","Caracter",numero_linea)
+                        abertura = 1
 
-                                if(palabra[1] == "'"):
-                                    # significa que escribio esto ''mmm
-                                    pass
-                                
-                                else:
-                                    self.agregar_tokens("'","Caracter",numero_linea)
-                                    abertura = 1
-                            else:
-                                #significa que es ' solito
-                                self.agregar_tokens("'","Caracter",numero_linea)
-                                abertura = 1
+                    elif((palabra == "'" and abertura == 1 and cierre == 0) or (palabra[-1] == "'" and abertura == 1 and cierre == 0)):
+                        self.agregar_tokens("'","Caracter",numero_linea)
+                        cierre = 1
 
-                        elif(("'" == palabra and cierre == 0 and abertura == 1) or (palabra[-1] == "'" and cierre == 0 and abertura == 1) 
-                             or (palabra == "'" and cierre == 0 and abertura == 1)):
-                            
-                            if(palabra[-1] == "'" and len(palabra)>1):
-
-                                if(palabra[0] == "'" and palabra[1] != "'"):
-                                    # que no sea igual a esto ''
-                                    pass
-
-                                elif(palabra[len(palabra)-2] != "'"):
-                                    # significa que no  escribio esto mmm'' 
-                                    self.agregar_tokens("'","Caracter",numero_linea)
-                                    cierre = 1
-                                
-                            else:
-                                
-                                self.agregar_tokens("'","Caracter",numero_linea)
-                                cierre = 1
-                        
-
-                        if(abertura == 1 and cierre == 1):
-                            abertura = 0
-                            cierre = 0
-                            #print("fin de string:",palabra)
+                    if(cierre == 1 and abertura == 1):
+                        abertura = 0
+                        cierre = 0
 
                 elif(abertura == 1):
+
+                    i += 1
                     continue
+                   
         
                 # para evaluar operadores
                 elif(palabra == "+" or palabra.count("+") == len(palabra) or 
@@ -253,7 +217,11 @@ class Lexico():
                                     if(self.comprobar_palabras_reservadas(palabra)):
                                         self.agregar_tokens(palabra,"Palabra reservada",numero_linea)
                                         if(palabra == "OUTPUT"):
-                                            hay_output = True
+                                            inicio_string, fin_string = self.es_estring(cantidad_elementos,palabras_linea)
+                                            if((inicio_string == fin_string and fin_string != -1) or 
+                                              (inicio_string == -1 and fin_string != -1)):
+                                                i = fin_string
+                                                self.agregar_tokens("'","Caracter",numero_linea)
                                     else:
                                        errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En palabra reservada " + palabra
                                     #print("Es una palabra reservada:",palabra)
@@ -270,7 +238,11 @@ class Lexico():
                             if(self.comprobar_palabras_reservadas(palabra)):
                                 self.agregar_tokens(palabra,"Palabra reservada",numero_linea)
                                 if(palabra == "OUTPUT"):
-                                        hay_output = True
+                                    inicio_string, fin_string = self.es_estring(cantidad_elementos,palabras_linea)
+                                    if((inicio_string == fin_string and fin_string != -1) or 
+                                    (inicio_string == -1 and fin_string != -1)):
+                                        i = fin_string
+                                        self.agregar_tokens("'","Caracter",numero_linea)
                             else:
                                 errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En palabra reservada " + palabra
                                 #print('Error de palabra reservada:',palabra)
@@ -280,7 +252,14 @@ class Lexico():
                         if(self.comprobar_palabras_reservadas(palabra)):
                             self.agregar_tokens(palabra,"Palabra reservada",numero_linea)
                             if(palabra == "OUTPUT"):
-                                hay_output = True
+                                inicio_string, fin_string = self.es_estring(cantidad_elementos,palabras_linea)
+
+                                if((inicio_string == fin_string and fin_string != -1) or 
+                                   (inicio_string == -1 and fin_string != -1)):
+                                    i = fin_string
+                                    self.agregar_tokens("'","Caracter",numero_linea)
+
+
                         else:
 
                             errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" En palabra reservada " + palabra
@@ -318,6 +297,10 @@ class Lexico():
                     else:
                         errores += "\n Error de léxico !!!!! En línea "+ str(numero_linea) +" Cadena incorrecta de caracteres " + palabra
                         #print("Cadena incorrecta de caracteres:",palabra)
+                
+                i +=1
+             
+            
 
         return errores
 
@@ -431,16 +414,45 @@ class Lexico():
             return False
     
    
+    def es_estring(self,largo,lista):
+          
+        posicion_inicio = -1
+        posicion_fin = -1
+        for index in range(0,largo):
+        
+            palabra = lista[index]
+
+            if(palabra == "'" or (palabra[0] == "'" and palabra[-1] != "'")):
+                posicion_inicio = index
+                break
+
+        inicio = largo-1         
+        for index in range(inicio,-1,-1):
+        
+            palabra = lista[index]
+
+            if(palabra == "'" or (palabra[-1] == "'" and palabra[0] != "'")):
+                posicion_fin = index
+                break
+
+        return posicion_inicio,posicion_fin
     
+        
+
+        
+
+
    
 
 if __name__ == "__main__":
     objecto = Lexico()
     
     
-    texto = " START \n ' m '' m'' ''m ' ; \n END \n START"
+    texto = " START \n OUTPUT juan hola' ; \n END"
+
     m = objecto.analizar(texto)
     print(m)
+
     #print(objecto.porcentaje_numeros(text))
     #print(objecto.parecido_palabra_reservada(text) )
     #objecto.analizar(texto)
