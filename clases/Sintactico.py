@@ -1,5 +1,5 @@
-from Lista_Personalizada import Lista_p
-from String_Personalizado import String_p
+from clases.Lista_Personalizada import Lista_p
+from clases.String_Personalizado import String_p
 import random
 
 class Sintactico():
