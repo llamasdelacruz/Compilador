@@ -374,7 +374,7 @@ class Sintactico():
         self.cadena.append("#")
         #print(self.gramatica["nomVar"][0])
         #print(self.gramatica["numeros"][0])
-        print(self.cadena)
+        #print(self.cadena)
 
     def decimales(self,cadena):
 
