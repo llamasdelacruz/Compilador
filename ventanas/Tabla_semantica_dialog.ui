@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1110</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tabla semántica</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>6</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>9</number>
+   </property>
+   <property name="rightMargin">
+    <number>9</number>
+   </property>
+   <property name="bottomMargin">
+    <number>9</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QTableWidget" name="mitabla">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1101</width>
+        <height>641</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI Historic</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget{
+         background-color:#ffffff;
+
+		color:#000000;
+}
+
+QHeaderView::section{
+
+       background-color:#5555ff;
+	   padding:2px;
+ 	
+      border:1px solid #fffff8;
+	  font-size:14pt;
+	  color:#ffffff;
+
+}
+
+QTableWitget{
+    
+     gridline-color:#ff00ff;
+     font-size:14pt;
+
+}
+QTableWitget::th,td{
+    
+     max-width: 150px;
+    border-bottom: 1px solid #000000;
+    padding: 10px 20px;
+    font-size: 15px;
+    text-align: center;
+    word-wrap: break-word;
+    white-space: normal;
+    background-color: #dfe3e7;
+}
+
+
+
+
+
+      
+</string>
+      </property>
+      <property name="gridStyle">
+       <enum>Qt::SolidLine</enum>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="horizontalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderMinimumSectionSize">
+       <number>200</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>450</number>
+      </attribute>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderCascadingSectionResizes">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>220</number>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>300</number>
+      </attribute>
+      <attribute name="verticalHeaderHighlightSections">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <row>
+       <property name="text">
+        <string>1</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>3</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>4</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>5</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>6</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>7</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>8</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>9</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>Regla gramatical</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignLeading|AlignVCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Regla semántica</string>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="text">
+        <string>Sentencias-&gt; declaraVar | declaraVar sentencias | Comentario | Comenterio sentencias | asignacion | asignacion sentencias | operacion | operacion sentencias | mensajePantalla | mensajePantalla sentencias | obtenerDato | obtenerDato sentencias</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+         <stylestrategy>PreferDefault</stylestrategy>
+         <kerning>true</kerning>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled|ItemIsTristate</set>
+       </property>
+      </item>
+      <item row="0" column="1">
+       <property name="text">
+        <string>Sentencias.valor-&gt; declaravar.valor
+Sentencias1.valor-&gt; declaravar.valor Sentencias2.valor
+Sentencias.valor-&gt; comentario.valor
+Sentencias1.valor-&gt; comentario.valor Sentencias2.valor
+Sentencias.valor-&gt; asignacion.valor
+Sentencias1.valor-&gt; asignacion.valor Sentencias2.valor
+Sentencias.valor-&gt; operacion.valor
+Sentencias1.valor-&gt; operacion.valor Sentencias2.valor
+Sentencias.valor-&gt; mensajePantalla.valor
+Sentencias1.valor-&gt; mensajePantalla.valor Sentencias2.valor
+Sentencias.valor-&gt; obtenerDato.valor
+Sentencias1.valor-&gt; obtenerDato.valor Sentencias2.valor
+</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+         <stylestrategy>NoAntialias</stylestrategy>
+         <kerning>true</kerning>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignJustify|AlignVCenter</set>
+       </property>
+      </item>
+      <item row="1" column="0">
+       <property name="text">
+        <string>declaraVar -&gt; tipoDato &quot; &quot; nomVar &quot; &quot;; | tipoDato &quot; &quot; nomVar &quot; &quot;, &quot; &quot; nomVar &quot; &quot; ;</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </item>
+      <item row="1" column="1">
+       <property name="text">
+        <string>declaraVar.valor-&gt; tipoDato.valor “ “ nomvar.valor “ “ ;
+declaraVar.valor-&gt; tipoDato.valor “ “ nomVar.valor “ “ , “ “ nomVar.valor “ “ ;
+</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignJustify|AlignVCenter</set>
+       </property>
+      </item>
+      <item row="2" column="0">
+       <property name="text">
+        <string>asignacion -&gt; nomVar = nomvar &quot; &quot; ; | nomVar =  numeros &quot; &quot; ; | nomVar = operacion &quot; &quot; ; | nomVar = TRUE &quot; &quot; ; | nomVar = FALSE &quot; &quot; ;</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="2" column="1">
+       <property name="text">
+        <string>asignacion.valor-&gt; nomVar.valor = nomVar.valor “ “ ;
+asignacion.valor-&gt; nomVar.valor = números.valor “ “ ;
+asignacion.valor-&gt; nomVar.valor = operacion.valor “ “ ;
+asignacion.valor-&gt; nomVar.valor = TRUE ;
+asignacion.valor-&gt; nomVar.valor = FALSE ;
+</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="3" column="0">
+       <property name="text">
+        <string>operacion -&gt;  nomVar operadores nomVar | nomVar operadores numeros | numeros operadores nomVar | numeros operadores numeros |                                                                                                                                    nomVar operadores nomVar operadores nomVar| nomVar operadores nomVar operadores numeros| nomVar operadores numeros operadores nomVar| nomVar operadores numeros operadores numeros| numeros operadores nomVar operadores nomVar| numeros operadores nomVar operadores numeros| numeros operadores numeros operadores nomVar| numeros operadores numeros operadores numeros|                             nomVar operadores nomVar operadores operacion | nomVar operadores numeros operadores operacion | numeros operadores nomVar operadores operacion | numeros operadores numeros operadores operacion</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="3" column="1">
+       <property name="text">
+        <string>operacion.valor-&gt; nomVar.valor operadores.valor nomVar.valor
+operación.valor-&gt; nomVar.valor operadores.valor numeros.valor
+opreacion.valor-&gt; numeros1.valor operadores.valor numeros2.valor
+operacion.valor-&gt; numeros.valr operadores.valor nomVar.valor
+operacion.valor-&gt; nomVar1.valor operadores1.valor nomVar2.valor operadores2.valor nomVar3.valor
+operacion.valor-&gt; nomVar1.valor operadores1.valor nomVar2.valor operadores2.valores numeros.valor
+operacion.valor-&gt; nomVar1.valor operadores1.valor numeros.valor operadores2.valor nomVar2.valor
+operacion.valor-&gt; nomVar.valor operadores1.valor numeros1.valor operadores2.valor numeros2.valor
+operacion.valor-&gt; numeros.valor operadores1.valor nomVar1.valor operadores2.valor nomVar2.valor
+operacion.valor-&gt; numeros.valor operadores1.valor nomVar1.valor operadores2.valor nomVar2.valor
+operacion.valor-&gt; numeros1.valor operadores1.valor nomVar.valor numeros2.valor
+operacion.valor-&gt; numeros1.valor operadores1.valor numeros2.valor operadores2.valor nomVar.valor
+operacion.valor-&gt; numeros1.valor operadores1.valor numeros2.valor operadores2.valor numeros2.valor operadores3.valor numeros3.valor
+operacion1.valor-&gt; nomVar1.valor operadores1.valor nomVar2.valor operadores2.valor operacion2.valor
+operacion1.valor-&gt; nomVar.valor operadores1.valor numeros.valor operadores2.valor operacion2.valor
+operacion1.valor-&gt; numeros.valor operadores1.valor nomVar.valor operadores2.valor operacion2.valor
+operacion1.valor-&gt; numeros1.valor operadores1.valor numeros2.valor operadores2.valor operacion2.valor
+</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="4" column="0">
+       <property name="text">
+        <string>operadores -&gt; + | - | * | /</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </item>
+      <item row="4" column="1">
+       <property name="text">
+        <string>operadores.valor-&gt; +
+operadores.valor-&gt; -
+operadores.valor-&gt; *
+operadores.valor-&gt; /
+</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="5" column="0">
+       <property name="text">
+        <string>mensajePantalla -&gt;  OUTPUT &quot; ' &quot; msj &quot; ' &quot; &quot; &quot; ; | OUTPUT &quot; ' &quot; msj &quot; ' &quot; &quot;,&quot; nomVar &quot; &quot; ;</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="5" column="1">
+       <property name="text">
+        <string>mensajePantalla.valor-&gt; OUTPUT “ Mensaje ;
+mensajePantalla.valor-&gt; OUTPUT Mensaje , nomVar.valor
+</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="6" column="0">
+       <property name="text">
+        <string>comentario -&gt;  # | # mensaje</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="6" column="1">
+       <property name="text">
+        <string>Comentario.valor-&gt; # Mensaje</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="7" column="0">
+       <property name="text">
+        <string>obtenerDato-&gt; INPUT nomVar &quot; &quot;;</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+      <item row="7" column="1">
+       <property name="text">
+        <string>obtenerDato.valor-&gt; INPUT nomVar.valor “ “ ;</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </item>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
