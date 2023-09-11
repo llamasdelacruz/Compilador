@@ -5,7 +5,7 @@ from PyQt5 import QtWidgets
 import ctypes
 
 
-class Control_pantalla_tabla_token(QDialog):
+class Control_pantalla_tabla_semantica(QDialog):
     
     def __init__(self,ventana_principal,tokens):
         self.tokens = tokens
