@@ -87,6 +87,7 @@ class Sintactico():
 
         self.cadena = []
         self.resultados = ""
+        self.seAprueba = False
        
 
     def analizar(self):
@@ -166,6 +167,7 @@ class Sintactico():
                     # terminacion con exito 3
                     event = "terminacion con exito 3"
                     #print("terminacion con exito 3")
+                    self.seAprueba = True
                     if(self.parseo["sentencia"][0][-1] == elemento):
 
                         self.parseo["sentencia"].remove_start()
@@ -290,6 +292,9 @@ class Sintactico():
             #print(self.parseo["estado"],(self.parseo["apuntador"]+1),self.parseo["pila"],self.parseo["sentencia"])
 
             apuntador = self.parseo["apuntador"]
+
+        return self.seAprueba
+        
         
     def establecer_cadena(self,texto):
         # crea la cadena que se va a utilizar en el retroceso

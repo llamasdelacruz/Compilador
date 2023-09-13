@@ -7,8 +7,8 @@ import ctypes
 
 class Control_pantalla_tabla_semantica(QDialog):
     
-    def __init__(self,ventana_principal,tokens):
-        self.tokens = tokens
+    def __init__(self,ventana_principal):
+       
         
         self.ventana_principal=ventana_principal
         

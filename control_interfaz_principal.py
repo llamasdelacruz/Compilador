@@ -8,7 +8,7 @@ from clases.Lexico import Lexico
 from clases.Sintactico import Sintactico
 from ventanas.controlador_interfaz_tabla import Control_pantalla_tabla_token
 from ventanas.controlador_sintactico_retroceso import Control_ventana_sintactico
-
+from ventanas.controlador_ventana_tabla_semantica import Control_pantalla_tabla_semantica
 
 class Control_interfaz_principal(QMainWindow):
 
@@ -31,8 +31,9 @@ class Control_interfaz_principal(QMainWindow):
         self.btn_cargarArchivo.clicked.connect(self.chooseFile)
         self.btn_lexico.clicked.connect(self.analizar_lexico)
         self.btn_sintactico.clicked.connect(self.analizar_sintactico)
-        self.btn_limpiar.clicked.connect(self.limpiar)
+        self.btn_semantico.clicked.connect(self.analizar_semantico)
         
+        self.btn_limpiar.clicked.connect(self.limpiar) 
         self.areaTexto.textChanged.connect(self.cambio)
 
     def chooseFile(self):
@@ -68,11 +69,18 @@ class Control_interfaz_principal(QMainWindow):
         texto = self.areaTexto.toPlainText()
         sintactico_obj = Sintactico()
         sintactico_obj.establecer_cadena(texto)
-        sintactico_obj.analizar()
+        seAprueba = sintactico_obj.analizar()
         self.cargar_ventana_sintactico(sintactico_obj.resultados)
+        self.btn_semantico.setEnabled(seAprueba)
+        
+
+    def analizar_semantico(self):
+        self.cargar_ventana_semantico()
+
 
     def cambio(self):
         self.btn_sintactico.setEnabled(False)
+        self.btn_semantico.setEnabled(False)
 
     def limpiar(self):
         self.areaTexto.setPlainText("")
@@ -85,6 +93,10 @@ class Control_interfaz_principal(QMainWindow):
 
     def cargar_ventana_sintactico(self,resultado):
         self.ex = Control_ventana_sintactico(self,resultado)
+        self.ex.show()
+
+    def cargar_ventana_semantico(self):
+        self.ex = Control_pantalla_tabla_semantica(self)
         self.ex.show()
 
 if(__name__ == "__main__"):
