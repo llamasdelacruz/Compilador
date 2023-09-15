@@ -1,10 +1,5 @@
 START
-INT $hola ;
-$hola = 22 + 3 ;
-OUTPUT 'Dame un dato entero: ' ;
-INPUT $a ;
-OUTPUT 'Dame otro dato entero: ' ;
-INPUT $b ;
-$suma = $a * $b ;
-OUTPUT 'suma=' , $suma ;
+FLOAT $hola , $e ;
+$hola = 22 + 3 * 4 - 23 + 12 / 45 ;
+$e = 12.212 + 390.90 ;
 END

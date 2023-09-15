@@ -234,7 +234,7 @@ class Semantico():
     
     def imprimir_pila(self):
 
-        dot = graphviz.Digraph('round-table', comment='The Round Table')
+        dot = graphviz.Digraph()
         length = len(self.pila)
         contador = 0
         hayoperacion = False
@@ -250,9 +250,8 @@ class Semantico():
 
                     dot.node(elemento.get_name(), "asignacion")
                     hayoperacion = True
-
-            
-                if(hayoperacion):
+                    
+                elif(hayoperacion):
                     dot.node(elemento.get_name(), elemento[0])
                     dot.edge(elemento.get_name_padre(), elemento.get_name())
 
@@ -264,14 +263,15 @@ class Semantico():
 
                     if(elemento == ";"):
                         hayoperacion = False
+                        dot.render('arboles/arbol'+str(contador), format='pdf')
+                        dot = graphviz.Digraph()
 
                 
 
             contador += 1
 
 
-        dot.render('mi_grafo_personalizado', view=True)
-
+      
 
 
     
