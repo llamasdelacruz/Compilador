@@ -6,6 +6,7 @@ from PyQt5 import uic
 import ctypes
 from clases.Lexico import Lexico
 from clases.Sintactico import Sintactico
+from clases.Semantico import Semantico
 from ventanas.controlador_interfaz_tabla import Control_pantalla_tabla_token
 from ventanas.controlador_sintactico_retroceso import Control_ventana_sintactico
 from ventanas.controlador_ventana_tabla_semantica import Control_pantalla_tabla_semantica
@@ -71,11 +72,22 @@ class Control_interfaz_principal(QMainWindow):
         sintactico_obj.establecer_cadena(texto)
         seAprueba = sintactico_obj.analizar()
         self.cargar_ventana_sintactico(sintactico_obj.resultados)
+        self.pila = sintactico_obj.parseo["pila"]
         self.btn_semantico.setEnabled(seAprueba)
         
 
     def analizar_semantico(self):
         self.cargar_ventana_semantico()
+        semantico_obj = Semantico()
+        errores = semantico_obj.analizar(self.areaTexto.toPlainText())
+        if(errores == ""):
+            semantico_obj.pila = self.pila
+            semantico_obj.imprimir_pila()
+        else:
+            self.consola.setPlainText("")
+            self.consola.setPlainText(errores)
+            
+
 
 
     def cambio(self):

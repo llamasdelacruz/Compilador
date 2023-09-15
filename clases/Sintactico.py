@@ -38,6 +38,7 @@ class Sintactico():
                             ["nomVar","=","nomVar",";"],
                             ["nomVar","=","numeros",";"],
                             ["nomVar","=","operacion",";"],
+                            ["nomVar","=","'","msj","'",";"],
                             ["nomVar","=","TRUE",";"],
                             ["nomVar","=","FALSE",";"]
                           ],

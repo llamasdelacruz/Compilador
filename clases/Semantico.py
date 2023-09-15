@@ -1,4 +1,6 @@
-
+from clases.Lista_Personalizada import Lista_p
+from clases.String_Personalizado import String_p
+import graphviz
 class Semantico():
 
     def __init__(self) -> None:
@@ -7,6 +9,8 @@ class Semantico():
             "tipo":[],
             "nombre":[]
         }
+
+        self.pila = []
 
     
         
@@ -224,11 +228,49 @@ class Semantico():
                             errores += "Error en la linea "+str(numero_linea)+" variable " + str(palabra) + " identificador no definido \n"
                
                 i+= 1
-                print(palabra)
 
-        print(self.tabla)
-        print(errores)
+        
+        return errores
+    
+    def imprimir_pila(self):
 
+        dot = graphviz.Digraph('round-table', comment='The Round Table')
+        length = len(self.pila)
+        contador = 0
+        hayoperacion = False
+        while(contador < length):
+
+            elemento = self.pila[contador]
+
+
+            if(type(elemento) is Lista_p):
+                # si es una lista entonces vemos si es asignacion 2  y hacemos el arbol
+
+                if(elemento[0] == "asignacion" and elemento[1] == 2):
+
+                    dot.node(elemento.get_name(), "asignacion")
+                    hayoperacion = True
+
+            
+                if(hayoperacion):
+                    dot.node(elemento.get_name(), elemento[0])
+                    dot.edge(elemento.get_name_padre(), elemento.get_name())
+
+            elif(type(elemento) is String_p):
+
+                if(hayoperacion):
+                    dot.node(elemento+str(contador), elemento)
+                    dot.edge(elemento.get_name_padre(),elemento+str(contador))
+
+                    if(elemento == ";"):
+                        hayoperacion = False
+
+                
+
+            contador += 1
+
+
+        dot.render('mi_grafo_personalizado', view=True)
 
 
 
@@ -241,7 +283,7 @@ class Semantico():
 
 if __name__ == "__main__":
     objecto = Semantico()
-    texto = "START \n STRING $hola , $a ; \n $hola = 'maeria' ; \n CHAR $j ; \n $j = 'k' ; \n OUTPUT 'Dame un dato entero: ' ; \n INPUT $a ;\n END"
+    texto = "START \n STRING $hola , $a ; \n $hola = 'maeria' ; \n CHAR $j ; \n $j = 'd' ; \n OUTPUT 'Dame un dato entero: ' ; \n INPUT $a ;\n END"
     objecto.analizar(texto)
   
     
