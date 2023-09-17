@@ -232,14 +232,20 @@ class Semantico():
         
         return errores
     
-    def imprimir_pila(self):
+    def buscar_operaciones(self):
+        # este metodo busca las variables que contenga una operacion aritmentica y las guarda en una lista para 
+        # despues procesarlas y hacer el arbol
 
-        dot = graphviz.Digraph()
         length = len(self.pila)
         contador = 0
+        numero_arbol = 0
+        lista_operaciones = []
+        lista_temp = []
         hayoperacion = False
+
         while(contador < length):
 
+            
             elemento = self.pila[contador]
 
 
@@ -247,23 +253,261 @@ class Semantico():
                 # si es una lista entonces vemos si es asignacion 2  y hacemos el arbol
 
                 if(elemento[0] == "asignacion" and elemento[1] == 2):
-
-                    dot.node(elemento.get_name(), "asignacion")
+                    numero_arbol += 1
+                    lista_temp.append("arbol"+str(numero_arbol))
+                    lista_temp.append(elemento)
                     hayoperacion = True
-                    
+
                 elif(hayoperacion):
-                    dot.node(elemento.get_name(), elemento[0])
-                    dot.edge(elemento.get_name_padre(), elemento.get_name())
+                    lista_temp.append(elemento)
 
             elif(type(elemento) is String_p):
 
                 if(hayoperacion):
-                    dot.node(elemento+str(contador), elemento)
-                    dot.edge(elemento.get_name_padre(),elemento+str(contador))
-
+                    lista_temp.append(elemento)
                     if(elemento == ";"):
                         hayoperacion = False
-                        dot.render('arboles/arbol'+str(contador), format='pdf')
+                        lista_operaciones.append(lista_temp)
+                        lista_temp = []
+                    
+                    
+
+                
+
+            contador += 1
+
+
+        return lista_operaciones
+
+        
+
+    def evaluar_operaciones_prioridad(self,lista_operaciones):
+        # a cada nodo padre le da el valor de la operacion y a los hijos les da el valor de la variable
+  
+        for i in range(0, len(lista_operaciones)):
+
+            tipo_variable = self.buscar_tipo_variable(lista_operaciones[i][3])
+            variable_anterior = ""
+            largo = len(lista_operaciones[i])-2
+            temp = Lista_p([],"temp")
+
+            for j in range(largo,-1,-1):
+
+             
+                if(type(lista_operaciones[i][j]) is String_p):
+
+                    if(lista_operaciones[i][j] == "+" or lista_operaciones[i][j] == "-" or 
+                       lista_operaciones[i][j] == "*" or lista_operaciones[i][j] == "/" or 
+                       lista_operaciones[i][j] == "=" or lista_operaciones[i][j][0] == "$"):   
+                          
+                        variable_anterior = lista_operaciones[i][j]      
+                    else:
+                        if(lista_operaciones[i][j].isdigit()):
+                            variable_anterior = int(lista_operaciones[i][j])
+                            
+                        else:
+                            variable_anterior = float(lista_operaciones[i][j])
+                            
+
+                    temp.append_start(variable_anterior)
+
+                elif(type(lista_operaciones[i][j]) is Lista_p):
+
+                    if(lista_operaciones[i][j][0] == "operacion"):
+                        largo_temp = len(temp)
+                        operacion = 0
+
+                        print(temp)
+                        if(largo_temp == 3):
+                            
+                            if(temp[1] == "+"):
+                                operacion = temp[0] + temp[2]
+                            elif(temp[1] == "-"):
+                                operacion = temp[0] - temp[2]
+                            elif(temp[1] == "*"):   
+                                operacion = temp[0] * temp[2]
+                            elif(temp[1] == "/"):
+                                operacion = temp[0] / temp[2]
+
+                            temp[0] = operacion
+
+                        elif(largo_temp == 5):
+
+                            if(temp[1] == "*" or  temp[1] == "/"):
+                                inicio = 1
+                                fin = 4
+                                avance = 2
+                            elif(temp[3] == "*" or  temp[3] == "/"):
+                                inicio = 3
+                                fin = 0
+                                avance = -2
+
+                            else:
+                                inicio = 1
+                                fin = 4
+                                avance = 2
+                         
+                            for k in range(inicio,fin,avance):
+
+                                operacion_temp = 0
+                                print(temp,k)
+                                if(temp[k] == "*"):
+                                    operacion_temp = temp[k-1] * temp[k+1]
+                                elif(temp[k] == "/"):
+                                    operacion_temp = temp[k-1] / temp[k+1]
+                                elif(temp[k] == "+"):
+                                    operacion_temp = temp[k-1] + temp[k+1]
+                                elif(temp[k] == "-"):
+                                    operacion_temp = temp[k-1] - temp[k+1]
+
+                                if(inicio == 1):
+                                    temp[k+1] = operacion_temp
+                                else:
+                                    temp[k-1] = operacion_temp
+                                
+                            if(inicio == 1):
+                                # si inicia en el operador 1 avanza y termina en el 4 el resultado
+                                # si inicia en e; 3 avanza y termina en el 0 el resultado
+                                temp[0] = temp[4]
+
+
+                        lista_operaciones[i][j].append(temp[0])
+                        temp = Lista_p([],"temp")
+                        temp.append_start(lista_operaciones[i][j][2])
+                    
+                    else:
+
+                       
+                        lista_operaciones[i][j].append(variable_anterior)
+
+        print(lista_operaciones)
+        return lista_operaciones
+    
+
+    def evaluar_operaciones_izquierda_derecha(self,lista_operaciones):
+        # a cada nodo padre le da el valor de la operacion y a los hijos les da el valor de la variable
+  
+        for i in range(0, len(lista_operaciones)):
+
+            tipo_variable = self.buscar_tipo_variable(lista_operaciones[i][3])
+            variable_anterior = ""
+            largo = len(lista_operaciones[i])-2
+            temp = Lista_p([],"temp")
+
+            for j in range(largo,-1,-1):
+
+             
+                if(type(lista_operaciones[i][j]) is String_p):
+
+                    if(lista_operaciones[i][j] == "+" or lista_operaciones[i][j] == "-" or 
+                       lista_operaciones[i][j] == "*" or lista_operaciones[i][j] == "/" or 
+                       lista_operaciones[i][j] == "=" or lista_operaciones[i][j][0] == "$"):   
+                          
+                        variable_anterior = lista_operaciones[i][j]      
+                    else:
+                        if(lista_operaciones[i][j].isdigit()):
+                            variable_anterior = int(lista_operaciones[i][j])
+                            
+                        else:
+                            variable_anterior = float(lista_operaciones[i][j])
+                            
+
+                    temp.append_start(variable_anterior)
+
+                elif(type(lista_operaciones[i][j]) is Lista_p):
+
+                    if(lista_operaciones[i][j][0] == "operacion"):
+                        largo_temp = len(temp)
+                        operacion = 0
+                        if(largo_temp == 3):
+                            
+                            if(temp[1] == "+"):
+                                operacion = temp[0] + temp[2]
+                            elif(temp[1] == "-"):
+                                operacion = temp[0] - temp[2]
+                            elif(temp[1] == "*"):   
+                                operacion = temp[0] * temp[2]
+                            elif(temp[1] == "/"):
+                                operacion = temp[0] / temp[2]
+
+                            temp[0] = operacion
+
+                        elif(largo_temp == 5):
+
+                         
+                            for k in range(1,4,2):
+
+                                operacion_temp = 0
+                                print(temp,k)
+                                if(temp[k] == "*"):
+                                    operacion_temp = temp[k-1] * temp[k+1]
+                                elif(temp[k] == "/"):
+                                    operacion_temp = temp[k-1] / temp[k+1]
+                                elif(temp[k] == "+"):
+                                    operacion_temp = temp[k-1] + temp[k+1]
+                                elif(temp[k] == "-"):
+                                    operacion_temp = temp[k-1] - temp[k+1]
+
+                                temp[k+1] = operacion_temp
+                            
+                            temp[0] = temp[4]
+                               
+
+
+                        lista_operaciones[i][j].append(temp[0])
+                        temp = Lista_p([],"temp")
+                        temp.append_start(lista_operaciones[i][j][2])
+                    
+                    else:
+
+                       
+                        lista_operaciones[i][j].append(variable_anterior)
+
+        print(lista_operaciones)
+        return lista_operaciones
+
+                    
+
+
+    
+    def imprimir_pila(self):
+
+        lista_operaciones = self.buscar_operaciones()
+        lista_arboles = self.evaluar_operaciones_prioridad(lista_operaciones)
+
+        length = len(lista_arboles)
+        contador = 0
+
+        dot = graphviz.Digraph()
+        
+        while(contador < length):
+
+            arbol = lista_arboles[contador]
+            length_arbol = len(arbol)
+
+            for i in range(1,length_arbol):
+
+                elemento = arbol[i]
+
+                if(type(elemento) is Lista_p):
+                    # si es una lista entonces vemos si es asignacion 2  y hacemos el arbol
+
+                    if(elemento[0] == "asignacion"):
+
+                        dot.node(elemento.get_name(),"asignacion")
+                    else:
+                        dot.node(elemento.get_name(),label='<<table border="0" cellborder="0" cellspacing="0"> <tr><td COLSPAN="2">'+elemento[0]+'</td></tr><tr><td COLSPAN="2">Valor</td><td>'+str(elemento[2])+'</td></tr></table>>' )
+                        dot.edge(elemento.get_name_padre(), elemento.get_name())
+
+                elif(type(elemento) is String_p):
+
+                  
+                    dot.node(elemento+str(i)+str(contador), elemento)
+                    dot.edge(elemento.get_name_padre(),elemento+str(i)+str(contador))
+
+                    if(elemento == ";"):
+                            
+                        dot.render('diagramas/'+str(arbol[0]), format='pdf')
                         dot = graphviz.Digraph()
 
                 
@@ -272,7 +516,52 @@ class Semantico():
 
 
       
+    def imprimir_pila2(self):
 
+        lista_operaciones = self.buscar_operaciones()
+        lista_arboles = self.evaluar_operaciones_izquierda_derecha(lista_operaciones)
+
+        length = len(lista_arboles)
+        contador = 0
+
+        dot = graphviz.Digraph()
+        
+        while(contador < length):
+
+            arbol = lista_arboles[contador]
+            length_arbol = len(arbol)
+
+            for i in range(1,length_arbol):
+
+                elemento = arbol[i]
+
+                if(type(elemento) is Lista_p):
+                    # si es una lista entonces vemos si es asignacion 2  y hacemos el arbol
+
+                    if(elemento[0] == "asignacion"):
+
+                        dot.node(elemento.get_name(),"asignacion")
+                    else:
+                        dot.node(elemento.get_name(),label='<<table border="0" cellborder="0" cellspacing="0"> <tr><td COLSPAN="2">'+elemento[0]+'</td></tr><tr><td COLSPAN="2">Valor</td><td>'+str(elemento[2])+'</td></tr></table>>' )
+                        dot.edge(elemento.get_name_padre(), elemento.get_name())
+
+                elif(type(elemento) is String_p):
+
+                  
+                    dot.node(elemento+str(i)+str(contador), elemento)
+                    dot.edge(elemento.get_name_padre(),elemento+str(i)+str(contador))
+
+                    if(elemento == ";"):
+                            
+                        dot.render('diagramas/'+str(arbol[0]), format='pdf')
+                        dot = graphviz.Digraph()
+
+                
+
+            contador += 1
+
+
+      
 
     
 

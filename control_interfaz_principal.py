@@ -77,11 +77,15 @@ class Control_interfaz_principal(QMainWindow):
         
 
     def analizar_semantico(self):
-        self.cargar_ventana_semantico()
+        
         semantico_obj = Semantico()
         errores = semantico_obj.analizar(self.areaTexto.toPlainText())
         if(errores == ""):
+            self.cargar_ventana_semantico()
             semantico_obj.pila = self.pila
+            #la imprimir_ pila 2 hace las sumas de izquierda a derecha sin prioridad
+            #semantico_obj.imprimir_pila2()
+            # la imprimir_ pila hace las operacion con prioridad de operadores
             semantico_obj.imprimir_pila()
         else:
             self.consola.setPlainText("")
