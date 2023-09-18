@@ -334,6 +334,42 @@ class Semantico():
         return lista_operaciones
 
         
+    def evaluar_en_cadena(self,lista_operaciones):
+        # le da el valor de la cadena
+        for i in range(0, len(lista_operaciones)):
+
+         
+            variable_anterior = ""
+            largo = len(lista_operaciones[i])-2
+            temp = Lista_p([],"temp")
+
+            # nombre de la variable a la que se le asigna el resultado de la operacion
+
+            for j in range(largo,-1,-1):
+
+             
+                if(type(lista_operaciones[i][j]) is String_p):
+
+                    variable_anterior = lista_operaciones[i][j] 
+                    temp.append_start(variable_anterior)
+
+                elif(type(lista_operaciones[i][j]) is Lista_p):
+
+                    if(lista_operaciones[i][j][0] == "operacion"):
+                        separador = ""
+                        respuesta = separador.join(temp)
+
+                        lista_operaciones[i][j].append(respuesta)
+                        temp = Lista_p([respuesta],"temp")
+                       
+                    
+                    else:
+                       
+                        lista_operaciones[i][j].append(variable_anterior)
+
+
+        return lista_operaciones
+
 
     def evaluar_operaciones_prioridad(self,lista_operaciones):
         # a cada nodo padre le da el valor de la operacion y a los hijos les da el valor de la variable
@@ -466,7 +502,7 @@ class Semantico():
     def imprimir_pila(self):
 
         lista_operaciones = self.buscar_operaciones()
-        lista_arboles = self.evaluar_operaciones_prioridad(lista_operaciones)
+        lista_arboles = self.evaluar_en_cadena(lista_operaciones)
 
         length = len(lista_arboles)
         contador = 0
