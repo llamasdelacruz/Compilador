@@ -85,7 +85,7 @@
      <string>Semántico</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="btn_codigo_in">
     <property name="enabled">
      <bool>false</bool>
     </property>

@@ -3,6 +3,7 @@ import sys
 import os
 from PyQt5.QtWidgets import QApplication, QMainWindow,QTableWidgetItem,QFileDialog
 from PyQt5 import uic
+from PyQt5.QtWidgets import QMessageBox
 import ctypes
 from clases.Lexico import Lexico
 from clases.Sintactico import Sintactico
@@ -83,10 +84,11 @@ class Control_interfaz_principal(QMainWindow):
         if(errores == ""):
             self.cargar_ventana_semantico()
             semantico_obj.pila = self.pila
-            #la imprimir_ pila 2 hace las sumas de izquierda a derecha sin prioridad
-            #semantico_obj.imprimir_pila2()
             # la imprimir_ pila hace las operacion con prioridad de operadores
             semantico_obj.imprimir_pila()
+            self.btn_codigo_in.setEnabled(True)
+            QMessageBox.information(self, "Bien!!", "No se encontraron errores semanticos, los arboles se han generado correctamente")
+
         else:
             self.consola.setPlainText("")
             self.consola.setPlainText(errores)
@@ -97,6 +99,7 @@ class Control_interfaz_principal(QMainWindow):
     def cambio(self):
         self.btn_sintactico.setEnabled(False)
         self.btn_semantico.setEnabled(False)
+        self.btn_codigo_in.setEnabled(False)
 
     def limpiar(self):
         self.areaTexto.setPlainText("")
