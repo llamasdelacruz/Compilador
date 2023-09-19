@@ -204,7 +204,7 @@ QTableWitget::th,td{
       </column>
       <item row="0" column="0">
        <property name="text">
-        <string>Sentencias-&gt; declaraVar | declaraVar sentencias | Comentario | Comenterio sentencias | asignacion | asignacion sentencias | operacion | operacion sentencias | mensajePantalla | mensajePantalla sentencias | obtenerDato | obtenerDato sentencias</string>
+        <string>sentencias-&gt; declaraVar | declaraVar sentencias | Comentario | Comenterio sentencias | asignacion | asignacion sentencias | operacion | operacion sentencias | mensajePantalla | mensajePantalla sentencias | obtenerDato | obtenerDato sentencias</string>
        </property>
        <property name="font">
         <font>
@@ -223,18 +223,18 @@ QTableWitget::th,td{
       </item>
       <item row="0" column="1">
        <property name="text">
-        <string>Sentencias.valor-&gt; declaravar.valor
-Sentencias1.valor-&gt; declaravar.valor Sentencias2.valor
-Sentencias.valor-&gt; comentario.valor
-Sentencias1.valor-&gt; comentario.valor Sentencias2.valor
-Sentencias.valor-&gt; asignacion.valor
-Sentencias1.valor-&gt; asignacion.valor Sentencias2.valor
-Sentencias.valor-&gt; operacion.valor
-Sentencias1.valor-&gt; operacion.valor Sentencias2.valor
-Sentencias.valor-&gt; mensajePantalla.valor
-Sentencias1.valor-&gt; mensajePantalla.valor Sentencias2.valor
-Sentencias.valor-&gt; obtenerDato.valor
-Sentencias1.valor-&gt; obtenerDato.valor Sentencias2.valor
+        <string>sentencias.valor-&gt; declaravar.valor
+sentencias1.valor-&gt; declaravar.valor sentencias2.valor
+sentencias.valor-&gt; comentario.valor
+sentencias1.valor-&gt; comentario.valor sentencias2.valor
+sentencias.valor-&gt; asignacion.valor
+sentencias1.valor-&gt; asignacion.valor sentencias2.valor
+sentencias.valor-&gt; operacion.valor
+sentencias1.valor-&gt; operacion.valor sentencias2.valor
+sentencias.valor-&gt; mensajePantalla.valor
+sentencias1.valor-&gt; mensajePantalla.valor sentencias2.valor
+sentencias.valor-&gt; obtenerDato.valor
+sentencias1.valor-&gt; obtenerDato.valor sentencias2.valor
 </string>
        </property>
        <property name="font">
