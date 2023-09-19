@@ -255,7 +255,7 @@ class Semantico():
                                 # si todas las variables del relleno existen entonces seguimos analizando
 
                                 if(self.comprobar_relleno_del_mismo_tipo(tipo_variable,relleno) == False):
-                                    errores += "Error en la linea "+str(numero_linea)+" operandos incompatibles \n"
+                                    errores += "Error semántico en la linea "+str(numero_linea)+" en "+palabra+" operandos incompatibles \n"
                                 else:
                                   
                                     if(len(relleno) == 2):
@@ -280,7 +280,7 @@ class Semantico():
 
                         elif(self.buscar_variable_existe(palabra) == False):
                             # aqui se ve que la variable que se  usa ya esta declarada
-                            errores += "Error en la linea "+str(numero_linea)+" variable " + str(palabra) + " identificador no definido \n"
+                            errores += "Error semántico en la linea "+str(numero_linea)+" variable " + str(palabra) + " identificador no definido \n"
                
                 i+= 1
         
