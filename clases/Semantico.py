@@ -256,27 +256,7 @@ class Semantico():
 
                                 if(self.comprobar_relleno_del_mismo_tipo(tipo_variable,relleno) == False):
                                     errores += "Error semántico en la linea "+str(numero_linea)+" en "+palabra+" operandos incompatibles \n"
-                                else:
-                                  
-                                    if(len(relleno) == 2):
-                                        # si solo es asignacion se agrega el valor 
-                                        valor = ""
-                                        if(tipo_variable == "INT"):
-                                            valor = int(relleno[0])
-                                        elif(tipo_variable == "FLOAT"):
-                                            valor = float(relleno[0])
-                                        elif(tipo_variable == "BOOLEAN"):
-                                            valor = True
-                                            if(relleno[0] == "FALSE"):
-                                                valor = False
-                                        else:
-                                            valor = relleno[0]
-                                        
-
-                                        self.modificar_valor_variable(palabra,[numero_linea,valor])
-
-                                    else:
-                                        self.modificar_valor_variable(palabra,[numero_linea,"operacion"])
+                                
 
                         elif(self.buscar_variable_existe(palabra) == False):
                             # aqui se ve que la variable que se  usa ya esta declarada

@@ -1,9 +1,15 @@
 START
 FLOAT $hola , $e ;
 INT $r ;
+STRING $fi ;
+CHAR $sal ;
+BOOLEAN $dos ;
+OUTPUT ' Dame el valor a ' ;
+INPUT $a ;
+OUTPUT ' Dame el valor b ' ;
+INPUT $b ;
+$hola = $r ;
 $r = 10 ;
 $e = 10 + $r - 22 ;
 $hola = $r + $r * 5 - 3 / 3 ;
-
-
 END
