@@ -1,6 +1,14 @@
 #from clases.String_Personalizado import String_p
 from String_Personalizado import String_p
 class Codigo_intermedio():
+
+    def es_numero(self,numero): 
+        # esta funcion verifica si el numero es un entero o un flotante
+        try:
+            float(numero)
+            return True
+        except ValueError:
+            return False
                        
     def jerarquia_operadores(self,cadena):
         # esta funcion crea la jerarquia, por medio de listas, encapsula las multiplicaciones
@@ -125,18 +133,59 @@ class Codigo_intermedio():
 
     def notacion_polaca(self,cadena):
         lista_anidada = self.jerarquia_operadores(cadena)
-        print(lista_anidada)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
         print(lista_con_signos)
+        pilas = []
+        temp_operandos = []
+        temp_operadores = []
+
+        largo = len(lista_con_signos)
+        index = 0
+
+        resultado_pila = ""
+        
+
+        while(index < largo):
+
+            digito = lista_con_signos[index]
+            if(self.es_numero(digito)):
+                temp_operandos.append(digito)
+            else:
+                temp_operadores.append(digito)
+                if(digito == "}" or digito == "]" or digito == ")"):
+
+                    index_penultimo = len(temp_operadores) - 2
+
+                    pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
+                    
+                    resultado_pila += " ".join(pila_alreves)
+                    resultado_pila += temp_operadores[index_penultimo]
+
+                    copia_pilas = [temp_operandos,temp_operadores,resultado_pila]
+                    pilas.append(copia_pilas)
+
+                    print(temp_operandos)
+                    print(temp_operadores)
+                    print(resultado_pila)
+
+                    temp_operandos = []
+                    temp_operadores.pop(index_penultimo+1)
+                    temp_operadores.pop(index_penultimo)
+                    temp_operadores.pop(index_penultimo-1)
+
+                    
+                    
+            index += 1
+
 
 
    
 if __name__ == "__main__":
-    cadena = "5 * 3 + 2 / 7 * 7"
+    cadena = "50 * 2 / 5 * 3 + 5"
     m = Codigo_intermedio()
     #m.jerarquia_operadores(cadena)
     m.notacion_polaca(cadena)
-    
+
 
 
 
