@@ -132,12 +132,17 @@ class Codigo_intermedio():
         return lista
 
     def notacion_polaca(self,cadena):
-        lista_anidada = self.jerarquia_operadores(cadena)
+
+        variable = cadena.split(" ")
+        cadena_operaciones = " ".join(variable[2:])
+        print(cadena_operaciones)
+
+        lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
         print(lista_con_signos)
         pilas = []
-        temp_operandos = []
-        temp_operadores = []
+        temp_operandos = [variable[0]]
+        temp_operadores = ["="]
 
         largo = len(lista_con_signos)
         index = 0
@@ -148,7 +153,7 @@ class Codigo_intermedio():
         while(index < largo):
 
             digito = lista_con_signos[index]
-            if(self.es_numero(digito)):
+            if(self.es_numero(digito) or digito[0] == "$"):
                 temp_operandos.append(digito)
             else:
                 temp_operadores.append(digito)
@@ -177,14 +182,207 @@ class Codigo_intermedio():
                     
             index += 1
 
+        pilas.append([temp_operandos,temp_operadores,resultado_pila+" ="])
+        print(temp_operandos)
+        print(temp_operadores)
+        print(resultado_pila+" =")
+
+    def codigo_p(self,cadena):
+
+        variable = cadena.split(" ")
+        cadena_operaciones = " ".join(variable[2:])
+        print(cadena_operaciones)
+       
+
+        lista_anidada = self.jerarquia_operadores(cadena_operaciones)
+        lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
+        print(lista_con_signos)
+
+        instrucciones = ["lda "+variable[0]]
+        temp_operandos = []
+        temp_operadores = []
+
+        largo = len(lista_con_signos)
+        index = 0
+        id = 0
+        while(index < largo):
+
+            digito = lista_con_signos[index]
+            if(self.es_numero(digito) or digito[0] == "$"):
+
+                temp_operandos.append(digito)
+
+                if(self.es_numero(digito)):
+                    instrucciones.append("Idc "+digito)
+                else:
+                    instrucciones.append("lod "+digito)
+            else:
+                temp_operadores.append(digito)
+                if(digito == "}" or digito == "]" or digito == ")"):
+
+                    index_penultimo_operadores = len(temp_operadores) - 2
+                    index_ultimo_operandos = len(temp_operandos) - 1
+
+                    operador = temp_operadores[index_penultimo_operadores]
+
+                    if(operador ==  "+"):
+                        instrucciones.append("adi")
+                    elif(operador == "-"):
+                        instrucciones.append("sbi")
+                    elif(operador == "*"):
+                        instrucciones.append("mpi")
+                    elif(operador == "/"):
+                        instrucciones.append("dvi")
+
+                    temp_operandos.pop(index_ultimo_operandos)
+                    temp_operandos.pop(index_ultimo_operandos-1)
+
+                    # cuando se realiza una operacion, el resultado de esa operacion se guarda con su id, puesto que 
+                    # no necesitamos el resultado de la operacion, solo una evidencia de que se hizo la operacion
+                    # eso representa con su id, asi se puede tratar como que la operacion utiliza dos operandos y un operador
+                    temp_operandos.append(str(id))
+                    
+                    temp_operadores.pop(index_penultimo_operadores+1)
+                    temp_operadores.pop(index_penultimo_operadores)
+                    temp_operadores.pop(index_penultimo_operadores-1)
 
 
+                    id += 1
+                    
+            index += 1
+
+        instrucciones.append("sto")
+        for i in instrucciones:
+            print(i)
+
+
+    def triplos(self,cadena):
+
+        variable = cadena.split(" ")
+        cadena_operaciones = " ".join(variable[2:])
+        print(cadena_operaciones)
+       
+
+        lista_anidada = self.jerarquia_operadores(cadena_operaciones)
+        lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
+        print(lista_con_signos)
+
+        instrucciones = []
+        temp_operandos = []
+        temp_operadores = []
+
+        largo = len(lista_con_signos)
+        index = 0
+        id = 0
+        while(index < largo):
+
+            digito = lista_con_signos[index]
+            if(self.es_numero(digito) or digito[0] == "$"):
+
+                temp_operandos.append(digito)
+            else:
+                temp_operadores.append(digito)
+                if(digito == "}" or digito == "]" or digito == ")"):
+
+                    index_penultimo_operadores = len(temp_operadores) - 2
+                    index_ultimo_operandos = len(temp_operandos) - 1
+
+                    operador = temp_operadores[index_penultimo_operadores]
+
+                    instrucciones.append(["["+str(id)+"]",operador,temp_operandos[index_ultimo_operandos-1],temp_operandos[index_ultimo_operandos]])
+
+                    temp_operandos.pop(index_ultimo_operandos)
+                    temp_operandos.pop(index_ultimo_operandos-1)
+
+                    # cuando se realiza una operacion, el resultado de esa operacion se guarda con su id, puesto que 
+                    # no necesitamos el resultado de la operacion, solo una evidencia de que se hizo la operacion
+                    # eso representa con su id, asi se puede tratar como que la operacion utiliza dos operandos y un operador
+                    temp_operandos.append("["+str(id)+"]")
+                    
+                    temp_operadores.pop(index_penultimo_operadores+1)
+                    temp_operadores.pop(index_penultimo_operadores)
+                    temp_operadores.pop(index_penultimo_operadores-1)
+
+
+                    id += 1
+                    
+            index += 1
+        instrucciones.append(["["+str(id)+"]","=",variable[0],temp_operandos[0]])
+        
+
+     
+        for i in instrucciones:
+           
+            print("dir "+i[0],"op "+i[1],"n1: "+i[2],"n2: "+i[3])
+
+    def cuadruplos(self,cadena):
+
+        variable = cadena.split(" ")
+        cadena_operaciones = " ".join(variable[2:])
+        print(cadena_operaciones)
+       
+
+        lista_anidada = self.jerarquia_operadores(cadena_operaciones)
+        lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
+        print(lista_con_signos)
+
+        instrucciones = []
+        temp_operandos = []
+        temp_operadores = []
+
+        largo = len(lista_con_signos)
+        index = 0
+        id = 1
+        while(index < largo):
+
+            digito = lista_con_signos[index]
+            if(self.es_numero(digito) or digito[0] == "$"):
+
+                temp_operandos.append(digito)
+            else:
+                temp_operadores.append(digito)
+                if(digito == "}" or digito == "]" or digito == ")"):
+
+                    index_penultimo_operadores = len(temp_operadores) - 2
+                    index_ultimo_operandos = len(temp_operandos) - 1
+
+                    operador = temp_operadores[index_penultimo_operadores]
+
+                    instrucciones.append([operador,temp_operandos[index_ultimo_operandos-1],temp_operandos[index_ultimo_operandos],"v"+str(id)])
+
+                    temp_operandos.pop(index_ultimo_operandos)
+                    temp_operandos.pop(index_ultimo_operandos-1)
+
+                    # cuando se realiza una operacion, el resultado de esa operacion se guarda como su id, puesto que 
+                    # no necesitamos el resultado de la operacion, solo una evidencia de que se hizo la operacion
+                    # eso representa con su id, asi se puede tratar como que la operacion utiliza dos operandos y un operador
+                    temp_operandos.append("v"+str(id))
+                    
+                    temp_operadores.pop(index_penultimo_operadores+1)
+                    temp_operadores.pop(index_penultimo_operadores)
+                    temp_operadores.pop(index_penultimo_operadores-1)
+
+
+                    id += 1
+                    
+            index += 1
+        instrucciones.append(["=",variable[0],temp_operandos[0],"v"+str(id)])
+        
+
+     
+        for i in instrucciones:
+           
+            print("op "+i[0],"n1: "+i[1],"n2: "+i[2], "Aux "+i[3])
    
 if __name__ == "__main__":
-    cadena = "50 * 2 / 5 * 3 + 5"
+    cadena = "$i = 8 * 4 + 2 / 1"
     m = Codigo_intermedio()
     #m.jerarquia_operadores(cadena)
-    m.notacion_polaca(cadena)
+    #m.notacion_polaca(cadena)
+    #m.codigo_p(cadena)
+    #m.triplos(cadena)
+    #m.cuadruplos(cadena)
+
 
 
 
