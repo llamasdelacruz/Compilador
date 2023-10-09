@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1315</width>
-    <height>733</height>
+    <height>744</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,105 +30,213 @@
     <number>9</number>
    </property>
    <item>
-    <widget class="QFrame" name="frame">
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
+    <widget class="QWidget" name="widget" native="true">
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>260</x>
-        <y>10</y>
-        <width>221</width>
-        <height>31</height>
+        <x>230</x>
+        <y>30</y>
+        <width>111</width>
+        <height>16</height>
        </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
       </property>
       <property name="text">
-       <string>Notación Polaca</string>
-      </property>
-     </widget>
-     <widget class="QTextBrowser" name="text_aera_polaca">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>40</y>
-        <width>571</width>
-        <height>241</height>
-       </rect>
-      </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>Notación polaca</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>950</x>
-        <y>10</y>
-        <width>171</width>
-        <height>31</height>
+        <x>960</x>
+        <y>20</y>
+        <width>55</width>
+        <height>16</height>
        </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>18</pointsize>
-       </font>
       </property>
       <property name="text">
-       <string>P-Code</string>
+       <string>Código p</string>
       </property>
      </widget>
-     <widget class="QTextBrowser" name="text_area_pcode">
+     <widget class="QScrollArea" name="scrollArea">
       <property name="geometry">
        <rect>
-        <x>780</x>
-        <y>40</y>
-        <width>491</width>
-        <height>241</height>
+        <x>70</x>
+        <y>60</y>
+        <width>481</width>
+        <height>261</height>
        </rect>
       </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <property name="widgetResizable">
+       <bool>true</bool>
       </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>479</width>
+         <height>259</height>
+        </rect>
+       </property>
+       <widget class="QPlainTextEdit" name="polaca">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>481</width>
+          <height>261</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea_2">
+      <property name="geometry">
+       <rect>
+        <x>770</x>
+        <y>50</y>
+        <width>451</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>449</width>
+         <height>259</height>
+        </rect>
+       </property>
+       <widget class="QPlainTextEdit" name="codigop">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>451</width>
+          <height>261</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea_3">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>410</y>
+        <width>521</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>519</width>
+         <height>279</height>
+        </rect>
+       </property>
+       <widget class="QTableWidget" name="cuadruplos">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>521</width>
+          <height>281</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string>Operador</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Operando 1</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Operando 2</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Aux</string>
+         </property>
+        </column>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea_4">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>420</y>
+        <width>541</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>539</width>
+         <height>279</height>
+        </rect>
+       </property>
+       <widget class="QTableWidget" name="triplos">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>541</width>
+          <height>281</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string>Dirección</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Operador</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Operando 1</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Operando 2</string>
+         </property>
+        </column>
+       </widget>
+      </widget>
      </widget>
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>260</x>
-        <y>300</y>
-        <width>241</width>
-        <height>31</height>
+        <x>210</x>
+        <y>370</y>
+        <width>55</width>
+        <height>16</height>
        </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>18</pointsize>
-       </font>
       </property>
       <property name="text">
        <string>Triplos</string>
@@ -137,280 +245,15 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>920</x>
-        <y>290</y>
-        <width>231</width>
-        <height>41</height>
+        <x>940</x>
+        <y>350</y>
+        <width>121</width>
+        <height>31</height>
        </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>18</pointsize>
-       </font>
       </property>
       <property name="text">
-       <string>Cuadrúplos</string>
+       <string>Cuadruplos</string>
       </property>
-     </widget>
-     <widget class="QTableWidget" name="mitabla_triplo_2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>330</y>
-        <width>651</width>
-        <height>321</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Segoe UI Historic</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QWidget{
-         background-color:#ffffff;
-
-		color:#000000;
-}
-
-QHeaderView::section{
-
-       background-color:#5555ff;
-	   padding:2px;
- 	
-      border:1px solid #fffff8;
-	  font-size:14pt;
-	  color:#ffffff;
-
-}
-
-QTableWitget{
-    
-     gridline-color:#ff00ff;
-     font-size:14pt;
-
-}
-QTableWitget::th,td{
-    
-     max-width: 150px;
-    border-bottom: 1px solid #000000;
-    padding: 10px 20px;
-    font-size: 15px;
-    text-align: center;
-    word-wrap: break-word;
-    white-space: normal;
-    background-color: #dfe3e7;
-}
-
-
-
-
-
-      
-</string>
-      </property>
-      <property name="gridStyle">
-       <enum>Qt::SolidLine</enum>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="horizontalHeaderCascadingSectionResizes">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderMinimumSectionSize">
-       <number>130</number>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>150</number>
-      </attribute>
-      <attribute name="horizontalHeaderHighlightSections">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="horizontalHeaderStretchLastSection">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderCascadingSectionResizes">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderMinimumSectionSize">
-       <number>100</number>
-      </attribute>
-      <attribute name="verticalHeaderDefaultSectionSize">
-       <number>100</number>
-      </attribute>
-      <attribute name="verticalHeaderHighlightSections">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderStretchLastSection">
-       <bool>true</bool>
-      </attribute>
-      <column>
-       <property name="text">
-        <string>Dirección</string>
-       </property>
-       <property name="textAlignment">
-        <set>AlignLeading|AlignVCenter</set>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Operador</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Operando_1</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Operando_2</string>
-       </property>
-       <property name="textAlignment">
-        <set>AlignCenter</set>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTableWidget" name="mitabla_triplo">
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>330</y>
-        <width>611</width>
-        <height>321</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Segoe UI Historic</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QWidget{
-         background-color:#ffffff;
-
-		color:#000000;
-}
-
-QHeaderView::section{
-
-       background-color:#5555ff;
-	   padding:2px;
- 	
-      border:1px solid #fffff8;
-	  font-size:14pt;
-	  color:#ffffff;
-
-}
-
-QTableWitget{
-    
-     gridline-color:#ff00ff;
-     font-size:14pt;
-
-}
-QTableWitget::th,td{
-    
-     max-width: 150px;
-    border-bottom: 1px solid #000000;
-    padding: 10px 20px;
-    font-size: 15px;
-    text-align: center;
-    word-wrap: break-word;
-    white-space: normal;
-    background-color: #dfe3e7;
-}
-
-
-
-
-
-      
-</string>
-      </property>
-      <property name="gridStyle">
-       <enum>Qt::SolidLine</enum>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="horizontalHeaderCascadingSectionResizes">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderMinimumSectionSize">
-       <number>130</number>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>150</number>
-      </attribute>
-      <attribute name="horizontalHeaderHighlightSections">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="horizontalHeaderStretchLastSection">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderCascadingSectionResizes">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderMinimumSectionSize">
-       <number>100</number>
-      </attribute>
-      <attribute name="verticalHeaderDefaultSectionSize">
-       <number>100</number>
-      </attribute>
-      <attribute name="verticalHeaderHighlightSections">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderStretchLastSection">
-       <bool>true</bool>
-      </attribute>
-      <column>
-       <property name="text">
-        <string>Operador</string>
-       </property>
-       <property name="textAlignment">
-        <set>AlignLeading|AlignVCenter</set>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Operando_1</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Operando_2</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Auxiliar</string>
-       </property>
-       <property name="textAlignment">
-        <set>AlignCenter</set>
-       </property>
-      </column>
      </widget>
     </widget>
    </item>
