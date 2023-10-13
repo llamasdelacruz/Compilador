@@ -8,10 +8,5 @@ class String_p(str):
         # retorna el nombre del contenedor padre de este elemento
         return self.__name_padre  
     
-    def set_id(self,id):
-        self.__id = id
 
-    def get_id(self):
-        return self.__id
-    
 

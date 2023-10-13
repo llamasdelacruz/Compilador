@@ -8,10 +8,11 @@ import ctypes
 from clases.Lexico import Lexico
 from clases.Sintactico import Sintactico
 from clases.Semantico import Semantico
+from clases.Generacion_cod_intermedio import Codigo_intermedio
 from ventanas.controlador_interfaz_tabla import Control_pantalla_tabla_token
 from ventanas.controlador_sintactico_retroceso import Control_ventana_sintactico
 from ventanas.controlador_ventana_tabla_semantica import Control_pantalla_tabla_semantica
-
+from ventanas.controlador_ventana_codigo_intermedio import Control_pantalla_codigo_intermedio
 class Control_interfaz_principal(QMainWindow):
 
     def __init__(self):
@@ -34,9 +35,12 @@ class Control_interfaz_principal(QMainWindow):
         self.btn_lexico.clicked.connect(self.analizar_lexico)
         self.btn_sintactico.clicked.connect(self.analizar_sintactico)
         self.btn_semantico.clicked.connect(self.analizar_semantico)
+        self.btn_codigo_in.clicked.connect(self.codigo_intermedio_gen)
         
         self.btn_limpiar.clicked.connect(self.limpiar) 
         self.areaTexto.textChanged.connect(self.cambio)
+
+        self.lista_operaciones = []
 
     def chooseFile(self):
         tipo = "archivo de datos (*.txt)"
@@ -62,6 +66,7 @@ class Control_interfaz_principal(QMainWindow):
             self.consola.setPlainText("")
             self.cargar_ventana_token(lexico_obj.tabla_tokens)
             self.btn_sintactico.setEnabled(True)
+            
         else:
             self.consola.setPlainText("")
             self.consola.setPlainText(errores)
@@ -88,18 +93,25 @@ class Control_interfaz_principal(QMainWindow):
             semantico_obj.imprimir_pila()
             self.btn_codigo_in.setEnabled(True)
             QMessageBox.information(self, "Bien!!", "No se encontraron errores semanticos, los arboles se han generado correctamente")
-
+            
         else:
             self.consola.setPlainText("")
             self.consola.setPlainText(errores)
             
+    def codigo_intermedio_gen(self):
+        self.btn_optimizacion.setEnabled(True)
+        objecto = Codigo_intermedio()
+        resultados = objecto.analizar(self.areaTexto.toPlainText())
 
+        self.cargar_ventana_codigo_intermedio(resultados)
 
 
     def cambio(self):
         self.btn_sintactico.setEnabled(False)
         self.btn_semantico.setEnabled(False)
         self.btn_codigo_in.setEnabled(False)
+        self.btn_optimizacion.setEnabled(False)
+       
 
     def limpiar(self):
         self.areaTexto.setPlainText("")
@@ -116,6 +128,10 @@ class Control_interfaz_principal(QMainWindow):
 
     def cargar_ventana_semantico(self):
         self.ex = Control_pantalla_tabla_semantica(self)
+        self.ex.show()
+
+    def cargar_ventana_codigo_intermedio(self, resultados):
+        self.ex = Control_pantalla_codigo_intermedio(self,resultados)
         self.ex.show()
 
 if(__name__ == "__main__"):

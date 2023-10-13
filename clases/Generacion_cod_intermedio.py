@@ -1,7 +1,7 @@
-#from clases.String_Personalizado import String_p
-from String_Personalizado import String_p
+
 class Codigo_intermedio():
 
+   
     def es_numero(self,numero): 
         # esta funcion verifica si el numero es un entero o un flotante
         try:
@@ -19,7 +19,6 @@ class Codigo_intermedio():
      
         parada = len(lista_numeros)
         index = 0
-        id = 0
         segunda_vuelta = False
 
 
@@ -31,25 +30,25 @@ class Codigo_intermedio():
             if(segunda_vuelta):
                 if(caracter == "+" or caracter == "-"):
                     # si el elemento es + o -, se encapsula
-                    lista_temp = [id,lista_numeros[index-1], lista_numeros[index], lista_numeros[index+1]]
+                    lista_temp = [lista_numeros[index-1], lista_numeros[index], lista_numeros[index+1]]
                     lista_numeros[index] = lista_temp
                     lista_numeros.pop(index+1)
                     lista_numeros.pop(index-1)
 
                     index -= 1
-                    id += 1
+                  
                 
             else:
 
                 if(caracter == "*" or caracter == "/"):
                     # si el elemento es * o /, se encapsula
-                    lista_temp = [id,lista_numeros[index-1], lista_numeros[index], lista_numeros[index+1]]
+                    lista_temp = [lista_numeros[index-1], lista_numeros[index], lista_numeros[index+1]]
                     lista_numeros[index] = lista_temp
                     lista_numeros.pop(index+1)
                     lista_numeros.pop(index-1)
 
                     index -= 1
-                    id += 1
+                   
            
             index += 1
 
@@ -91,22 +90,16 @@ class Codigo_intermedio():
                     if(type(chunk) is list):
 
                         if(abertura == "("):
-                            abertura = String_p("{")
-                            cierre = String_p("}")
+                            abertura = "{"
+                            cierre = "}"
 
                         elif(abertura == "{"):
-                            abertura = String_p("[")
-                            cierre = String_p("]")
+                            abertura = "["
+                            cierre = "]"
 
                         elif(abertura == "["):
-                            abertura = String_p("(")
-                            cierre = String_p(")")
-
-
-                        abertura.set_id(chunk[0])
-                        cierre.set_id(chunk[0])
-
-                        chunk.pop(0)
+                            abertura = "("
+                            cierre = ")"
                         
                         lista.pop(index)
 
@@ -135,12 +128,11 @@ class Codigo_intermedio():
 
         variable = cadena.split(" ")
         cadena_operaciones = " ".join(variable[2:])
-        print(cadena_operaciones)
 
         lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
-        print(lista_con_signos)
-        pilas = []
+
+        pilas = ""
         temp_operandos = [variable[0]]
         temp_operadores = ["="]
 
@@ -162,12 +154,15 @@ class Codigo_intermedio():
                     index_penultimo = len(temp_operadores) - 2
 
                     pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
+                    pila_alreves_operadores = [temp_operadores[i] for i in range(len(temp_operadores)-1,-1,-1)]
                     
                     resultado_pila += " ".join(pila_alreves)
                     resultado_pila += temp_operadores[index_penultimo]
 
-                    copia_pilas = [temp_operandos,temp_operadores,resultado_pila]
-                    pilas.append(copia_pilas)
+                    # copia_pilas = [temp_operandos.copy(),temp_operadores.copy(),resultado_pila]
+                    temp_operandos_s = " \n".join(pila_alreves)
+                    temp_operadores_s = " \n".join(pila_alreves_operadores)
+                    pilas += temp_operandos_s + " \n" + temp_operadores_s + " \n" + resultado_pila + "\n"
 
                     print(temp_operandos)
                     print(temp_operadores)
@@ -182,23 +177,32 @@ class Codigo_intermedio():
                     
             index += 1
 
-        pilas.append([temp_operandos,temp_operadores,resultado_pila+" ="])
+        pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
+        pila_alreves_operadores = [temp_operadores[i] for i in range(len(temp_operadores)-1,-1,-1)]
+                    
+        temp_operandos_s = " \n".join(temp_operandos)
+        temp_operadores_s = " \n".join(temp_operadores)
+        pilas += "\n" + temp_operandos_s + " " + temp_operadores_s + "\n" + resultado_pila+" =" + "\n"
+        pilas += "\n ______________________________________________ \n" 
+        # pilas.append([temp_operandos,temp_operadores,resultado_pila+" ="])
         print(temp_operandos)
         print(temp_operadores)
         print(resultado_pila+" =")
+
+        return pilas
 
     def codigo_p(self,cadena):
 
         variable = cadena.split(" ")
         cadena_operaciones = " ".join(variable[2:])
-        print(cadena_operaciones)
+        #print(cadena_operaciones)
        
 
         lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
-        print(lista_con_signos)
+        #print(lista_con_signos)
 
-        instrucciones = ["lda "+variable[0]]
+        instrucciones = "lda "+variable[0] + "\n"
         temp_operandos = []
         temp_operadores = []
 
@@ -213,9 +217,9 @@ class Codigo_intermedio():
                 temp_operandos.append(digito)
 
                 if(self.es_numero(digito)):
-                    instrucciones.append("Idc "+digito)
+                    instrucciones += "Idc "+ digito + "\n"
                 else:
-                    instrucciones.append("lod "+digito)
+                    instrucciones += "lod "+ digito + "\n"
             else:
                 temp_operadores.append(digito)
                 if(digito == "}" or digito == "]" or digito == ")"):
@@ -226,13 +230,13 @@ class Codigo_intermedio():
                     operador = temp_operadores[index_penultimo_operadores]
 
                     if(operador ==  "+"):
-                        instrucciones.append("adi")
+                        instrucciones += "adi\n"
                     elif(operador == "-"):
-                        instrucciones.append("sbi")
+                        instrucciones += "sbi\n"
                     elif(operador == "*"):
-                        instrucciones.append("mpi")
+                        instrucciones += "mpi\n"
                     elif(operador == "/"):
-                        instrucciones.append("dvi")
+                        instrucciones += "dvi\n"
 
                     temp_operandos.pop(index_ultimo_operandos)
                     temp_operandos.pop(index_ultimo_operandos-1)
@@ -251,21 +255,21 @@ class Codigo_intermedio():
                     
             index += 1
 
-        instrucciones.append("sto")
-        for i in instrucciones:
-            print(i)
+        instrucciones += "sto\n \n"
+        
+        return instrucciones
 
 
     def triplos(self,cadena):
 
         variable = cadena.split(" ")
         cadena_operaciones = " ".join(variable[2:])
-        print(cadena_operaciones)
+        #print(cadena_operaciones)
        
 
         lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
-        print(lista_con_signos)
+        #print(lista_con_signos)
 
         instrucciones = []
         temp_operandos = []
@@ -311,20 +315,21 @@ class Codigo_intermedio():
         
 
      
-        for i in instrucciones:
+        # for i in instrucciones:
            
-            print("dir "+i[0],"op "+i[1],"n1: "+i[2],"n2: "+i[3])
+        #     print("dir "+i[0],"op "+i[1],"n1: "+i[2],"n2: "+i[3])
+        return instrucciones
 
     def cuadruplos(self,cadena):
 
         variable = cadena.split(" ")
         cadena_operaciones = " ".join(variable[2:])
-        print(cadena_operaciones)
+        #print(cadena_operaciones)
        
 
         lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
-        print(lista_con_signos)
+        #print(lista_con_signos)
 
         instrucciones = []
         temp_operandos = []
@@ -370,15 +375,73 @@ class Codigo_intermedio():
         
 
      
-        for i in instrucciones:
+        # for i in instrucciones:
            
-            print("op "+i[0],"n1: "+i[1],"n2: "+i[2], "Aux "+i[3])
+        #     print("op "+i[0],"n1: "+i[1],"n2: "+i[2], "Aux "+i[3])
+        return instrucciones
    
+    def obtener_operaciones(self,texto):
+        lineas = texto.split("\n")
+        
+        operaciones = []
+        for linea in lineas:
+
+            nueva = linea.split(";")
+
+            for i in nueva:
+                
+         
+                if(i.strip() != ""):
+                    elementos = (i.strip()).split(" ")
+                    # le quitamos los espacios en blanco que hay en la lista
+                    elementos_nuevos = [i for i in elementos if i != "" and i != " "]
+                    
+                    if(len(elementos_nuevos) > 3 and elementos_nuevos[1] == "="):
+                        cadena_operaciones = " ".join(elementos_nuevos)
+                        operaciones.append(cadena_operaciones)
+
+        return operaciones
+    
+    def analizar(self,texto):
+        #genera todo el Codigo_intermedio de esta fase
+        operaciones = self.obtener_operaciones(texto)
+        notacion_polaca_lista = ""
+        codigo_p_lista = ""
+        triplos_lista = []
+        cuadruplos_lista = []
+        filas_triplos = 0
+        filas_cuadruplos = 0
+
+        for i in operaciones:
+        
+            notacion_polaca_lista += self.notacion_polaca(i) + "\n"
+            codigo_p_lista += self.codigo_p(i) + "\n"
+
+            lista_tr = self.triplos(i)
+            triplos_lista.append(lista_tr)
+
+            lista_cu = self.cuadruplos(i)
+            cuadruplos_lista.append(lista_cu)
+
+            filas_triplos += len(lista_tr)+1
+            filas_cuadruplos += len(lista_cu)+1
+
+        return [notacion_polaca_lista,codigo_p_lista,triplos_lista,cuadruplos_lista,filas_triplos,filas_cuadruplos]
+        #print(notacion_polaca)
+        #print(codigo_p)
+        #print(triplos)
+        #print(cuadruplos)
+
+
+       
+
 if __name__ == "__main__":
     cadena = "$i = 8 * 4 + 2 / 1"
+    #l = " START \n OUTPUT ' juan hola ' ; $l = 34 / 4 ; $e = 23 - 3 / 5 ; \n $er = 23 - 3; $m = 12 ; \n END"
     m = Codigo_intermedio()
-    #m.jerarquia_operadores(cadena)
-    #m.notacion_polaca(cadena)
+    #m.analizar(l)
+    l = m.notacion_polaca(cadena)
+    print(l)
     #m.codigo_p(cadena)
     #m.triplos(cadena)
     #m.cuadruplos(cadena)

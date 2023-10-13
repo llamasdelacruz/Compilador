@@ -78,7 +78,7 @@
          <height>259</height>
         </rect>
        </property>
-       <widget class="QPlainTextEdit" name="polaca">
+       <widget class="QPlainTextEdit" name="consola_polaca">
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -111,7 +111,7 @@
          <height>259</height>
         </rect>
        </property>
-       <widget class="QPlainTextEdit" name="codigop">
+       <widget class="QPlainTextEdit" name="consola_codigop">
         <property name="geometry">
          <rect>
           <x>0</x>

@@ -101,7 +101,7 @@
      <string>Código intermedio</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_7">
+   <widget class="QPushButton" name="btn_optimizacion">
     <property name="enabled">
      <bool>false</bool>
     </property>
