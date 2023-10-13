@@ -152,9 +152,12 @@ class Codigo_intermedio():
                 if(digito == "}" or digito == "]" or digito == ")"):
 
                     index_penultimo = len(temp_operadores) - 2
-
-                    pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
                     
+                    # este saca todo lo de la pila
+                    #pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
+                    #este saca solo dos
+                    index_ultimo = len(temp_operandos) - 1
+                    pila_alreves = [temp_operandos[index_ultimo], temp_operandos[index_ultimo-1]]
                     
                     resultado_pila += " ".join(pila_alreves)
                     resultado_pila += temp_operadores[index_penultimo]
@@ -167,8 +170,13 @@ class Codigo_intermedio():
                     print(temp_operandos)
                     print(temp_operadores)
                     print(resultado_pila)
+                    # saca todos los operandos 
+                    #temp_operandos = []
+                    # saca solo dos
+                    
+                    temp_operandos.pop(index_ultimo)
+                    temp_operandos.pop(index_ultimo-1)
 
-                    temp_operandos = []
                     temp_operadores.pop(index_penultimo+1)
                     temp_operadores.pop(index_penultimo)
                     temp_operadores.pop(index_penultimo-1)
@@ -372,7 +380,7 @@ class Codigo_intermedio():
                     id += 1
                     
             index += 1
-        instrucciones.append(["=",variable[0],temp_operandos[0],"v"+str(id)])
+        instrucciones.append(["=",temp_operandos[0],"-", variable[0]])
         
 
      
