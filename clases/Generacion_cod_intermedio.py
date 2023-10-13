@@ -132,7 +132,7 @@ class Codigo_intermedio():
         lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
 
-        pilas = ""
+        pilas = variable[0]+"="+" ".join(lista_con_signos) + "\n"
         temp_operandos = [variable[0]]
         temp_operadores = ["="]
 
@@ -154,15 +154,15 @@ class Codigo_intermedio():
                     index_penultimo = len(temp_operadores) - 2
 
                     pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
-                    pila_alreves_operadores = [temp_operadores[i] for i in range(len(temp_operadores)-1,-1,-1)]
+                    
                     
                     resultado_pila += " ".join(pila_alreves)
                     resultado_pila += temp_operadores[index_penultimo]
 
                     # copia_pilas = [temp_operandos.copy(),temp_operadores.copy(),resultado_pila]
-                    temp_operandos_s = " \n".join(pila_alreves)
-                    temp_operadores_s = " \n".join(pila_alreves_operadores)
-                    pilas += temp_operandos_s + " \n" + temp_operadores_s + " \n" + resultado_pila + "\n"
+                
+                
+                    pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "\n\n"
 
                     print(temp_operandos)
                     print(temp_operadores)
@@ -178,11 +178,12 @@ class Codigo_intermedio():
             index += 1
 
         pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
-        pila_alreves_operadores = [temp_operadores[i] for i in range(len(temp_operadores)-1,-1,-1)]
+       
                     
-        temp_operandos_s = " \n".join(temp_operandos)
-        temp_operadores_s = " \n".join(temp_operadores)
-        pilas += "\n" + temp_operandos_s + " " + temp_operadores_s + "\n" + resultado_pila+" =" + "\n"
+       
+
+        pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "\n"
+
         pilas += "\n ______________________________________________ \n" 
         # pilas.append([temp_operandos,temp_operadores,resultado_pila+" ="])
         print(temp_operandos)

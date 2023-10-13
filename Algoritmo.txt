@@ -2,6 +2,7 @@ START
 FLOAT $hola , $e ;
 INT $r ;
 STRING $fi ;
+STRING $a , $b ;
 CHAR $sal ;
 BOOLEAN $dos ;
 OUTPUT ' Dame el valor a ' ;
