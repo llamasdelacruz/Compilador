@@ -157,7 +157,10 @@ class Codigo_intermedio():
                     #pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
                     #este saca solo dos
                     index_ultimo = len(temp_operandos) - 1
-                    pila_alreves = [temp_operandos[index_ultimo], temp_operandos[index_ultimo-1]]
+                    if(index_ultimo > 0):
+                        pila_alreves = [temp_operandos[index_ultimo], temp_operandos[index_ultimo-1]]
+                    elif(index_ultimo == 0):
+                        pila_alreves = [temp_operandos[index_ultimo]]
                     
                     resultado_pila += " ".join(pila_alreves)
                     resultado_pila += temp_operadores[index_penultimo]
@@ -167,15 +170,19 @@ class Codigo_intermedio():
                 
                     pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "\n\n"
 
-                    print(temp_operandos)
-                    print(temp_operadores)
-                    print(resultado_pila)
+                    # print(temp_operandos)
+                    # print(temp_operadores)
+                    # print(resultado_pila)
                     # saca todos los operandos 
                     #temp_operandos = []
                     # saca solo dos
-                    
-                    temp_operandos.pop(index_ultimo)
-                    temp_operandos.pop(index_ultimo-1)
+                    if(index_ultimo > 0):
+                        temp_operandos.pop(index_ultimo)
+                        temp_operandos.pop(index_ultimo-1)
+                    elif(index_ultimo == 0):
+                        
+                        temp_operandos.pop(index_ultimo)
+                   
 
                     temp_operadores.pop(index_penultimo+1)
                     temp_operadores.pop(index_penultimo)
@@ -185,18 +192,18 @@ class Codigo_intermedio():
                     
             index += 1
 
-        pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
+        #pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
        
                     
        
 
-        pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "\n"
+        pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "=\n"
 
         pilas += "\n ______________________________________________ \n" 
         # pilas.append([temp_operandos,temp_operadores,resultado_pila+" ="])
-        print(temp_operandos)
-        print(temp_operadores)
-        print(resultado_pila+" =")
+        # print(temp_operandos)
+        # print(temp_operadores)
+        # print(resultado_pila+" =")
 
         return pilas
 
@@ -204,12 +211,10 @@ class Codigo_intermedio():
 
         variable = cadena.split(" ")
         cadena_operaciones = " ".join(variable[2:])
-        #print(cadena_operaciones)
        
 
         lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
-        #print(lista_con_signos)
 
         instrucciones = "lda "+variable[0] + "\n"
         temp_operandos = []
@@ -273,12 +278,10 @@ class Codigo_intermedio():
 
         variable = cadena.split(" ")
         cadena_operaciones = " ".join(variable[2:])
-        #print(cadena_operaciones)
-       
 
         lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
-        #print(lista_con_signos)
+  
 
         instrucciones = []
         temp_operandos = []
@@ -333,12 +336,10 @@ class Codigo_intermedio():
 
         variable = cadena.split(" ")
         cadena_operaciones = " ".join(variable[2:])
-        #print(cadena_operaciones)
        
 
         lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
-        #print(lista_con_signos)
 
         instrucciones = []
         temp_operandos = []
@@ -445,7 +446,7 @@ class Codigo_intermedio():
        
 
 if __name__ == "__main__":
-    cadena = "$i = 8 * 4 + 2 / 1"
+    cadena = "$i = 4 - 8 * 4 + 2 / 1"
     #l = " START \n OUTPUT ' juan hola ' ; $l = 34 / 4 ; $e = 23 - 3 / 5 ; \n $er = 23 - 3; $m = 12 ; \n END"
     m = Codigo_intermedio()
     #m.analizar(l)
