@@ -250,7 +250,7 @@ class Codigo_intermedio():
                     elif(operador == "*"):
                         instrucciones += "mpi\n"
                     elif(operador == "/"):
-                        instrucciones += "dvi\n"
+                        instrucciones += "div\n"
 
                     temp_operandos.pop(index_ultimo_operandos)
                     temp_operandos.pop(index_ultimo_operandos-1)
