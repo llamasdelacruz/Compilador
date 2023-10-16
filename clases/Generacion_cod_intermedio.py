@@ -227,7 +227,7 @@ class Codigo_intermedio():
         lista_anidada = self.jerarquia_operadores(cadena_operaciones)
         lista_con_signos = self.jerarquia_con_signos_de_agrupacion(lista_anidada)
 
-        instrucciones = "lda "+variable[0] + "\n"
+        instrucciones = "lda "+variable[0] + ";\n"
         temp_operandos = []
         temp_operadores = []
 
@@ -242,9 +242,9 @@ class Codigo_intermedio():
                 temp_operandos.append(digito)
 
                 if(self.es_numero(digito)):
-                    instrucciones += "Idc "+ digito + "\n"
+                    instrucciones += "Idc "+ digito + ";\n"
                 else:
-                    instrucciones += "lod "+ digito + "\n"
+                    instrucciones += "lod "+ digito + ";\n"
             else:
                 temp_operadores.append(digito)
                 if(digito == "}" or digito == "]" or digito == ")"):
@@ -255,13 +255,13 @@ class Codigo_intermedio():
                     operador = temp_operadores[index_penultimo_operadores]
 
                     if(operador ==  "+"):
-                        instrucciones += "adi\n"
+                        instrucciones += "adi;\n"
                     elif(operador == "-"):
-                        instrucciones += "sbi\n"
+                        instrucciones += "sbi;\n"
                     elif(operador == "*"):
-                        instrucciones += "mpi\n"
+                        instrucciones += "mpi;\n"
                     elif(operador == "/"):
-                        instrucciones += "div\n"
+                        instrucciones += "div;\n"
 
                     temp_operandos.pop(index_ultimo_operandos)
                     temp_operandos.pop(index_ultimo_operandos-1)
@@ -280,7 +280,7 @@ class Codigo_intermedio():
                     
             index += 1
 
-        instrucciones += "sto\n \n"
+        instrucciones += "sto;\n \n"
         
         return instrucciones
 
