@@ -208,7 +208,7 @@ class Codigo_intermedio():
         if( largo_operandos == 1):
             pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila +temp_operandos[0] + "=\n"
         elif( largo_operandos == 2):
-            pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila +temp_operandos[0] + temp_operandos[1]  + "=\n"
+            pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila +temp_operandos[1] + temp_operandos[0]  + "=\n"
         else:
             pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "=\n"
 
