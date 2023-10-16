@@ -138,7 +138,7 @@ class Codigo_intermedio():
 
         largo = len(lista_con_signos)
         index = 0
-
+        
         resultado_pila = ""
         
 
@@ -150,66 +150,76 @@ class Codigo_intermedio():
             else:
                 temp_operadores.append(digito)
                 if(digito == "}" or digito == "]" or digito == ")"):
+                    pilas_operandos_mostrar = []
+                    pilas_operadores_mostrar = []
+                    index_penultimo_operadores = len(temp_operadores) - 2
+                    index_ultimo_operandos = len(temp_operandos) - 1
 
-                    index_penultimo = len(temp_operadores) - 2
+                    operador = temp_operadores[index_penultimo_operadores]
+
+                    primer_numero = temp_operandos[index_ultimo_operandos]
+                    segundo_numero = temp_operandos[index_ultimo_operandos-1]
+
+                    if(primer_numero == "paja" and segundo_numero != "paja"):
+                        resultado_pila += segundo_numero + operador
+                    if(segundo_numero == "paja" and primer_numero != "paja"):
+                        resultado_pila += primer_numero + " " + operador
+                    if(primer_numero != "paja" and segundo_numero != "paja"):    
+                        resultado_pila += primer_numero + " " + segundo_numero + operador
+                    if(primer_numero == "paja" and segundo_numero == "paja"):
+                        resultado_pila += operador
                     
-                    pila_alreves = []
-                    #este saca solo dos
-                    index_ultimo = len(temp_operandos) - 1
-                    if(index_ultimo > 0):
-                        if(temp_operandos[index_ultimo-1] == variable[0]):
-                            pila_alreves = [temp_operandos[index_ultimo]]
+                    for i in temp_operandos:
+                        if(i == "paja"):
+                            pass
                         else:
-                            pila_alreves = [temp_operandos[index_ultimo], temp_operandos[index_ultimo-1]]
+                            pilas_operandos_mostrar.append(i)
 
-                    elif(index_ultimo == 0):
-                        if(temp_operandos[index_ultimo] != variable[0]):
-                            pila_alreves = [temp_operandos[index_ultimo]]
-                    
-                    resultado_pila += " ".join(pila_alreves)
-                    resultado_pila += temp_operadores[index_penultimo]
-
-                    # copia_pilas = [temp_operandos.copy(),temp_operadores.copy(),resultado_pila]
-
-                    # este imprime la pila como una pila en vertical
-                    operandos_alreves = (temp_operandos.copy())
-                    operadores_alreves = (temp_operadores.copy())
-                    operadores_alreves.reverse()
-                    operandos_alreves.reverse()
-
-                   
-                    string_operandos =  "\n".join(str(operandos_alreves).split(","))
-                    string_operadores = "\n".join(str(operadores_alreves).split(","))
-
-                    
-                    
-                    pilas += " \n" +string_operandos + " \n\n" + string_operadores + " \n" + resultado_pila + "\n\n"
-                    # --------------------------------------------------------------------------------------------
-                    if(index_ultimo > 0):
-                        if(temp_operandos[index_ultimo-1] == variable[0]):
-                            temp_operandos.pop(index_ultimo)
+                    for i in temp_operadores:
+                        if(i == "paja"):
+                            pass
                         else:
-                            temp_operandos.pop(index_ultimo)
-                            temp_operandos.pop(index_ultimo-1)
+                            pilas_operadores_mostrar.append(i)
 
-                    elif(index_ultimo == 0):
+                    pilas += str(pilas_operandos_mostrar)+ " \n" + str(pilas_operadores_mostrar) + " \n" + resultado_pila + "\n"
 
-                        if(temp_operandos[index_ultimo] != variable[0]):
-                            temp_operandos.pop(index_ultimo)
-                   #--------------------------------------------------------------------------------------------------
+                    temp_operandos.pop(index_ultimo_operandos)
+                    temp_operandos.pop(index_ultimo_operandos-1)
 
-                    temp_operadores.pop(index_penultimo+1)
-                    temp_operadores.pop(index_penultimo)
-                    temp_operadores.pop(index_penultimo-1)
+                    # cuando se realiza una operacion, el resultado de esa operacion se guarda con su id, puesto que 
+                    # no necesitamos el resultado de la operacion, solo una evidencia de que se hizo la operacion
+                    # eso representa con su id, asi se puede tratar como que la operacion utiliza dos operandos y un operador
+                    temp_operandos.append("paja")
+                    
+                    temp_operadores.pop(index_penultimo_operadores+1)
+                    temp_operadores.pop(index_penultimo_operadores)
+                    temp_operadores.pop(index_penultimo_operadores-1)
+
+
+                    
+
 
                     
                     
             index += 1
 
-        #pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
+        pilas_operandos_mostrar = []
+        pilas_operadores_mostrar = []
+
+        for i in temp_operandos:
+            if(i == "paja"):
+                pass
+            else:
+                pilas_operandos_mostrar.append(i)
+
+        for i in temp_operadores:
+            if(i == "paja"):
+                pass
+            else:
+                pilas_operadores_mostrar.append(i)
+
+        pilas += str(pilas_operandos_mostrar)+ " \n" + str(pilas_operadores_mostrar) + " \n" + resultado_pila + variable[0] + "=\n"
         
-  
-        pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila +temp_operandos[0] + "=\n"
      
 
         pilas += "\n ______________________________________________ \n" 
@@ -459,7 +469,7 @@ class Codigo_intermedio():
        
 
 if __name__ == "__main__":
-    cadena = "$x = 12 * 45 + 67 / 2 * 2 + 45 / 3 + 2"
+    cadena = "$sum = $a + $b * $c - 3.4"
     #l = " START \n OUTPUT ' juan hola ' ; $l = 34 / 4 ; $e = 23 - 3 / 5 ; \n $er = 23 - 3; $m = 12 ; \n END"
     m = Codigo_intermedio()
     #m.analizar(l)
