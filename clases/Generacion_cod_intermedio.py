@@ -153,14 +153,18 @@ class Codigo_intermedio():
 
                     index_penultimo = len(temp_operadores) - 2
                     
-                    # este saca todo lo de la pila
-                    #pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
+                    pila_alreves = []
                     #este saca solo dos
                     index_ultimo = len(temp_operandos) - 1
                     if(index_ultimo > 0):
-                        pila_alreves = [temp_operandos[index_ultimo], temp_operandos[index_ultimo-1]]
+                        if(temp_operandos[index_ultimo-1] == variable[0]):
+                            pila_alreves = [temp_operandos[index_ultimo]]
+                        else:
+                            pila_alreves = [temp_operandos[index_ultimo], temp_operandos[index_ultimo-1]]
+
                     elif(index_ultimo == 0):
-                        pila_alreves = [temp_operandos[index_ultimo]]
+                        if(temp_operandos[index_ultimo] != variable[0]):
+                            pila_alreves = [temp_operandos[index_ultimo]]
                     
                     resultado_pila += " ".join(pila_alreves)
                     resultado_pila += temp_operadores[index_penultimo]
@@ -181,18 +185,17 @@ class Codigo_intermedio():
                     
                     pilas += " \n" +string_operandos + " \n\n" + string_operadores + " \n" + resultado_pila + "\n\n"
                     # --------------------------------------------------------------------------------------------
-                    # print(temp_operandos)
-                    # print(temp_operadores)
-                    # print(resultado_pila)
-                    # saca todos los operandos 
-                    # temp_operandos = []
-                    # saca solo dos
                     if(index_ultimo > 0):
-                        temp_operandos.pop(index_ultimo)
-                        temp_operandos.pop(index_ultimo-1)
+                        if(temp_operandos[index_ultimo-1] == variable[0]):
+                            temp_operandos.pop(index_ultimo)
+                        else:
+                            temp_operandos.pop(index_ultimo)
+                            temp_operandos.pop(index_ultimo-1)
+
                     elif(index_ultimo == 0):
-                        
-                        temp_operandos.pop(index_ultimo)
+
+                        if(temp_operandos[index_ultimo] != variable[0]):
+                            temp_operandos.pop(index_ultimo)
                    #--------------------------------------------------------------------------------------------------
 
                     temp_operadores.pop(index_penultimo+1)
@@ -204,13 +207,10 @@ class Codigo_intermedio():
             index += 1
 
         #pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
-        largo_operandos = len(temp_operandos)
-        if( largo_operandos == 1):
-            pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila +temp_operandos[0] + "=\n"
-        elif( largo_operandos == 2):
-            pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila +temp_operandos[1] + temp_operandos[0]  + "=\n"
-        else:
-            pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "=\n"
+        
+  
+        pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila +temp_operandos[0] + "=\n"
+     
 
         pilas += "\n ______________________________________________ \n" 
         # pilas.append([temp_operandos,temp_operadores,resultado_pila+" ="])
@@ -459,7 +459,7 @@ class Codigo_intermedio():
        
 
 if __name__ == "__main__":
-    cadena = "$i = 4 - 8 / 4"
+    cadena = "$x = 12 * 45 + 67 / 2 * 2 + 45 / 3 + 2"
     #l = " START \n OUTPUT ' juan hola ' ; $l = 34 / 4 ; $e = 23 - 3 / 5 ; \n $er = 23 - 3; $m = 12 ; \n END"
     m = Codigo_intermedio()
     #m.analizar(l)
