@@ -166,15 +166,26 @@ class Codigo_intermedio():
                     resultado_pila += temp_operadores[index_penultimo]
 
                     # copia_pilas = [temp_operandos.copy(),temp_operadores.copy(),resultado_pila]
-                
-                
-                    pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "\n\n"
 
+                    # este imprime la pila como una pila en vertical
+                    operandos_alreves = (temp_operandos.copy())
+                    operadores_alreves = (temp_operadores.copy())
+                    operadores_alreves.reverse()
+                    operandos_alreves.reverse()
+
+                   
+                    string_operandos =  "\n".join(str(operandos_alreves).split(","))
+                    string_operadores = "\n".join(str(operadores_alreves).split(","))
+
+                    
+                    
+                    pilas += " \n" +string_operandos + " \n\n" + string_operadores + " \n" + resultado_pila + "\n\n"
+                    # --------------------------------------------------------------------------------------------
                     # print(temp_operandos)
                     # print(temp_operadores)
                     # print(resultado_pila)
                     # saca todos los operandos 
-                    #temp_operandos = []
+                    # temp_operandos = []
                     # saca solo dos
                     if(index_ultimo > 0):
                         temp_operandos.pop(index_ultimo)
@@ -182,7 +193,7 @@ class Codigo_intermedio():
                     elif(index_ultimo == 0):
                         
                         temp_operandos.pop(index_ultimo)
-                   
+                   #--------------------------------------------------------------------------------------------------
 
                     temp_operadores.pop(index_penultimo+1)
                     temp_operadores.pop(index_penultimo)
@@ -451,7 +462,7 @@ if __name__ == "__main__":
     m = Codigo_intermedio()
     #m.analizar(l)
     l = m.notacion_polaca(cadena)
-    print(l)
+    #print(l)
     #m.codigo_p(cadena)
     #m.triplos(cadena)
     #m.cuadruplos(cadena)
