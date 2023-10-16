@@ -204,11 +204,13 @@ class Codigo_intermedio():
             index += 1
 
         #pila_alreves = [temp_operandos[i] for i in range(len(temp_operandos)-1,-1,-1)]
-       
-                    
-       
-
-        pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "=\n"
+        largo_operandos = len(temp_operandos)
+        if( largo_operandos == 1):
+            pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila +temp_operandos[0] + "=\n"
+        elif( largo_operandos == 2):
+            pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila +temp_operandos[0] + temp_operandos[1]  + "=\n"
+        else:
+            pilas += str(temp_operandos)+ " \n" + str(temp_operadores) + " \n" + resultado_pila + "=\n"
 
         pilas += "\n ______________________________________________ \n" 
         # pilas.append([temp_operandos,temp_operadores,resultado_pila+" ="])
@@ -457,12 +459,12 @@ class Codigo_intermedio():
        
 
 if __name__ == "__main__":
-    cadena = "$i = 4 - 8 * 4 + 2 / 1"
+    cadena = "$i = 4 - 8 / 4"
     #l = " START \n OUTPUT ' juan hola ' ; $l = 34 / 4 ; $e = 23 - 3 / 5 ; \n $er = 23 - 3; $m = 12 ; \n END"
     m = Codigo_intermedio()
     #m.analizar(l)
     l = m.notacion_polaca(cadena)
-    #print(l)
+    print(l)
     #m.codigo_p(cadena)
     #m.triplos(cadena)
     #m.cuadruplos(cadena)
