@@ -13,6 +13,7 @@ from ventanas.controlador_interfaz_tabla import Control_pantalla_tabla_token
 from ventanas.controlador_sintactico_retroceso import Control_ventana_sintactico
 from ventanas.controlador_ventana_tabla_semantica import Control_pantalla_tabla_semantica
 from ventanas.controlador_ventana_codigo_intermedio import Control_pantalla_codigo_intermedio
+from ventanas.controlador_ventana_optimizacion import Control_pantalla_optimizacion
 class Control_interfaz_principal(QMainWindow):
 
     def __init__(self):
@@ -36,6 +37,7 @@ class Control_interfaz_principal(QMainWindow):
         self.btn_sintactico.clicked.connect(self.analizar_sintactico)
         self.btn_semantico.clicked.connect(self.analizar_semantico)
         self.btn_codigo_in.clicked.connect(self.codigo_intermedio_gen)
+        self.btn_optimizacion.clicked.connect(self.cargar_ventana_optimizacion)
         
         self.btn_limpiar.clicked.connect(self.limpiar) 
         self.areaTexto.textChanged.connect(self.cambio)
@@ -133,6 +135,12 @@ class Control_interfaz_principal(QMainWindow):
     def cargar_ventana_codigo_intermedio(self, resultados):
         self.ex = Control_pantalla_codigo_intermedio(self,resultados)
         self.ex.show()
+
+    def cargar_ventana_optimizacion(self):
+        self.ex = Control_pantalla_optimizacion(self,"no hay")
+        self.ex.show()
+
+    
 
 if(__name__ == "__main__"):
 

@@ -5,7 +5,7 @@ from PyQt5 import QtWidgets
 import ctypes
 
 
-class Control_pantalla_codigo_intermedio(QDialog):
+class Control_pantalla_optimizacion(QDialog):
     
     def __init__(self,ventana_principal,resultados):
        
@@ -26,7 +26,7 @@ class Control_pantalla_codigo_intermedio(QDialog):
         top=int((resolucion_alto/2)-(self.frameSize().height()/2))
         
         self.move(left,top)
-        self.colocar()
+     
         
     def closeEvent(self, event):
 
@@ -38,7 +38,7 @@ if(__name__ == "__main__"):
 
     #Instancia para iniciar la aplicacion
     app = QApplication(sys.argv)
-    ventana = Control_pantalla_codigo_intermedio()
+    ventana = Control_pantalla_optimizacion()
     ventana.show()
     #ejecutar la aplicacion
     app.exec_()

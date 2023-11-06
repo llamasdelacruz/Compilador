@@ -475,7 +475,7 @@ class Semantico():
                        
                         lista_operaciones[i][j].append(variable_anterior)
 
-        print(lista_operaciones)
+    
         return lista_operaciones
     
     
