@@ -1,0 +1,6 @@
+START
+INT $a ;
+$a = 9 - 34 / 2 ;
+
+END
+

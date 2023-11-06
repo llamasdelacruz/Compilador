@@ -76,7 +76,7 @@ class Semantico():
             
             for i in relleno:
                 
-                if(i == "+" or i == "-"  or i == "/" or i == "*" or i == ";" ):
+                if(i == "+" or i == "-" or i == "*" or i == ";" ):
 
                     continue
 

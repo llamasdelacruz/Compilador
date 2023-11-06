@@ -89,6 +89,7 @@ class Control_interfaz_principal(QMainWindow):
         semantico_obj = Semantico()
         errores = semantico_obj.analizar(self.areaTexto.toPlainText())
         if(errores == ""):
+           
             self.cargar_ventana_semantico()
             semantico_obj.pila = self.pila
             # la imprimir_ pila hace las operacion con prioridad de operadores
