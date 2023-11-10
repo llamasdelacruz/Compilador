@@ -112,7 +112,9 @@ class Control_interfaz_principal(QMainWindow):
     def codigo_optimizacion(self):
         objecto = Optimizacion()
         objecto.pila = self.pila
-        objecto.analizar()
+        resultados = objecto.analizar()
+        
+        self.cargar_ventana_optimizacion(resultados)
 
     def cambio(self):
         self.btn_sintactico.setEnabled(False)
@@ -142,8 +144,8 @@ class Control_interfaz_principal(QMainWindow):
         self.ex = Control_pantalla_codigo_intermedio(self,resultados)
         self.ex.show()
 
-    def cargar_ventana_optimizacion(self):
-        self.ex = Control_pantalla_optimizacion(self,"no hay")
+    def cargar_ventana_optimizacion(self, resultados):
+        self.ex = Control_pantalla_optimizacion(self,resultados)
         self.ex.show()
 
     

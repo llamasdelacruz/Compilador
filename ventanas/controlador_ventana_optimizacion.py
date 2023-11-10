@@ -26,11 +26,22 @@ class Control_pantalla_optimizacion(QDialog):
         top=int((resolucion_alto/2)-(self.frameSize().height()/2))
         
         self.move(left,top)
+        self.colocar()
      
+
+
+    def colocar(self):
+        #colocar resultados precalcular_expresiones_constantes
+        self.consola_pre_exp_constantes.setPlainText(self.resultados[0])
+        self.consola_secuencias_nulas.setPlainText(self.resultados[1])
+        self.consola_reduccion_potencia.setPlainText(self.resultados[2])
+        self.consola_progamacion_copias.setPlainText(self.resultados[3])
         
     def closeEvent(self, event):
 
         self.ventana_principal.show()
+
+
 
    
 

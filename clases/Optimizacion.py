@@ -349,14 +349,18 @@ class Optimizacion():
             if(operador == "*"):
                 if(self.es_numero_entero(numero1) and numero2[0] == "$"):
                     # ejemplo 2*x = x + x
-                    lista = [numero2,"+"]*int(numero1)
-                    lista.pop(len(lista)-1)
+                    numero1 = int(numero1)
+                    if(numero1 > 0):
+                        lista = [numero2,"+"]*numero1
+                        lista.pop(len(lista)-1)
                     
 
                 elif(numero1[0] == "$" and self.es_numero_entero(numero2)):
                     # ejemplo x*2 = x + x 
-                    lista = [numero1,"+"]*int(numero2)
-                    lista.pop(len(lista)-1)
+                    numero2 = int(numero2)
+                    if(numero2 > 0):
+                        lista = [numero1,"+"]*numero2
+                        lista.pop(len(lista)-1)
     
             i += 2
           
@@ -407,7 +411,6 @@ class Optimizacion():
                 # significa que es una operacion no una asiganacion
                 lista = lista_operaciones[i]
                 lista_relleno = lista[2:]
-                print(lista_relleno)
 
                 
                 resultado_operacion  = self.resolver_operaciones_nulas(lista_relleno)
@@ -445,14 +448,14 @@ class Optimizacion():
         return lista_operaciones
     
     def propagacion_de_copias(self,lista_operaciones):
-        print("Entro a la propagacion de copias")
+
 
         cantidad = len(lista_operaciones)
         i = 0
         while(i < cantidad):
 
             lista = lista_operaciones[i]
-            print("proopagacion:",lista_operaciones)
+           
             if(len(lista) == 3 and lista[2][0] == "$"):
                 # que es $f = $a
                 variable_anterior = lista[0]
@@ -474,23 +477,34 @@ class Optimizacion():
             else:   
 
                 i += 1
-      
+
+            cantidad = len(lista_operaciones)
                     
         return lista_operaciones
         
+    def unir_listas(self,listas):
+        resultado = ""
+        for lista in listas:
+            for elemento in lista:
+                resultado += str(elemento) + " "
+            resultado += ";\n"
+        return resultado
 
     def analizar(self):
         # hace las cuatro optimizaciones y manda los resusltados
         lista_operaciones = self.buscar_operaciones_asignaciones()
-        print(lista_operaciones)
+       
         lista_optimizada1 = self.precalcular_expresiones_constantes(lista_operaciones)
-        print(lista_optimizada1)
+        op1 = self.unir_listas(lista_optimizada1)
         lista_optimizada2 = self.eliminacion_de_secuencias_nulas(lista_optimizada1)
-        print(lista_optimizada2)
+        op2 = self.unir_listas(lista_optimizada2)
         lista_optimizada3 = self.reduccion_de_potencias(lista_optimizada2)
-        print(lista_optimizada3)
+        op3 = self.unir_listas(lista_optimizada3)
         lista_optimizada4 = self.propagacion_de_copias(lista_optimizada3)
-        print(lista_optimizada4)
+        op4 = self.unir_listas(lista_optimizada4)
+        
+    
+        return [op1,op2,op3,op4]
 
 
 
