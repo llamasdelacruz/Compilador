@@ -9,6 +9,7 @@ from clases.Lexico import Lexico
 from clases.Sintactico import Sintactico
 from clases.Semantico import Semantico
 from clases.Generacion_cod_intermedio import Codigo_intermedio
+from clases.Optimizacion import Optimizacion
 from ventanas.controlador_interfaz_tabla import Control_pantalla_tabla_token
 from ventanas.controlador_sintactico_retroceso import Control_ventana_sintactico
 from ventanas.controlador_ventana_tabla_semantica import Control_pantalla_tabla_semantica
@@ -37,7 +38,7 @@ class Control_interfaz_principal(QMainWindow):
         self.btn_sintactico.clicked.connect(self.analizar_sintactico)
         self.btn_semantico.clicked.connect(self.analizar_semantico)
         self.btn_codigo_in.clicked.connect(self.codigo_intermedio_gen)
-        self.btn_optimizacion.clicked.connect(self.cargar_ventana_optimizacion)
+        self.btn_optimizacion.clicked.connect(self.codigo_optimizacion)
         
         self.btn_limpiar.clicked.connect(self.limpiar) 
         self.areaTexto.textChanged.connect(self.cambio)
@@ -108,6 +109,10 @@ class Control_interfaz_principal(QMainWindow):
 
         self.cargar_ventana_codigo_intermedio(resultados)
 
+    def codigo_optimizacion(self):
+        objecto = Optimizacion()
+        objecto.pila = self.pila
+        objecto.analizar()
 
     def cambio(self):
         self.btn_sintactico.setEnabled(False)

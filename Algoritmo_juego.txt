@@ -1,6 +1,8 @@
 START
-INT $a ;
-$a = 9 - 34 / 2 ;
-
+INT $a , $y ;
+FLOAT $s , $m ;
+$a = 9 - 34 + 2 ;
+$y = $a ;
+$m = $y ;
+$s = 2 - 0 + $a - 11 / $y / 1 / 1 * $m ;
 END
-
