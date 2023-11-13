@@ -462,15 +462,19 @@ class Optimizacion():
                 variable_nueva = lista[2]
                 j = i+1
                 cantidad_operaciones = len(lista_operaciones)
+                hay_propagacion = False
+
                 if(j < cantidad_operaciones):
                     while(j<cantidad_operaciones):
                         largo = len(lista_operaciones[j])
                         for index in range(2,largo):
 
                             if(lista_operaciones[j][index] == variable_anterior):
+                                hay_propagacion = True
                                 lista_operaciones[j][index] = variable_nueva
                         j+=1
-                    lista_operaciones.pop(i)
+                    if(hay_propagacion):
+                        lista_operaciones.pop(i)
                     i = 0
                 else:
                     i+=1
