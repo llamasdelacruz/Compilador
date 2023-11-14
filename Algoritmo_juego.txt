@@ -1,6 +1,7 @@
 START
 INT $a , $y ;
 FLOAT $s , $m ;
+$m = $y ;
 $a = 9 - 34 + 2 ;
 $y = $a * 2 ;
 $m = 0 * $y ;

@@ -61,11 +61,15 @@ class Optimizacion():
         if(j < cantidad_operaciones):
             while(j<cantidad_operaciones):
                 largo = len(lista_operaciones[j])
-                for index in range(2,largo):
+                if(lista_operaciones[j][0] == variable_anterior):
+                    break
+                else:
+                    
+                    for index in range(2,largo):
 
-                    if(lista_operaciones[j][index] == variable_anterior):
-                        hay_propagacion = True
-                j+=1
+                        if(lista_operaciones[j][index] == variable_anterior):
+                            hay_propagacion = True
+                    j+=1
         return hay_propagacion      
 
 
