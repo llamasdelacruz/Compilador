@@ -53,6 +53,23 @@ class Optimizacion():
    
         return bandera
     
+    def hay_propagacion_de_copias(self,lista_operaciones, i, variable_anterior):
+        # ve si hay propagacion de copias, es decir, si hay que remplazar la variable que se esta asignando
+        hay_propagacion = False
+        j = i+1
+        cantidad_operaciones = len(lista_operaciones)
+        if(j < cantidad_operaciones):
+            while(j<cantidad_operaciones):
+                largo = len(lista_operaciones[j])
+                for index in range(2,largo):
+
+                    if(lista_operaciones[j][index] == variable_anterior):
+                        hay_propagacion = True
+                j+=1
+        return hay_propagacion      
+
+
+    
 
     def jerarquia_con_signos_de_agrupacion(self,lista):
         # esta funcion coloca los  corchetes, parentesis y llaves, en una sola lista, sin listas anidadas
@@ -456,13 +473,13 @@ class Optimizacion():
 
             lista = lista_operaciones[i]
            
-            if(len(lista) == 3 and lista[2][0] == "$"):
+            if(len(lista) == 3 and lista[2][0] == "$" and self.hay_propagacion_de_copias(lista_operaciones, i, lista[0])):
                 # que es $f = $a
                 variable_anterior = lista[0]
                 variable_nueva = lista[2]
                 j = i+1
                 cantidad_operaciones = len(lista_operaciones)
-                hay_propagacion = False
+               
 
                 if(j < cantidad_operaciones):
                     while(j<cantidad_operaciones):
@@ -470,11 +487,11 @@ class Optimizacion():
                         for index in range(2,largo):
 
                             if(lista_operaciones[j][index] == variable_anterior):
-                                hay_propagacion = True
                                 lista_operaciones[j][index] = variable_nueva
                         j+=1
-                    if(hay_propagacion):
-                        lista_operaciones.pop(i)
+                   
+                    lista_operaciones.pop(i)
+
                     i = 0
                 else:
                     i+=1

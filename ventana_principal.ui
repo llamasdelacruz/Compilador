@@ -117,22 +117,6 @@
      <string>Optimización</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>300</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Código objeto</string>
-    </property>
-   </widget>
    <widget class="QPlainTextEdit" name="areaTexto">
     <property name="geometry">
      <rect>
@@ -167,6 +151,32 @@
     </property>
     <property name="plainText">
      <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>0</y>
+      <width>211</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Compilador MainWindow</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>400</y>
+      <width>261</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Hecho por: Estefania Llamas y Aldo de Lucas</string>
     </property>
    </widget>
   </widget>
